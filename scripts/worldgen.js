@@ -1,5 +1,4 @@
-
-var seed = "a";
+var seed = "a1s2";
 var rngCounter = 0;
 
 var raw_noise = createArray(MAP_WIDTH,MAP_HEIGHT);
@@ -45,32 +44,27 @@ smooth_noise = smoothnoise(3);
 perlinnoise();
 
 // Replace canvas drawing with emoji matrix output
-var emojiMatrix = [];
+var terrain_map = [];
 for (var i = 0; i < MAP_WIDTH; i += pixel_size) {
-    var row = "";
+    var row = [];
     for (var j = 0; j < MAP_HEIGHT; j += pixel_size) {
         //mountain peaks
         if (perlin_noise[i][j] > 230) {
-            row += "🏔️";
+            row.push("🏔️");
         } else if (perlin_noise[i][j] > 200) {
-            row += "⛰️";
+            row.push("⛰️");
         //land
         } else if (perlin_noise[i][j] > 140) {
-            row += "🌱";
+            row.push("🌱");
         //beach
         } else if (perlin_noise[i][j] > 130) {
-            row += "🏖️";
+            row.push("🏖️");
         //ocean
         } else {
-            row += "🌊";
+            row.push("🌊");
         }
     }
-    emojiMatrix.push(row);
-}
-
-// Output the emoji matrix to the console
-for (var i = 0; i < emojiMatrix.length; i++) {
-    console.log(emojiMatrix[i]);
+    terrain_map.push(row);
 }
 
 function noise2D(x,y) {

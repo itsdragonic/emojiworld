@@ -6,9 +6,21 @@ body, html {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-family: "Apple Color Emoji", Arial;
 }
 canvas {
-    position:absolute;
-    top:0;
-    left:0
+    display: block;
+    top: 0;
+    left: 0;
+}
+
+@font-face {
+    font-family: "Apple Color Emoji"; /* Choose a name for your font */
+    src: url("AppleColorEmoji.ttf") format("truetype");
+    /* Add other src declarations for different formats (woff, woff2) for broader browser support */
+    /* src: url("../path/to/your/font/MyCustomFont.woff2") format("woff2"),
+            url("../path/to/your/font/MyCustomFont.woff") format("woff"); */
+    font-weight: normal; /* Optional: define weight */
+    font-style: normal; /* Optional: define style */
+    display: swap; /* Optional: improve font loading performance */
 }

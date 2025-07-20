@@ -1,0 +1,10 @@
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext('2d');
+var width = window.innerWidth;
+var height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+
+// How big the world is
+var MAP_WIDTH = 100;
+var MAP_HEIGHT = 100;
