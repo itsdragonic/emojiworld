@@ -1,0 +1,17 @@
+var farmCrops = {
+    "🍅": { "name": "Tomato", "seed": "𓇠" },
+    "🌽": { "name": "Corn", "seed": "𓇢" },
+    "🥔": { "name": "Potato", "seed": "𓄺" },
+    "🥬": { "name": "Lettuce", "seed": "⌁" },
+    "🍇": { "name": "Grapes", "seed": "❦" },
+    "🏖": { "name": "Sand", "seed": "𓇼", "loot": "⏳" },
+    "🫘": { "name": "Beans", "seed": "𓇡" },
+    "🌾": { "name": "Wheat", "seed": "." },
+    "🍈": { "name": "Melon", "seed": ":･", "loot": "🍉" },
+    "🌳": { "name": "Tree", "seed": "˖", "loot": "🪵" },
+    "🌲": { "name": "Evergreen Tree", "seed": "↟", "loot": "🪵" },
+    "🍄": { "name": "Mushroom", "seed": "𓍊" },
+    "🌿": { "name": "Herb", "seed": "⸙" },
+    "🌸": { "name": "Cherry Blossom", "seed": "❀" },
+    "🌷": { "name": "Tulip", "seed": "⚘" },
+};

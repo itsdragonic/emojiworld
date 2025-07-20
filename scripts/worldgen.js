@@ -1,19 +1,17 @@
-var d = document.getElementById("terrain");
-var c = d.getContext('2d');
-var w = window.innerWidth;
-var h = window.innerHeight;
-d.width = w;
-d.height = h;
 
-var terrain_ctx = document.getElementById('terrain').getContext('2d');
-var MAP_WIDTH = 500;
-var MAP_HEIGHT = 500;
+var seed = "a";
+var rngCounter = 0;
 
 var raw_noise = createArray(MAP_WIDTH,MAP_HEIGHT);
 var perlin_noise = createArray(MAP_WIDTH,MAP_HEIGHT);
 
-
-var seed = 31;
+function rng() {
+    // Combine the base seed and counter for deterministic sequence
+    let localSeed = seed.toString() + rngCounter;
+    let localRNG = new Math.seedrandom(localSeed);
+    rngCounter++;
+    return localRNG();
+}
 
 String.prototype.hashCode = function () {
     var hash = 0,
@@ -33,17 +31,12 @@ function stringToNumbers(inputString) {
     }
     return inputString.hashCode();
 }
-function rng(val) {
-    let seededRNG = Math.seedrandom(val);
-    let result = Math.random();
-    seed = seed + result;
-    return result;
-}
-console.log(rng(seed));
+
+//console.log(rng(seed));
 
 for (var i = 0;i < MAP_WIDTH;i++) {
     for (var j = 0;j < MAP_HEIGHT;j++) {
-        raw_noise[i][j] = rng(seed);
+        raw_noise[i][j] = rng();
     }
 }
 
@@ -51,30 +44,33 @@ var pixel_size = 1;
 smooth_noise = smoothnoise(3);
 perlinnoise();
 
-for (var i = 0;i < MAP_WIDTH;i+=pixel_size){
-    for (var j = 0; j < MAP_HEIGHT; j+=pixel_size){
-    
-        raw_val = Math.floor(raw_noise[i][j] * 255);
-
+// Replace canvas drawing with emoji matrix output
+var emojiMatrix = [];
+for (var i = 0; i < MAP_WIDTH; i += pixel_size) {
+    var row = "";
+    for (var j = 0; j < MAP_HEIGHT; j += pixel_size) {
         //mountain peaks
-        if(perlin_noise[i][j] > 230) {
-            terrain_ctx.fillStyle = "rgb(255,255,255)";
+        if (perlin_noise[i][j] > 230) {
+            row += "🏔️";
         } else if (perlin_noise[i][j] > 200) {
-            terrain_ctx.fillStyle = "rgb(120,120,120)";
+            row += "⛰️";
         //land
         } else if (perlin_noise[i][j] > 140) {
-            terrain_ctx.fillStyle = "rgb(40,80,10)";
+            row += "🌱";
         //beach
         } else if (perlin_noise[i][j] > 130) {
-            terrain_ctx.fillStyle = "rgb(250,220,190)";
+            row += "🏖️";
         //ocean
         } else {
-            terrain_ctx.fillStyle = "rgb(50,70,180)";	
+            row += "🌊";
         }
-        
-        terrain_ctx.fillRect(i,j,pixel_size,pixel_size); 
-        
     }
+    emojiMatrix.push(row);
+}
+
+// Output the emoji matrix to the console
+for (var i = 0; i < emojiMatrix.length; i++) {
+    console.log(emojiMatrix[i]);
 }
 
 function noise2D(x,y) {
