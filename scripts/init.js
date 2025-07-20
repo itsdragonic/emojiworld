@@ -6,5 +6,5 @@ canvas.width = width;
 canvas.height = height;
 
 // How big the world is
-var MAP_WIDTH = 100;
-var MAP_HEIGHT = 100;
+var MAP_WIDTH = 200;
+var MAP_HEIGHT = 200;

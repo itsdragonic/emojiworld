@@ -1,7 +1,4 @@
-// Output the emoji matrix to the console
-for (let i = 0; i < terrain_map.length; i++) {
-    //console.log(terrain_map[i]);
-}
+var map = overworld_map;
 
 // Creating Player
 var player = {
@@ -12,7 +9,7 @@ var player = {
     y: MAP_HEIGHT/2
 }
 
-emojiSize = 25;
+emojiSize = 20;
 
 // Custom fonts
 document.fonts.load("32px Apple Color Emoji").then(() => {
@@ -23,7 +20,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     });
 
     // Change emoji font
-    useFont = font.default;
+    useFont = font.apple;
 
     ctx.font = emojiSize + "px " + useFont + ", Arial";
     ctx.fillStyle = "#333";
@@ -99,8 +96,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                 let mapX = startX + i;
                 let mapY = startY + j;
 
-                if (terrain_map[mapX] && terrain_map[mapX][mapY]) {
-                    let emoji = terrain_map[mapX][mapY];
+                if (map[mapX] && map[mapX][mapY]) {
+                    let emoji = map[mapX][mapY];
 
                     // Draw centered, with smooth sub-tile offset
                     let drawX = i * emojiSize - offsetX;
