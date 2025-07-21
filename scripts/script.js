@@ -11,7 +11,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     });
 
     // Change emoji font
-    useFont = font.apple;
+    useFont = font.default;
 
     ctx.font = emojiSize + "px " + useFont + ", Arial";
     ctx.fillStyle = "#333";
@@ -61,13 +61,13 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         
         let dx = 0, dy = 0;
         if (pressedKeys.has('w')) dy -= step;
-        if (pressedKeys.has('a')) {
-            characterEmote = player.isSprinting ? character.sprintLeft : character.walkLeft;
-            dx -= step;
-        }
         if (pressedKeys.has('s')) {
             characterEmote = character.default;
             dy += step;
+        }
+        if (pressedKeys.has('a')) {
+            characterEmote = player.isSprinting ? character.sprintLeft : character.walkLeft;
+            dx -= step;
         }
         if (pressedKeys.has('d')) {
             characterEmote = player.isSprinting ? character.sprintRight : character.walkRight;
@@ -79,6 +79,19 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             const norm = Math.sqrt(0.5);
             dx *= norm;
             dy *= norm;
+        }
+
+        let xStep = player.x + dx;
+        let yStep = player.y + dy;
+
+        let tile = map[Math.round(xStep)][Math.round(yStep)];
+        let tileProps = objectProperties[tile];
+
+        let canWalk = tileProps?.canBeWalkedOn ?? true;
+
+        if (!canWalk) {
+            dx = 0;
+            dy = 0;
         }
 
         player.x += dx;
@@ -158,7 +171,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     ctx.fillText(characterEmote, gridX/2 * emojiSize, gridY/2 * emojiSize);
                 }
             }
-        }
+        }        
 
         /* Hotbar */
         const itemCount = 10;
@@ -208,8 +221,24 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }
         }
 
-        // Selecting
-    }
+        /* Stat Bars */
+        // Health Bar
+        let healthEmoji = "❤️";
+        let healthSize = emojiSize;
+        ctx.font = healthSize + "px " + useFont;
+        for (let i = 0; i < player.maxHealth; i++) {
+            let x = 15 + i * (healthSize + 4);
+            let heart = i < player.health ? healthEmoji : "🖤";
+            ctx.fillText(heart, x, 15);
+        }
+
+        // Hunger Bars
+        for (let i = 0; i < player.maxFood; i++) {
+            let x = width - 15 - (i * (healthSize + 4));
+            let heart = i < player.food ? "🍗" : "⚫";
+            ctx.fillText(heart, x, 15);
+        }
+}
 
     // Game loop
     function gameLoop() {

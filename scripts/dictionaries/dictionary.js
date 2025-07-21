@@ -31,7 +31,6 @@ var objectProperties = {
     },
     "🪵": {
         name: "Wood",
-        description: "Great building material",
         canBeWalkedOn: false,
         durability: 5,
         toolRequired: "🪓",
@@ -39,7 +38,6 @@ var objectProperties = {
     },
     "🌵": {
         name: "Cactus",
-        description: "Ouch! Be careful not to get pricked",
         canBeWalkedOn: false,
         durability: 5,
         toolRequired: "🪓",
@@ -186,15 +184,22 @@ var objectProperties = {
         toolRequired: "⛏️",
         loot: "🪨"
     },
-    "🏔️": {
+    "🏔️b": {
         name: "Snowy Mountain",
         canBeWalkedOn: false,
         durability: 15,
         toolRequired: "⛏️",
         loot: "🪨"
     },
-    "🗻": {
+    "⛰️": {
         name: "Mountain",
+        canBeWalkedOn: false,
+        durability: 15,
+        toolRequired: "⛏️",
+        loot: "🪨"
+    },
+    "🗻g": {
+        name: "Big Mountain",
         canBeWalkedOn: false,
         durability: 15,
         toolRequired: "⛏️",
