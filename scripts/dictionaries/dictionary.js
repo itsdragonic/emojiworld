@@ -21,14 +21,14 @@ var armor = ["🧢", "", "", "", "", ""];
 var objectProperties = {
     "🌊": {
         name: "Water",
-        canBeWalkedOn: false,
+        canBeWalkedOn: true,
         durability: 99,
         toolRequired: ""
     },
     "🌳": {
         name: "Tree",
         description: "Cut down for wood",
-        canBeWalkedOn: false,
+        canBeWalkedOn: true,
         durability: 5,
         toolRequired: "🪓",
         loot: "🪵"
@@ -36,7 +36,7 @@ var objectProperties = {
     "🌲": {
         name: "Evergreen Tree",
         description: "Cut down for wood",
-        canBeWalkedOn: false,
+        canBeWalkedOn: true,
         durability: 6,
         toolRequired: "🪓",
         loot: "🪵"
@@ -44,7 +44,7 @@ var objectProperties = {
     "🌴": {
         name: "Palm Tree",
         description: "Cut down for wood",
-        canBeWalkedOn: false,
+        canBeWalkedOn: true,
         durability: 5,
         toolRequired: "🪓",
         loot: "🪵"
@@ -155,6 +155,13 @@ var objectProperties = {
         durability: 3,
         toolRequired: "👊",
         loot: "☘️"
+    },
+    "🍀": {
+        name: "Four-leaf Clover",
+        canBeWalkedOn: true,
+        durability: 3,
+        toolRequired: "👊",
+        loot: "🍀"
     },
     "🌸": {
         name: "Cherry Blossom",

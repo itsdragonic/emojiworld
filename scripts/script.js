@@ -47,18 +47,16 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         if (e.key.toLowerCase() in keysHeld) {
             keysHeld[e.key.toLowerCase()] = true;
         }
-        updatePlayer();
     });
 
     document.addEventListener('keyup', (e) => {
         if (e.key.toLowerCase() in keysHeld) {
             keysHeld[e.key.toLowerCase()] = false;
         }
-        updatePlayer();
     });
 
     function updatePlayer() {
-        const step = 0.2;
+        const step = 0.1;
 
         let dx = 0, dy = 0;
         if (keysHeld.w) dy -= step;
@@ -75,7 +73,6 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
         player.x += dx;
         player.y += dy;
-        update();
     }
 
     // Loading Map
@@ -102,13 +99,42 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     // Draw centered, with smooth sub-tile offset
                     let drawX = i * emojiSize - offsetX;
                     let drawY = j * emojiSize - offsetY;
+
+                    // Special color conditions
+                    if (sand.includes(emoji)) {
+                        ctx.fillStyle = "#cabb9d";
+                    } else if (water.includes(emoji)) {
+                        ctx.fillStyle = "#7aaae1";
+                    } else {
+                        ctx.fillStyle = "#ffffff";
+                    }
+
+                    // Special size conditions
+                    if (emoji.at(-1) == "b") {
+                        ctx.font = (emojiSize*1.5) + "px " + useFont + ", Arial";
+                        emoji = emoji.slice(0,-1);
+                        console.log(emoji);
+                    } else {
+                        ctx.font = emojiSize + "px " + useFont + ", Arial";
+                    }
+
                     ctx.fillText(emoji, drawX, drawY);
+                }
+
+                // Draw Player
+                if (i == Math.round(gridX/2) && j == Math.round(gridY/2)) {
+                    ctx.fillText(baseEmote[0], gridX/2 * emojiSize, gridY/2 * emojiSize);
                 }
             }
         }
-
-        ctx.fillText(baseEmote[0], gridX/2 * emojiSize, gridY/2 * emojiSize);
     }
-    update();
 
+    // Game loop
+    function gameLoop() {
+        updatePlayer();
+        update();
+        requestAnimationFrame(gameLoop); 
+    }
+
+    gameLoop();
 });
