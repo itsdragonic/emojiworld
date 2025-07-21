@@ -145,7 +145,13 @@ for (var i = 0; i < MAP_WIDTH; i += pixel_size) {
     for (var j = 0; j < MAP_HEIGHT; j += pixel_size) {
         if (perlin_noise[i][j] > 230) {
             row.push("🗻");
-        } else if (perlin_noise[i][j] > 200) {
+        } else if (perlin_noise[i][j] > 215) {
+            row.push("🌱");
+        } else if (perlin_noise[i][j] > 205) {
+            row.push("⛰️");
+        } else if (perlin_noise[i][j] > 194) {
+            row.push("🌱");
+        } else if (perlin_noise[i][j] > 190) {
             row.push("⛰️");
         } else if (perlin_noise[i][j] > 140) {
             row.push("🌱");
@@ -270,8 +276,12 @@ var overworld_map = [];
 for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
     let row = [];
     for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
+        // world border
+        if (i == 0 || i == MAP_WIDTH-1 || j == 0 || j == MAP_HEIGHT-1) {
+            row.push("🗻g");
+        }
         // plains
-        if (biome_map[i][j] == "🌾") {
+        else if (biome_map[i][j] == "🌾") {
             let chance = rng();
             if (chance < 0.0001) {
                 row.push("🍀");
@@ -285,7 +295,7 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
                 row.push("🪨");
             } else if (chance < 0.05) {
                 row.push("🌾");
-            } else if (chance < 0.15) {
+            } else if (chance < 0.1) {
                 row.push("🌱");
             } else if (chance < 0.2) {
                 row.push("෴");
@@ -547,7 +557,7 @@ for (let i = 0; i < coords.length; i++) {
     let xPos = coords[i][0];
     let yPos = coords[i][1];
     if (!water.includes(overworld_map[xPos][yPos])) {
-        overworld_map[xPos][yPos] = "🗿";
+        overworld_map[xPos][yPos] = "🗿g";
 
         for (let n = 0; n < 4; n++) {
             let xRand = Math.round((rng() * 2 - 1) * 3);
@@ -559,7 +569,7 @@ for (let i = 0; i < coords.length; i++) {
                 overworld_map[newX] !== undefined &&
                 overworld_map[newX][newY] !== undefined
             ) {
-                overworld_map[newX][newY] = "🗿";
+                overworld_map[newX][newY] = "🗿b";
             }
         }
     }

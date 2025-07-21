@@ -1,14 +1,5 @@
 var map = overworld_map;
 
-// Creating Player
-var player = {
-    health: 10,
-    food: 10,
-    saturation: 5,
-    x: MAP_WIDTH/2,
-    y: MAP_HEIGHT/2
-}
-
 emojiSize = 20;
 
 // Custom fonts
@@ -43,41 +34,43 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
     characterEmote = character.default;
 
-    let keysHeld = {
-        w: false,
-        a: false,
-        s: false,
-        d: false
-    };
+    let pressedKeys = new Set();
 
     document.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() in keysHeld) {
-            keysHeld[e.key.toLowerCase()] = true;
+        const key = e.key.toLowerCase();
+
+        // Prevent default tab behavior
+        if (key === 'tab') {
+            e.preventDefault();
+            player.isSprinting = !player.isSprinting;
+            return;
         }
+
+        pressedKeys.add(key);
     });
 
     document.addEventListener('keyup', (e) => {
-        if (e.key.toLowerCase() in keysHeld) {
-            keysHeld[e.key.toLowerCase()] = false;
-        }
+        pressedKeys.delete(e.key.toLowerCase());
     });
 
-    function updatePlayer() {
-        const step = 0.1;
+    const defaultStep = 0.1;
+    let step = 0.1;
 
+    function updatePlayer() {
         // update player emote
+        
         let dx = 0, dy = 0;
-        if (keysHeld.w) dy -= step;
-        if (keysHeld.a) {
-            characterEmote = character.walkLeft;
+        if (pressedKeys.has('w')) dy -= step;
+        if (pressedKeys.has('a')) {
+            characterEmote = player.isSprinting ? character.sprintLeft : character.walkLeft;
             dx -= step;
         }
-        if (keysHeld.s) {
+        if (pressedKeys.has('s')) {
             characterEmote = character.default;
             dy += step;
         }
-        if (keysHeld.d) {
-            characterEmote = character.walkRight;
+        if (pressedKeys.has('d')) {
+            characterEmote = player.isSprinting ? character.sprintRight : character.walkRight;
             dx += step;
         }
 
@@ -148,10 +141,74 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                 // Draw Player
                 if (i == Math.round(gridX/2) && j == Math.round(gridY/2)) {
                     ctx.font = emojiSize + "px " + useFont + ", Arial";
+
+                    // special player events
+                    let xCoords = Math.round(player.x);
+                    let yCoords = Math.round(player.y);
+                    if (water.includes(overworld_map[xCoords][yCoords])) {
+                        characterEmote = character.swim;
+                        step = defaultStep * 0.4;
+                    } else if (player.isSprinting) {
+                        step = defaultStep * 1.5;
+                    } else {
+                        step = defaultStep;
+                    }
+
+                    // Draw player
                     ctx.fillText(characterEmote, gridX/2 * emojiSize, gridY/2 * emojiSize);
                 }
             }
         }
+
+        /* Hotbar */
+        const itemCount = 10;
+        const itemSize = emojiSize * 1.5;
+        const gap = 8;
+        const padding = 8;
+
+        const totalItemWidth = itemCount * itemSize + (itemCount - 1) * gap;
+        const totalWidth = totalItemWidth + padding * 2;
+        const totalHeight = itemSize + padding * 2;
+        const hotbarX = width / 2 - totalWidth / 2;
+        const hotbarY = height - 55;
+
+        // Background
+        ctx.save();
+        ctx.globalAlpha = 0.8;
+        ctx.fillStyle = "#333";
+        ctx.beginPath();
+        ctx.roundRect(hotbarX, hotbarY, totalWidth, totalHeight, 10);
+        ctx.fill();
+        ctx.restore();
+
+        // Items
+        for (let i = 0; i < player.inventory[0].length; i++) {
+            let item = player.inventory[0][i];
+            let value = player.inventoryValues[0][i];
+
+            let drawX = hotbarX + padding + i * (itemSize + gap) + itemSize / 2;
+            let drawY = hotbarY + padding + itemSize / 2;
+
+            ctx.font = itemSize + "px " + useFont;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(item, drawX, drawY);
+
+            // Draw count at bottom right if it's not "1" or empty
+            if (value && value !== "1") {
+                ctx.fillStyle = "white";
+                ctx.font = (itemSize * 0.6) + "px " + "Arial";
+                ctx.textAlign = "right";
+                ctx.textBaseline = "bottom";
+
+                let countX = hotbarX + padding + i * (itemSize + gap) + itemSize;
+                let countY = hotbarY + padding + itemSize + 8;
+
+                ctx.fillText(value, countX, countY);
+            }
+        }
+
+        // Selecting
     }
 
     // Game loop
