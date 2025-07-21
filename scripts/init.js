@@ -10,3 +10,10 @@ var MAP_WIDTH = 200;
 var MAP_HEIGHT = 200;
 
 var seed = "a";
+
+window.addEventListener('resize', () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+});
