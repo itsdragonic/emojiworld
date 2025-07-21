@@ -1,4 +1,3 @@
-var seed = "a";
 var rngCounter = 0;
 
 /* Seeds
@@ -71,7 +70,6 @@ function noise2D(x,y) {
     return Math.abs(1.0 - (((n * (n * n * 15731 + 789221) + 1376312589) & 2147483647) / 1073741824.0));
 }
 
-//http://devmag.org.za/2009/04/25/perlin-noise/
 function smoothnoise(octave) {
     var smooth = new Array(MAP_WIDTH);
 
@@ -135,406 +133,12 @@ function perlinnoise() {
         }
     }
 }
-
-// base terrain map
-runPerlinAlgorithm('base');
-
 var terrain_map = [];
-for (var i = 0; i < MAP_WIDTH; i += pixel_size) {
-    var row = [];
-    for (var j = 0; j < MAP_HEIGHT; j += pixel_size) {
-        if (perlin_noise[i][j] > 230) {
-            row.push("🗻");
-        } else if (perlin_noise[i][j] > 215) {
-            row.push("🌱");
-        } else if (perlin_noise[i][j] > 205) {
-            row.push("⛰️");
-        } else if (perlin_noise[i][j] > 194) {
-            row.push("🌱");
-        } else if (perlin_noise[i][j] > 190) {
-            row.push("⛰️");
-        } else if (perlin_noise[i][j] > 140) {
-            row.push("🌱");
-        } else if (perlin_noise[i][j] > 130) {
-            row.push("🏖️");
-        } else {
-            row.push("🌊");
-        }
-    }
-    terrain_map.push(row);
-}
-
-// temperature map
-runPerlinAlgorithm('temp');
-
 var temp_map = [];
-for (var i = 0; i < MAP_WIDTH; i += pixel_size) {
-    var row = [];
-    for (var j = 0; j < MAP_HEIGHT; j += pixel_size) {
-        if (perlin_noise[i][j] > 175) {
-            row.push("❄️");
-        } else if (perlin_noise[i][j] > 140) {
-            row.push("🌲");
-        } else if (perlin_noise[i][j] > 85) {
-            row.push("🌱");
-        } else {
-            row.push("🏜️");
-        }
-    }
-    temp_map.push(row);
-}
-
-// tree map
-runPerlinAlgorithm('tree');
-
 var tree_map = [];
-for (var i = 0; i < MAP_WIDTH; i += pixel_size) {
-    var row = [];
-    for (var j = 0; j < MAP_HEIGHT; j += pixel_size) {
-        if (perlin_noise[i][j] > 160) {
-            row.push("🌳");
-        } else if (perlin_noise[i][j] > 140) {
-            row.push("🌱");
-        } else {
-            row.push("🪨");
-        }
-    }
-    tree_map.push(row);
-}
-
-// biome map
 var biome_map = [];
-for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
-    let row = [];
-    for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
-        // forest
-        if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌳" && temp_map[i][j] == "🌱") {
-            row.push("🌳");
-        }
-        // woods
-        else if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌱" && temp_map[i][j] == "🌱") {
-            row.push("🌱");
-        }
-        // palm beach
-        else if (terrain_map[i][j] == "🏖️" && (tree_map[i][j] == "🌳" || tree_map[i][j] == "🌱") && temp_map[i][j] == "🏜️") {
-            row.push("🌴");
-        }
-        // beach
-        else if (terrain_map[i][j] == "🏖️") {
-            row.push("🏖️");
-        }
-        // bamboo forest
-        else if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌳" && temp_map[i][j] == "🏜️") {
-            row.push("🎋");
-        }
-        // pine forest
-        else if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌳" && temp_map[i][j] == "🌲") {
-            row.push("🌲");
-        }
-        // cold forest
-        else if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌳" && temp_map[i][j] == "❄️") {
-            row.push("❄️");
-        }
-        // mountain
-        else if (terrain_map[i][j] == "⛰️") {
-            row.push("⛰️");
-        }
-        // snowy peak
-        else if (terrain_map[i][j] == "🗻") {
-            row.push("🗻");
-        }
-        // cold ocean
-        else if (terrain_map[i][j] == "🌊" && temp_map[i][j] == "❄️") {
-            row.push("🧊");
-        }
-        // warm ocean
-        else if (terrain_map[i][j] == "🌊" && temp_map[i][j] == "🏜️") {
-            row.push("💦");
-        }
-        // ocean
-        else if (terrain_map[i][j] == "🌊") {
-            row.push("🌊");
-        }
-        // desert
-        else if (terrain_map[i][j] == "🌱" && temp_map[i][j] == "🏜️") {
-            row.push("🏜️");
-        }
-        // plains
-        else if (terrain_map[i][j] == "🌱") {
-            row.push("🌾");
-        }
-        
-        else {
-            row.push("❓");
-        }
-    }
-    biome_map.push(row);
-}
-
-// overworld map
 var overworld_map = [];
-for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
-    let row = [];
-    for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
-        // world border
-        if (i == 0 || i == MAP_WIDTH-1 || j == 0 || j == MAP_HEIGHT-1) {
-            row.push("🗻g");
-        }
-        // plains
-        else if (biome_map[i][j] == "🌾") {
-            let chance = rng();
-            if (chance < 0.0001) {
-                row.push("🍀");
-            } else if (chance < 0.003) {
-                row.push("☘️");
-            } else if (chance < 0.001) {
-                row.push("🌻");
-            } else if (chance < 0.004) {
-                row.push("🌷");
-            } else if (chance < 0.005) {
-                row.push("🪨");
-            } else if (chance < 0.05) {
-                row.push("🌾");
-            } else if (chance < 0.1) {
-                row.push("🌱");
-            } else if (chance < 0.2) {
-                row.push("෴");
-            } else {
-                row.push("");
-            }
-        }
-        // woods
-        else if (biome_map[i][j] == "🌱") {
-            let chance = rng();
-            if (chance < 0.0001) {
-                row.push("🍀");
-            } else if (chance < 0.003) {
-                row.push("☘️");
-            } else if (chance < 0.001) {
-                row.push("🪻");
-            } else if (chance < 0.002) {
-                row.push("🌼");
-            } else if (chance < 0.005) {
-                row.push("🪨");
-            } else if (chance < 0.03) {
-                row.push("🌾");
-            } else if (chance < 0.06) {
-                row.push("🌱");
-            } else if (chance < 0.1) {
-                row.push("🌳");
-            } else if (chance < 0.15) {
-                row.push("෴");
-            } else {
-                row.push("");
-            }
-        }
-        // forest
-        else if (biome_map[i][j] == "🌳") {
-            let chance = rng();
-            if (chance < 0.0001) {
-                row.push("🍀");
-            } else if (chance < 0.002) {
-                row.push("🪺");
-            } else if (chance < 0.003) {
-                row.push("☘️");
-            } else if (chance < 0.001) {
-                row.push("🌹");
-            } else if (chance < 0.002) {
-                row.push("🌼");
-            } else if (chance < 0.004) {
-                row.push("🪨s");
-            } else if (chance < 0.005) {
-                row.push("🍄s");
-            } else if (chance < 0.006) {
-                row.push("🍄");
-            } else if (chance < 0.01) {
-                row.push("🍄‍🟫s");
-            } else if (chance < 0.03) {
-                row.push("🌾");
-            } else if (chance < 0.06) {
-                row.push("🌱");
-            } else if (chance < 0.08) {
-                row.push("🍂s");
-            } else if (chance < 0.1) {
-                row.push("🌳s");
-            } else if (chance < 0.5) {
-                row.push("🌳b");
-            } else if (chance < 0.75) {
-                row.push("🌳");
-            } else {
-                row.push("");
-            }
-        }
-        // beach
-        else if (biome_map[i][j] == "🏖️") {
-            let chance = rng();
-            if (chance < 0.005) {
-                row.push("🐚");
-            } else if (chance < 0.007) {
-                row.push("𓇼");
-            } else if (chance < 0.008) {
-                row.push("🪨");
-            } else if (chance < 0.02) {
-                row.push("🏖️");
-            } else if (chance < 0.2) {
-                row.push("𓂃");
-            } else if (chance < 0.4) {
-                row.push("࿔*:");
-            } else {
-                row.push("࿐");
-            }
-        }
-        // palm beach
-        else if (biome_map[i][j] == "🌴") {
-            let chance = rng();
-            if (chance < 0.005) {
-                row.push("🥥");
-            } else if (chance < 0.007) {
-                row.push("🪨");
-            } else if (chance < 0.02) {
-                row.push("🏖️");
-            } else if (chance < 0.1) {
-                row.push("🌴");
-            } else if (chance < 0.2) {
-                row.push("𓂃");
-            } else if (chance < 0.4) {
-                row.push("࿔*:");
-            } else {
-                row.push("࿐");
-            }
-        }
-        // desert
-        else if (biome_map[i][j] == "🏜️") {
-            let chance = rng();
-            if (chance < 0.001) {
-                row.push("🌺");
-            } else if (chance < 0.003) {
-                row.push("🪨");
-            } else if (chance < 0.006) {
-                row.push("🏜️");
-            } else if (chance < 0.03) {
-                row.push("🌵");
-            } else if (chance < 0.04) {
-                row.push("࿐");
-            } else {
-                row.push("𓂃");
-            }
-        }
-        // bamboo forest
-        else if (biome_map[i][j] == "🎋") {
-            let chance = rng();
-            if (chance < 0.02) {
-                row.push("🎋");
-            } else {
-                row.push("");
-            }
-        }
-        // pine forest
-        else if (biome_map[i][j] == "🌲") {
-            let chance = rng();
-            if (chance < 0.001) {
-                row.push("🍀");
-            } else if (chance < 0.002) {
-                row.push("🏕️");
-            } else if (chance < 0.003) {
-                row.push("🪨");
-            } else if (chance < 0.03) {
-                row.push("☘️");
-            } else if (chance < 0.06) {
-                row.push("🍂s");
-            } else if (chance < 0.5) {
-                row.push("🌲b");
-            } else if (chance < 0.75) {
-                row.push("🌲");
-            } else {
-                row.push("");
-            }
-        }
-        // cold forest
-        else if (biome_map[i][j] == "❄️") {
-            let chance = rng();
-            if (chance < 0.001) {
-                row.push("🍀");
-            } else if (chance < 0.002) {
-                row.push("🍂");
-            } else if (chance < 0.003) {
-                row.push("🪨");
-            } else if (chance < 0.03) {
-                row.push("☘️");
-            } else if (chance < 0.3) {
-                row.push("🌲");
-            } else if (chance < 0.4) {
-                row.push("❆");
-            } else if (chance < 0.6) {
-                row.push("❅");
-            } else {
-                row.push("");
-            }
-        }
-        // mountain
-        else if (biome_map[i][j] == "⛰️") {
-            let chance = rng();
-            if (chance < 0.1) {
-                row.push("");
-            } else if (chance < 0.3) {
-                row.push("🏔️b");
-            } else {
-                row.push("⛰️");
-            }
-        }
-        // snowy peak
-        else if (biome_map[i][j] == "🗻") {
-            let chance = rng();
-            if (chance < 0.01) {
-                row.push("🌋b");
-            } else {
-                row.push("🗻g");
-            }
-        }
-        // warm ocean
-        else if (biome_map[i][j] == "💦") {
-            let chance = rng();
-            if (chance < 0.0001) {
-                row.push("🪷");
-            } else if (chance < 0.01) {
-                row.push("🌊");
-            } else {
-                row.push("ꕀ");
-            }
-        }
-        // cold ocean
-        else if (biome_map[i][j] == "🧊") {
-            let chance = rng();
-            if (chance < 0.01) {
-                row.push("🌊");
-            } else if (chance < 0.25) {
-                row.push("🧊");
-            } else if (chance < 0.9) {
-                row.push("ꕀ");
-            } else {
-                row.push("༄");
-            }
-        }
-        // ocean
-        else if (biome_map[i][j] == "🌊") {
-            let chance = rng();
-            if (chance < 0.01) {
-                row.push("🌊");
-            } else if (chance < 0.9) {
-                row.push("ꕀ");
-            } else {
-                row.push("༄");
-            }
-        }
 
-        else {
-            row.push("❓");
-        }
-    }
-    overworld_map.push(row);
-}
-
-// Structures
 const water = ["🌊", "💦", "🧊","༄","ꕀ"];
 var waterColor = "#7aaae1";
 const sand = ["𓂃","࿔*:","࿐","🏖️"];
@@ -542,34 +146,432 @@ var sandColor = "#cabb9d";
 const grass = ["🌱","෴"];
 var grassColor = "#76a763";
 var coords = [];
-function randomCoords(int) {
-    coords = [];
-    for (let i = 0; i < int; i++) {
-        let x = Math.floor(rng()*MAP_WIDTH);
-        let y = Math.floor(rng()*MAP_HEIGHT);
-        coords.push([x, y]);
+
+
+function generateWorld() {
+    // base terrain map
+    runPerlinAlgorithm('base');
+    for (var i = 0; i < MAP_WIDTH; i += pixel_size) {
+        var row = [];
+        for (var j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            if (perlin_noise[i][j] > 230) {
+                row.push("🗻");
+            } else if (perlin_noise[i][j] > 215) {
+                row.push("🌱");
+            } else if (perlin_noise[i][j] > 205) {
+                row.push("⛰️");
+            } else if (perlin_noise[i][j] > 194) {
+                row.push("🌱");
+            } else if (perlin_noise[i][j] > 190) {
+                row.push("⛰️");
+            } else if (perlin_noise[i][j] > 140) {
+                row.push("🌱");
+            } else if (perlin_noise[i][j] > 130) {
+                row.push("🏖️");
+            } else {
+                row.push("🌊");
+            }
+        }
+        terrain_map.push(row);
     }
-}
 
-// Moai
-randomCoords(3);
-for (let i = 0; i < coords.length; i++) {
-    let xPos = coords[i][0];
-    let yPos = coords[i][1];
-    if (!water.includes(overworld_map[xPos][yPos])) {
-        overworld_map[xPos][yPos] = "🗿g";
+    // temperature map
+    runPerlinAlgorithm('temp');
 
-        for (let n = 0; n < 4; n++) {
-            let xRand = Math.round((rng() * 2 - 1) * 3);
-            let yRand = Math.round((rng() * 2 - 1) * 3);
-            let newX = xPos + xRand;
-            let newY = yPos + yRand;
+    for (var i = 0; i < MAP_WIDTH; i += pixel_size) {
+        var row = [];
+        for (var j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            if (perlin_noise[i][j] > 175) {
+                row.push("❄️");
+            } else if (perlin_noise[i][j] > 140) {
+                row.push("🌲");
+            } else if (perlin_noise[i][j] > 85) {
+                row.push("🌱");
+            } else {
+                row.push("🏜️");
+            }
+        }
+        temp_map.push(row);
+    }
 
-            if (
-                overworld_map[newX] !== undefined &&
-                overworld_map[newX][newY] !== undefined
-            ) {
-                overworld_map[newX][newY] = "🗿b";
+    // tree map
+    runPerlinAlgorithm('tree');
+
+    for (var i = 0; i < MAP_WIDTH; i += pixel_size) {
+        var row = [];
+        for (var j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            if (perlin_noise[i][j] > 160) {
+                row.push("🌳");
+            } else if (perlin_noise[i][j] > 140) {
+                row.push("🌱");
+            } else {
+                row.push("🪨");
+            }
+        }
+        tree_map.push(row);
+    }
+
+    // biome map
+    for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
+        let row = [];
+        for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            // forest
+            if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌳" && temp_map[i][j] == "🌱") {
+                row.push("🌳");
+            }
+            // woods
+            else if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌱" && temp_map[i][j] == "🌱") {
+                row.push("🌱");
+            }
+            // palm beach
+            else if (terrain_map[i][j] == "🏖️" && (tree_map[i][j] == "🌳" || tree_map[i][j] == "🌱") && temp_map[i][j] == "🏜️") {
+                row.push("🌴");
+            }
+            // beach
+            else if (terrain_map[i][j] == "🏖️") {
+                row.push("🏖️");
+            }
+            // bamboo forest
+            else if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌳" && temp_map[i][j] == "🏜️") {
+                row.push("🎋");
+            }
+            // pine forest
+            else if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌳" && temp_map[i][j] == "🌲") {
+                row.push("🌲");
+            }
+            // cold forest
+            else if (terrain_map[i][j] == "🌱" && tree_map[i][j] == "🌳" && temp_map[i][j] == "❄️") {
+                row.push("❄️");
+            }
+            // mountain
+            else if (terrain_map[i][j] == "⛰️") {
+                row.push("⛰️");
+            }
+            // snowy peak
+            else if (terrain_map[i][j] == "🗻") {
+                row.push("🗻");
+            }
+            // cold ocean
+            else if (terrain_map[i][j] == "🌊" && temp_map[i][j] == "❄️") {
+                row.push("🧊");
+            }
+            // warm ocean
+            else if (terrain_map[i][j] == "🌊" && temp_map[i][j] == "🏜️") {
+                row.push("💦");
+            }
+            // ocean
+            else if (terrain_map[i][j] == "🌊") {
+                row.push("🌊");
+            }
+            // desert
+            else if (terrain_map[i][j] == "🌱" && temp_map[i][j] == "🏜️") {
+                row.push("🏜️");
+            }
+            // plains
+            else if (terrain_map[i][j] == "🌱") {
+                row.push("🌾");
+            }
+            
+            else {
+                row.push("❓");
+            }
+        }
+        biome_map.push(row);
+    }
+
+    // overworld map
+    for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
+        let row = [];
+        for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            // world border
+            if (i == 0 || i == MAP_WIDTH-1 || j == 0 || j == MAP_HEIGHT-1) {
+                row.push("🗻g");
+            }
+            // plains
+            else if (biome_map[i][j] == "🌾") {
+                let chance = rng();
+                if (chance < 0.0001) {
+                    row.push("🍀");
+                } else if (chance < 0.003) {
+                    row.push("☘️");
+                } else if (chance < 0.001) {
+                    row.push("🌻");
+                } else if (chance < 0.004) {
+                    row.push("🌷");
+                } else if (chance < 0.005) {
+                    row.push("🪨");
+                } else if (chance < 0.05) {
+                    row.push("🌾");
+                } else if (chance < 0.1) {
+                    row.push("🌱");
+                } else if (chance < 0.2) {
+                    row.push("෴");
+                } else {
+                    row.push("");
+                }
+            }
+            // woods
+            else if (biome_map[i][j] == "🌱") {
+                let chance = rng();
+                if (chance < 0.0001) {
+                    row.push("🍀");
+                } else if (chance < 0.003) {
+                    row.push("☘️");
+                } else if (chance < 0.001) {
+                    row.push("🪻");
+                } else if (chance < 0.002) {
+                    row.push("🌼");
+                } else if (chance < 0.005) {
+                    row.push("🪨");
+                } else if (chance < 0.03) {
+                    row.push("🌾");
+                } else if (chance < 0.06) {
+                    row.push("🌱");
+                } else if (chance < 0.1) {
+                    row.push("🌳");
+                } else if (chance < 0.15) {
+                    row.push("෴");
+                } else {
+                    row.push("");
+                }
+            }
+            // forest
+            else if (biome_map[i][j] == "🌳") {
+                let chance = rng();
+                if (chance < 0.0001) {
+                    row.push("🍀");
+                } else if (chance < 0.002) {
+                    row.push("🪺");
+                } else if (chance < 0.003) {
+                    row.push("☘️");
+                } else if (chance < 0.001) {
+                    row.push("🌹");
+                } else if (chance < 0.002) {
+                    row.push("🌼");
+                } else if (chance < 0.004) {
+                    row.push("🪨s");
+                } else if (chance < 0.005) {
+                    row.push("🍄s");
+                } else if (chance < 0.006) {
+                    row.push("🍄");
+                } else if (chance < 0.01) {
+                    row.push("🍄‍🟫s");
+                } else if (chance < 0.03) {
+                    row.push("🌾");
+                } else if (chance < 0.06) {
+                    row.push("🌱");
+                } else if (chance < 0.08) {
+                    row.push("🍂s");
+                } else if (chance < 0.1) {
+                    row.push("🌳s");
+                } else if (chance < 0.5) {
+                    row.push("🌳b");
+                } else if (chance < 0.75) {
+                    row.push("🌳");
+                } else {
+                    row.push("");
+                }
+            }
+            // beach
+            else if (biome_map[i][j] == "🏖️") {
+                let chance = rng();
+                if (chance < 0.005) {
+                    row.push("🐚");
+                } else if (chance < 0.007) {
+                    row.push("𓇼");
+                } else if (chance < 0.008) {
+                    row.push("🪨");
+                } else if (chance < 0.02) {
+                    row.push("🏖️");
+                } else if (chance < 0.2) {
+                    row.push("𓂃");
+                } else if (chance < 0.4) {
+                    row.push("࿔*:");
+                } else {
+                    row.push("࿐");
+                }
+            }
+            // palm beach
+            else if (biome_map[i][j] == "🌴") {
+                let chance = rng();
+                if (chance < 0.005) {
+                    row.push("🥥");
+                } else if (chance < 0.007) {
+                    row.push("🪨");
+                } else if (chance < 0.02) {
+                    row.push("🏖️");
+                } else if (chance < 0.1) {
+                    row.push("🌴");
+                } else if (chance < 0.2) {
+                    row.push("𓂃");
+                } else if (chance < 0.4) {
+                    row.push("࿔*:");
+                } else {
+                    row.push("࿐");
+                }
+            }
+            // desert
+            else if (biome_map[i][j] == "🏜️") {
+                let chance = rng();
+                if (chance < 0.001) {
+                    row.push("🌺");
+                } else if (chance < 0.003) {
+                    row.push("🪨");
+                } else if (chance < 0.006) {
+                    row.push("🏜️");
+                } else if (chance < 0.03) {
+                    row.push("🌵");
+                } else if (chance < 0.04) {
+                    row.push("࿐");
+                } else {
+                    row.push("𓂃");
+                }
+            }
+            // bamboo forest
+            else if (biome_map[i][j] == "🎋") {
+                let chance = rng();
+                if (chance < 0.02) {
+                    row.push("🎋");
+                } else {
+                    row.push("");
+                }
+            }
+            // pine forest
+            else if (biome_map[i][j] == "🌲") {
+                let chance = rng();
+                if (chance < 0.001) {
+                    row.push("🍀");
+                } else if (chance < 0.002) {
+                    row.push("🏕️");
+                } else if (chance < 0.003) {
+                    row.push("🪨");
+                } else if (chance < 0.03) {
+                    row.push("☘️");
+                } else if (chance < 0.06) {
+                    row.push("🍂s");
+                } else if (chance < 0.5) {
+                    row.push("🌲b");
+                } else if (chance < 0.75) {
+                    row.push("🌲");
+                } else {
+                    row.push("");
+                }
+            }
+            // cold forest
+            else if (biome_map[i][j] == "❄️") {
+                let chance = rng();
+                if (chance < 0.001) {
+                    row.push("🍀");
+                } else if (chance < 0.002) {
+                    row.push("🍂");
+                } else if (chance < 0.003) {
+                    row.push("🪨");
+                } else if (chance < 0.03) {
+                    row.push("☘️");
+                } else if (chance < 0.3) {
+                    row.push("🌲");
+                } else if (chance < 0.4) {
+                    row.push("❆");
+                } else if (chance < 0.6) {
+                    row.push("❅");
+                } else {
+                    row.push("");
+                }
+            }
+            // mountain
+            else if (biome_map[i][j] == "⛰️") {
+                let chance = rng();
+                if (chance < 0.1) {
+                    row.push("");
+                } else if (chance < 0.3) {
+                    row.push("🏔️b");
+                } else {
+                    row.push("⛰️");
+                }
+            }
+            // snowy peak
+            else if (biome_map[i][j] == "🗻") {
+                let chance = rng();
+                if (chance < 0.01) {
+                    row.push("🌋b");
+                } else {
+                    row.push("🗻g");
+                }
+            }
+            // warm ocean
+            else if (biome_map[i][j] == "💦") {
+                let chance = rng();
+                if (chance < 0.0001) {
+                    row.push("🪷");
+                } else if (chance < 0.01) {
+                    row.push("🌊");
+                } else {
+                    row.push("ꕀ");
+                }
+            }
+            // cold ocean
+            else if (biome_map[i][j] == "🧊") {
+                let chance = rng();
+                if (chance < 0.01) {
+                    row.push("🌊");
+                } else if (chance < 0.25) {
+                    row.push("🧊");
+                } else if (chance < 0.9) {
+                    row.push("ꕀ");
+                } else {
+                    row.push("༄");
+                }
+            }
+            // ocean
+            else if (biome_map[i][j] == "🌊") {
+                let chance = rng();
+                if (chance < 0.01) {
+                    row.push("🌊");
+                } else if (chance < 0.9) {
+                    row.push("ꕀ");
+                } else {
+                    row.push("༄");
+                }
+            }
+
+            else {
+                row.push("❓");
+            }
+        }
+        overworld_map.push(row);
+    }
+
+    // Structures
+    
+    function randomCoords(int) {
+        coords = [];
+        for (let i = 0; i < int; i++) {
+            let x = Math.floor(rng()*MAP_WIDTH);
+            let y = Math.floor(rng()*MAP_HEIGHT);
+            coords.push([x, y]);
+        }
+    }
+
+    // Moai
+    randomCoords(3);
+    for (let i = 0; i < coords.length; i++) {
+        let xPos = coords[i][0];
+        let yPos = coords[i][1];
+        if (!water.includes(overworld_map[xPos][yPos])) {
+            overworld_map[xPos][yPos] = "🗿g";
+
+            for (let n = 0; n < 4; n++) {
+                let xRand = Math.round((rng() * 2 - 1) * 3);
+                let yRand = Math.round((rng() * 2 - 1) * 3);
+                let newX = xPos + xRand;
+                let newY = yPos + yRand;
+
+                if (
+                    overworld_map[newX] !== undefined &&
+                    overworld_map[newX][newY] !== undefined
+                ) {
+                    overworld_map[newX][newY] = "🗿b";
+                }
             }
         }
     }

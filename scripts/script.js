@@ -14,8 +14,6 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     useFont = font.default;
 
     ctx.font = emojiSize + "px " + useFont + ", Arial";
-    ctx.fillStyle = "#333";
-    ctx.fillRect(0, 0, width, height);
 
     ctx.fillStyle = "white";
 
@@ -158,7 +156,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     // special player events
                     let xCoords = Math.round(player.x);
                     let yCoords = Math.round(player.y);
-                    if (water.includes(overworld_map[xCoords][yCoords])) {
+                    if (water.includes(map[xCoords][yCoords])) {
                         characterEmote = character.swim;
                         step = defaultStep * 0.4;
                     } else if (player.isSprinting) {
@@ -238,14 +236,14 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             let heart = i < player.food ? "🍗" : "⚫";
             ctx.fillText(heart, x, 15);
         }
-}
-
-    // Game loop
-    function gameLoop() {
-        updatePlayer();
-        update();
-        requestAnimationFrame(gameLoop); 
     }
 
-    gameLoop();
+    // Game loop
+    window.gameLoop = function() {
+        updatePlayer();
+        update();
+        requestAnimationFrame(gameLoop);
+    };
+
+    loadScreen();
 });

@@ -8,3 +8,5 @@ canvas.height = height;
 // How big the world is
 var MAP_WIDTH = 200;
 var MAP_HEIGHT = 200;
+
+var seed = "a";

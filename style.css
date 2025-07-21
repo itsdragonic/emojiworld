@@ -8,6 +8,15 @@ body, html {
     overflow: hidden;
     font-family: "Apple Color Emoji", Arial;
 }
+#container {
+    position: relative;
+}
+.elements {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
 canvas {
     display: block;
     top: 0;
