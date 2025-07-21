@@ -287,6 +287,8 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
                 row.push("🌾");
             } else if (chance < 0.15) {
                 row.push("🌱");
+            } else if (chance < 0.2) {
+                row.push("෴");
             } else {
                 row.push("");
             }
@@ -310,6 +312,8 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
                 row.push("🌱");
             } else if (chance < 0.1) {
                 row.push("🌳");
+            } else if (chance < 0.15) {
+                row.push("෴");
             } else {
                 row.push("");
             }
@@ -328,19 +332,25 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
             } else if (chance < 0.002) {
                 row.push("🌼");
             } else if (chance < 0.004) {
-                row.push("🪨");
+                row.push("🪨s");
+            } else if (chance < 0.005) {
+                row.push("🍄s");
             } else if (chance < 0.006) {
                 row.push("🍄");
             } else if (chance < 0.01) {
-                row.push("🍄‍🟫");
+                row.push("🍄‍🟫s");
             } else if (chance < 0.03) {
                 row.push("🌾");
             } else if (chance < 0.06) {
                 row.push("🌱");
             } else if (chance < 0.08) {
-                row.push("🍂");
-            } else if (chance < 0.75) {
+                row.push("🍂s");
+            } else if (chance < 0.1) {
+                row.push("🌳s");
+            } else if (chance < 0.5) {
                 row.push("🌳b");
+            } else if (chance < 0.75) {
+                row.push("🌳");
             } else {
                 row.push("");
             }
@@ -421,7 +431,9 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
             } else if (chance < 0.03) {
                 row.push("☘️");
             } else if (chance < 0.06) {
-                row.push("🍂");
+                row.push("🍂s");
+            } else if (chance < 0.5) {
+                row.push("🌲b");
             } else if (chance < 0.75) {
                 row.push("🌲");
             } else {
@@ -455,7 +467,7 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
             if (chance < 0.1) {
                 row.push("");
             } else if (chance < 0.3) {
-                row.push("🏔️");
+                row.push("🏔️b");
             } else {
                 row.push("⛰️");
             }
@@ -464,9 +476,9 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
         else if (biome_map[i][j] == "🗻") {
             let chance = rng();
             if (chance < 0.01) {
-                row.push("🌋");
+                row.push("🌋b");
             } else {
-                row.push("🗻");
+                row.push("🗻g");
             }
         }
         // warm ocean
@@ -514,7 +526,11 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
 
 // Structures
 const water = ["🌊", "💦", "🧊","༄","ꕀ"];
+var waterColor = "#7aaae1";
 const sand = ["𓂃","࿔*:","࿐","🏖️"];
+var sandColor = "#cabb9d";
+const grass = ["🌱","෴"];
+var grassColor = "#76a763";
 var coords = [];
 function randomCoords(int) {
     coords = [];

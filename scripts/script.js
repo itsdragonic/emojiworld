@@ -28,6 +28,11 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
     ctx.fillStyle = "white";
 
+    if (useFont == font.default) {
+        waterColor = "#26c9fc";
+        sandColor = "#d4bf9a";
+    }
+
     // Movement
     var direction = Object.freeze({
         left: 0,
@@ -35,6 +40,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         up: 2,
         down: 3
     });
+
+    characterEmote = character.default;
 
     let keysHeld = {
         w: false,
@@ -58,11 +65,21 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     function updatePlayer() {
         const step = 0.1;
 
+        // update player emote
         let dx = 0, dy = 0;
         if (keysHeld.w) dy -= step;
-        if (keysHeld.s) dy += step;
-        if (keysHeld.a) dx -= step;
-        if (keysHeld.d) dx += step;
+        if (keysHeld.a) {
+            characterEmote = character.walkLeft;
+            dx -= step;
+        }
+        if (keysHeld.s) {
+            characterEmote = character.default;
+            dy += step;
+        }
+        if (keysHeld.d) {
+            characterEmote = character.walkRight;
+            dx += step;
+        }
 
         // Normalize diagonal movement
         if (dx !== 0 && dy !== 0) {
@@ -102,18 +119,25 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
                     // Special color conditions
                     if (sand.includes(emoji)) {
-                        ctx.fillStyle = "#cabb9d";
+                        ctx.fillStyle = sandColor;
                     } else if (water.includes(emoji)) {
-                        ctx.fillStyle = "#7aaae1";
+                        ctx.fillStyle = waterColor;
+                    } else if (grass.includes(emoji)) {
+                        ctx.fillStyle = grassColor;
                     } else {
-                        ctx.fillStyle = "#ffffff";
+                        ctx.fillStyle = "#fff";
                     }
 
                     // Special size conditions
-                    if (emoji.at(-1) == "b") {
-                        ctx.font = (emojiSize*1.5) + "px " + useFont + ", Arial";
+                    if (emoji.at(-1) == "g") {
+                        ctx.font = (emojiSize * 3) + "px " + useFont + ", Arial";
                         emoji = emoji.slice(0,-1);
-                        console.log(emoji);
+                    } else if (emoji.at(-1) == "b") {
+                        ctx.font = (emojiSize * 1.5) + "px " + useFont + ", Arial";
+                        emoji = emoji.slice(0,-1);
+                    } else if (emoji.at(-1) == "s") {
+                        ctx.font = (emojiSize * 0.75) + "px " + useFont + ", Arial";
+                        emoji = emoji.slice(0,-1);
                     } else {
                         ctx.font = emojiSize + "px " + useFont + ", Arial";
                     }
@@ -123,7 +147,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
                 // Draw Player
                 if (i == Math.round(gridX/2) && j == Math.round(gridY/2)) {
-                    ctx.fillText(baseEmote[0], gridX/2 * emojiSize, gridY/2 * emojiSize);
+                    ctx.font = emojiSize + "px " + useFont + ", Arial";
+                    ctx.fillText(characterEmote, gridX/2 * emojiSize, gridY/2 * emojiSize);
                 }
             }
         }
