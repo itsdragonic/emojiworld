@@ -198,6 +198,13 @@ var objectProperties = {
         toolRequired: "⛏️",
         loot: "🪨"
     },
+    "🧊": {
+        name: "Ice",
+        canBeWalkedOn: false,
+        durability: 2,
+        toolRequired: "👊",
+        loot: "🧊"
+    },
     "🗻g": {
         name: "Big Mountain",
         canBeWalkedOn: false,
@@ -1138,7 +1145,7 @@ var objectProperties = {
         toolRequired: "⛏️",
         loot: "🔮"
     },
-    "🏖": {
+    "🏖️": {
         name: "Sand",
         canBeWalkedOn: true,
         durability: 3,

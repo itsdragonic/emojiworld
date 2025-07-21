@@ -17,11 +17,16 @@ function gameLogic() {
     } else {
         healthEmoji = hearts.default;
     }
+
+    for (let entity of entities) {
+        entity.update(map);
+    }
 }
 
 function damagePlayer(amount = 1) {
     if (player.damageCooldown <= 0) {
         player.health -= amount;
+        player.damageTicks += 20;
         player.damageCooldown = 100;
 
         if (player.health <= 0) {
@@ -70,4 +75,31 @@ function surroundings(dx,dy) {
     // Move player
     player.x += dx;
     player.y += dy;
+}
+
+function drawVisibilityOverlay() {
+    // Skip if visibility is max
+    if (player.visibility >= 100) return;
+
+    // Position of player on screen (centered)
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // Calculate inner and outer radius based on visibility
+    // At 100: full visibility → outer radius huge
+    // At 0: almost no visibility → outer radius tight
+    const maxRadius = Math.sqrt(width ** 2 + height ** 2) / 2;
+    const visibilityRatio = player.visibility / 100;
+
+    const innerRadius = emojiSize * 2; // always visible near player
+    const outerRadius = innerRadius + (maxRadius - innerRadius) * visibilityRatio;
+
+    // Create radial gradient from center (player) to screen edge
+    const gradient = ctx.createRadialGradient(centerX, centerY, innerRadius, centerX, centerY, outerRadius);
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 0)'); // fully transparent at player
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 1)'); // black at edge
+
+    // Draw the darkening overlay
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
 }

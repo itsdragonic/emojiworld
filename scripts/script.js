@@ -9,6 +9,17 @@ var hearts = {
 }
 let healthEmoji = hearts.default;
 
+var background = {
+    default: "#222",
+    dark: "#222",
+    light: "#eee",
+    damage: "#992222"
+}
+
+// Entities
+let entities = [];
+entities.push(new Chicken(60, 100));
+
 let emojiSize = 20;
 
 // Custom fonts
@@ -20,7 +31,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     });
 
     // Change emoji font
-    useFont = font.default;
+    useFont = font.apple;
 
     ctx.font = emojiSize + "px " + useFont + ", Arial";
 
@@ -112,6 +123,15 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     // Loading Map
     function update() {
         ctx.clearRect(0, 0, width, height);
+
+        // fill screen
+        ctx.fillStyle = background.default;
+        if (player.damageTicks > 0) {
+            ctx.fillStyle = background.damage;
+            player.damageTicks --;
+        }
+        ctx.fillRect(0,0,width,height);
+
         gridX = Math.ceil(width/emojiSize) + 1;
         gridY = Math.ceil(height/emojiSize) + 1;
 
@@ -166,6 +186,20 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     ctx.fillText(emoji, drawX, drawY);
                 }
 
+                // Draw entities
+                for (let entity of entities) {
+                    if (Math.round(entity.x) == mapX && Math.round(entity.y) == mapY) {
+                        entity.draw(ctx, i * emojiSize - offsetX, j * emojiSize - offsetY);
+                    }
+                }
+                /*// Draw entities (supporting sub-tile movement)
+                for (let entity of entities) {
+                    const screenX = (entity.x - player.x + gridX / 2) * emojiSize - offsetX;
+                    const screenY = (entity.y - player.y + gridY / 2) * emojiSize - offsetY;
+                    entity.draw(ctx, screenX, screenY);
+                }*/
+
+
                 // Draw Player
                 if (i == Math.round(gridX/2) && j == Math.round(gridY/2)) {
                     ctx.font = emojiSize + "px " + useFont + ", Arial";
@@ -190,7 +224,18 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     ctx.fillText(characterEmote, gridX/2 * emojiSize, gridY/2 * emojiSize);
                 }
             }
-        }        
+        }
+
+        // Visibility
+        if (map == overworld_map) {
+            player.visibility = 100;
+        } else if (map == cave1_map) {
+            player.visibility = 10;
+            if (player.inventory.flat().includes("🔦")) {
+                player.visibility = 50;
+            }
+        }
+        drawVisibilityOverlay();
 
         /* Hotbar */
         const itemCount = 10;
