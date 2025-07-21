@@ -65,6 +65,9 @@ function surroundings(dx,dy) {
         map = overworld_map;
     }
 
+    let itemHeld = player.inventory[0][player.hotbarSelected];
+
+    // Move player
     player.x += dx;
     player.y += dy;
 }

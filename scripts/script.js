@@ -53,6 +53,12 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             return;
         }
 
+        if (e.key >= "1" && e.key <= "9") {
+            player.hotbarSelected = parseInt(e.key) - 1;
+        } else if (e.key === "0") {
+            player.hotbarSelected = 9;
+        }
+
         pressedKeys.add(key);
     });
 
@@ -215,9 +221,37 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             let drawX = hotbarX + padding + i * (itemSize + gap) + itemSize / 2;
             let drawY = hotbarY + padding + itemSize / 2;
 
+            // Highlight selected item
+            if (i === player.hotbarSelected) {
+                let extra = 6; // how much bigger the box should be
+                let rectX = hotbarX + padding + i * (itemSize + gap) - extra / 2;
+                let rectY = hotbarY + padding - extra / 2;
+                let size = itemSize + extra;
+                let radius = 8;
+
+                ctx.save();
+                ctx.globalAlpha = 0.2;
+                ctx.fillStyle = "#cccccc"; // light gray
+                ctx.beginPath();
+                ctx.moveTo(rectX + radius, rectY);
+                ctx.lineTo(rectX + size - radius, rectY);
+                ctx.quadraticCurveTo(rectX + size, rectY, rectX + size, rectY + radius);
+                ctx.lineTo(rectX + size, rectY + size - radius);
+                ctx.quadraticCurveTo(rectX + size, rectY + size, rectX + size - radius, rectY + size);
+                ctx.lineTo(rectX + radius, rectY + size);
+                ctx.quadraticCurveTo(rectX, rectY + size, rectX, rectY + size - radius);
+                ctx.lineTo(rectX, rectY + radius);
+                ctx.quadraticCurveTo(rectX, rectY, rectX + radius, rectY);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Draw item emoji
             ctx.font = itemSize + "px " + useFont;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
+            ctx.fillStyle = "white";
             ctx.fillText(item, drawX, drawY);
 
             // Draw count at bottom right if it's not "1" or empty
@@ -233,6 +267,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                 ctx.fillText(value, countX, countY);
             }
         }
+
 
         /* Stat Bars */
         // Health Bar

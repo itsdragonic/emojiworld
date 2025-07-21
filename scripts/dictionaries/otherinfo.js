@@ -27,6 +27,7 @@ var player = {
     damageCooldown: 0,
     fireCooldown: 0,
     burning: 0,
+    hotbarSelected: 0,
     inventory: [
         ["🪓", "⛏️", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],
