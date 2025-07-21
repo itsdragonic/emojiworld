@@ -233,7 +233,7 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
         }
         // cold ocean
         else if (terrain_map[i][j] == "🌊" && temp_map[i][j] == "❄️") {
-            row.push("💧");
+            row.push("🧊");
         }
         // warm ocean
         else if (terrain_map[i][j] == "🌊" && temp_map[i][j] == "🏜️") {
@@ -267,10 +267,16 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
         // plains
         if (biome_map[i][j] == "🌾") {
             let chance = rng();
-            if (chance < 0.001) {
+            if (chance < 0.0001) {
+                row.push("🍀");
+            } else if (chance < 0.003) {
+                row.push("☘️");
+            } else if (chance < 0.001) {
                 row.push("🌻");
             } else if (chance < 0.004) {
                 row.push("🌷");
+            } else if (chance < 0.005) {
+                row.push("🪨");
             } else if (chance < 0.05) {
                 row.push("🌾");
             } else if (chance < 0.15) {
@@ -282,10 +288,16 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
         // woods
         else if (biome_map[i][j] == "🌱") {
             let chance = rng();
-            if (chance < 0.001) {
+            if (chance < 0.0001) {
+                row.push("🍀");
+            } else if (chance < 0.003) {
+                row.push("☘️");
+            } else if (chance < 0.001) {
                 row.push("🪻");
             } else if (chance < 0.002) {
                 row.push("🌼");
+            } else if (chance < 0.005) {
+                row.push("🪨");
             } else if (chance < 0.03) {
                 row.push("🌾");
             } else if (chance < 0.06) {
@@ -299,10 +311,16 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
         // forest
         else if (biome_map[i][j] == "🌳") {
             let chance = rng();
-            if (chance < 0.001) {
+            if (chance < 0.0001) {
+                row.push("🍀");
+            } else if (chance < 0.003) {
+                row.push("☘️");
+            } else if (chance < 0.001) {
                 row.push("🌹");
             } else if (chance < 0.002) {
                 row.push("🌼");
+            } else if (chance < 0.004) {
+                row.push("🪨");
             } else if (chance < 0.03) {
                 row.push("🌾");
             } else if (chance < 0.06) {
@@ -322,6 +340,8 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
                 row.push("🐚");
             } else if (chance < 0.007) {
                 row.push("𓇼");
+            } else if (chance < 0.008) {
+                row.push("🪨");
             } else if (chance < 0.9) {
                 row.push("");
             } else {
@@ -333,6 +353,8 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
             let chance = rng();
             if (chance < 0.005) {
                 row.push("🥥");
+            } else if (chance < 0.006) {
+                row.push("🪨");
             } else if (chance < 0.1) {
                 row.push("🌴");
             } else if (chance < 0.8) {
@@ -346,6 +368,8 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
             let chance = rng();
             if (chance < 0.001) {
                 row.push("🌺");
+            } else if (chance < 0.003) {
+                row.push("🪨");
             } else if (chance < 0.006) {
                 row.push("🏜️");
             } else if (chance < 0.03) {
@@ -357,12 +381,8 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
         // bamboo forest
         else if (biome_map[i][j] == "🎋") {
             let chance = rng();
-            if (chance < 0.001) {
-                row.push("🎍");
-            } else if (chance < 0.02) {
+            if (chance < 0.02) {
                 row.push("🎋");
-            } else if (chance < 0.05) {
-                row.push("🌵");
             } else {
                 row.push("");
             }
@@ -374,12 +394,33 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
                 row.push("🍀");
             } else if (chance < 0.002) {
                 row.push("🏕️");
+            } else if (chance < 0.003) {
+                row.push("🪨");
             } else if (chance < 0.03) {
                 row.push("☘️");
             } else if (chance < 0.06) {
                 row.push("🍂");
             } else if (chance < 0.75) {
                 row.push("🌲");
+            } else {
+                row.push("");
+            }
+        }
+        // cold forest
+        else if (biome_map[i][j] == "❄️") {
+            let chance = rng();
+            if (chance < 0.001) {
+                row.push("🍀");
+            } else if (chance < 0.002) {
+                row.push("🍂");
+            } else if (chance < 0.003) {
+                row.push("🪨");
+            } else if (chance < 0.03) {
+                row.push("☘️");
+            } else if (chance < 0.3) {
+                row.push("🌲");
+            } else if (chance < 0.4) {
+                row.push("❄️");
             } else {
                 row.push("");
             }
@@ -407,10 +448,19 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
         // warm ocean
         else if (biome_map[i][j] == "💦") {
             let chance = rng();
-            if (chance < 0.001) {
+            if (chance < 0.0001) {
                 row.push("🪷");
             } else if (chance < 0.1) {
                 row.push("💦");
+            } else {
+                row.push("🌊");
+            }
+        }
+        // cold ocean
+        else if (biome_map[i][j] == "🧊") {
+            let chance = rng();
+            if (chance < 0.25) {
+                row.push("🧊");
             } else {
                 row.push("🌊");
             }
@@ -430,4 +480,41 @@ for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
         }
     }
     overworld_map.push(row);
+}
+
+// Structures
+var water = ["🌊", "💦", "🧊"];
+var coords = [];
+function randomCoords(int) {
+    coords = [];
+    for (let i = 0; i < int; i++) {
+        let x = Math.floor(rng()*MAP_WIDTH);
+        let y = Math.floor(rng()*MAP_HEIGHT);
+        coords.push([x, y]);
+    }
+}
+
+// Moai
+randomCoords(3);
+console.log(coords);
+for (let i = 0; i < coords.length; i++) {
+    let xPos = coords[i][0];
+    let yPos = coords[i][1];
+    if (!water.includes(overworld_map[xPos][yPos])) {
+        overworld_map[xPos][yPos] = "🗿";
+
+        for (let n = 0; n < 4; n++) {
+            let xRand = Math.round((rng() * 2 - 1) * 3);
+            let yRand = Math.round((rng() * 2 - 1) * 3);
+            let newX = xPos + xRand;
+            let newY = yPos + yRand;
+
+            if (
+                overworld_map[newX] !== undefined &&
+                overworld_map[newX][newY] !== undefined
+            ) {
+                overworld_map[newX][newY] = "🗿";
+            }
+        }
+    }
 }
