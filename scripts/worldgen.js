@@ -147,6 +147,14 @@ const grass = ["🌱","෴"];
 var grassColor = "#76a763";
 var coords = [];
 
+function randomCoords(int) {
+    coords = [];
+    for (let i = 0; i < int; i++) {
+        let x = Math.floor(rng()*MAP_WIDTH);
+        let y = Math.floor(rng()*MAP_HEIGHT);
+        coords.push([x, y]);
+    }
+}
 
 function generateWorld() {
     // base terrain map
@@ -473,7 +481,7 @@ function generateWorld() {
                 } else if (chance < 0.4) {
                     row.push("❆");
                 } else if (chance < 0.6) {
-                    row.push("❅");
+                    row.push("❅𓏳");
                 } else {
                     row.push("");
                 }
@@ -542,15 +550,6 @@ function generateWorld() {
     }
 
     // Structures
-    
-    function randomCoords(int) {
-        coords = [];
-        for (let i = 0; i < int; i++) {
-            let x = Math.floor(rng()*MAP_WIDTH);
-            let y = Math.floor(rng()*MAP_HEIGHT);
-            coords.push([x, y]);
-        }
-    }
 
     // Moai
     randomCoords(3);
@@ -575,4 +574,5 @@ function generateWorld() {
             }
         }
     }
+    caveGen();
 }

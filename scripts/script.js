@@ -1,6 +1,15 @@
 var map = overworld_map;
+var elapsedTime = 0;
 
-emojiSize = 20;
+// Hearts
+var hearts = {
+    default: "❤️",
+    burning: "❤️‍🔥",
+    poison: "💚"
+}
+let healthEmoji = hearts.default;
+
+let emojiSize = 20;
 
 // Custom fonts
 document.fonts.load("32px Apple Color Emoji").then(() => {
@@ -72,6 +81,18 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             dx += step;
         }
 
+        if (pressedKeys.has('shift')) {
+            player.isShifting = true;
+        } else {
+            player.isShifting = false;
+        }
+        if (pressedKeys.has(' ')) {
+            player.isJumping = true;
+            characterEmote = character.cartwheel;
+        } else {
+            player.isJumping = false;
+        }
+
         // Normalize diagonal movement
         if (dx !== 0 && dy !== 0) {
             const norm = Math.sqrt(0.5);
@@ -79,21 +100,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             dy *= norm;
         }
 
-        let xStep = player.x + dx;
-        let yStep = player.y + dy;
-
-        let tile = map[Math.round(xStep)][Math.round(yStep)];
-        let tileProps = objectProperties[tile];
-
-        let canWalk = tileProps?.canBeWalkedOn ?? true;
-
-        if (!canWalk) {
-            dx = 0;
-            dy = 0;
-        }
-
-        player.x += dx;
-        player.y += dy;
+        surroundings(dx,dy);
     }
 
     // Loading Map
@@ -132,6 +139,11 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                         ctx.fillStyle = "#fff";
                     }
 
+                    // Ladders
+                    if (map == overworld_map && cave1_map[mapX][mapY] == "🪜") {
+                        emoji = "🕳️";
+                    }
+
                     // Special size conditions
                     if (emoji.at(-1) == "g") {
                         ctx.font = (emojiSize * 3) + "px " + useFont + ", Arial";
@@ -145,7 +157,6 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     } else {
                         ctx.font = emojiSize + "px " + useFont + ", Arial";
                     }
-
                     ctx.fillText(emoji, drawX, drawY);
                 }
 
@@ -163,6 +174,10 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                         step = defaultStep * 1.5;
                     } else {
                         step = defaultStep;
+                    }
+
+                    if (cave1_map[xCoords][yCoords] == "🪜" && player.isShifting) {
+                        map = cave1_map;
                     }
 
                     // Draw player
@@ -221,7 +236,6 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
         /* Stat Bars */
         // Health Bar
-        let healthEmoji = "❤️";
         let healthSize = emojiSize;
         ctx.font = healthSize + "px " + useFont;
         for (let i = 0; i < player.maxHealth; i++) {
@@ -236,6 +250,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             let heart = i < player.food ? "🍗" : "⚫";
             ctx.fillText(heart, x, 15);
         }
+
+        gameLogic();
     }
 
     // Game loop
