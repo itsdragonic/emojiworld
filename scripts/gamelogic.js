@@ -36,6 +36,10 @@ function damagePlayer(amount = 1) {
     }
 }
 
+function displayHotbarText(txt) {
+    hotbarText = txt;
+    hotbarTextTime = 100;
+}
 
 function surroundings(dx,dy) {
     let xStep = player.x + dx;
@@ -54,6 +58,7 @@ function surroundings(dx,dy) {
     // Block interaction properties
     if (tile == "🌵") {
         damagePlayer();
+        displayHotbarText("Ouch!")
     }
     if (["🌋","🔥"].includes(tile)) {
         player.burning = 3;

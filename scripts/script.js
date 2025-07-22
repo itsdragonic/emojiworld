@@ -16,6 +16,9 @@ var background = {
     damage: "#992222"
 }
 
+var hotbarText = "";
+var hotbarTextTime = 0;
+
 // Entities
 let entities = [];
 entities.push(new Chicken(60, 100));
@@ -27,11 +30,15 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
     const font = Object.freeze({
         apple: "Apple Color Emoji",
+        twemoji: "Twemoji",
+        openmoji: "Open Moji Color",
+        notocolor: "Noto Color Emoji",
+        android: "Android Emoji",
         default: "Roboto Bold"
     });
 
     // Change emoji font
-    useFont = font.apple;
+    useFont = font.default;
 
     ctx.font = emojiSize + "px " + useFont + ", Arial";
 
@@ -77,25 +84,22 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         pressedKeys.delete(e.key.toLowerCase());
     });
 
-    const defaultStep = 0.1;
-    let step = 0.1;
-
     function updatePlayer() {
         // update player emote
         
         let dx = 0, dy = 0;
-        if (pressedKeys.has('w')) dy -= step;
+        if (pressedKeys.has('w')) dy -= player.speed;
         if (pressedKeys.has('s')) {
             characterEmote = character.default;
-            dy += step;
+            dy += player.speed;
         }
         if (pressedKeys.has('a')) {
             characterEmote = player.isSprinting ? character.sprintLeft : character.walkLeft;
-            dx -= step;
+            dx -= player.speed;
         }
         if (pressedKeys.has('d')) {
             characterEmote = player.isSprinting ? character.sprintRight : character.walkRight;
-            dx += step;
+            dx += player.speed;
         }
 
         if (pressedKeys.has('shift')) {
@@ -209,11 +213,11 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     let yCoords = Math.round(player.y);
                     if (water.includes(map[xCoords][yCoords])) {
                         characterEmote = character.swim;
-                        step = defaultStep * 0.4;
+                        player.speed = player.defaultSpeed * 0.4;
                     } else if (player.isSprinting) {
-                        step = defaultStep * 1.5;
+                        player.speed = player.defaultSpeed * 1.5;
                     } else {
-                        step = defaultStep;
+                        player.speed = player.defaultSpeed;
                     }
 
                     if (cave1_map[xCoords][yCoords] == "🪜" && player.isShifting) {
@@ -313,6 +317,19 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }
         }
 
+        // Text above hotbar
+        if (hotbarTextTime > 0) {
+            ctx.font = emojiSize + "px Arial";
+            
+            let opacity = hotbarTextTime > 20 ? 1.0 : (hotbarTextTime * 0.05);
+            opacity = Math.max(0, opacity);
+            
+            ctx.globalAlpha = opacity;
+            ctx.fillText(hotbarText, width / 2, height - itemSize - 36);
+            ctx.globalAlpha = 1.0;
+            
+            hotbarTextTime--;
+        }
 
         /* Stat Bars */
         // Health Bar

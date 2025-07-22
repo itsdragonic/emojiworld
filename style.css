@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
     background-color: #111;
     color: #fff;
     width: 100%;
@@ -8,15 +9,43 @@ body, html {
     overflow: hidden;
     font-family: "Apple Color Emoji", Arial;
 }
+
 #container {
     position: relative;
 }
+
 .elements {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 1;
+    position: absolute;
+    z-index: 1;
 }
+
+#myInput {
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 200px;
+    padding: 10px 15px;
+    
+    background-color: #505050;
+    border: 4px solid #2e2e2e;
+    
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#myInput:focus {
+    background-color: #aaa;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+}
+
 canvas {
     display: block;
     top: 0;
@@ -24,12 +53,41 @@ canvas {
 }
 
 @font-face {
-    font-family: "Apple Color Emoji"; /* Choose a name for your font */
-    src: url("AppleColorEmoji.ttf") format("truetype");
-    /* Add other src declarations for different formats (woff, woff2) for broader browser support */
-    /* src: url("../path/to/your/font/MyCustomFont.woff2") format("woff2"),
-            url("../path/to/your/font/MyCustomFont.woff") format("woff"); */
-    font-weight: normal; /* Optional: define weight */
-    font-style: normal; /* Optional: define style */
-    display: swap; /* Optional: improve font loading performance */
+    font-family: "Apple Color Emoji";
+    src: url("fonts/AppleColorEmoji.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    display: swap;
+}
+
+@font-face {
+    font-family: "Twemoji";
+    src: url("fonts/twemoji.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    display: swap;
+}
+
+@font-face {
+    font-family: "Open Moji Color";
+    src: url("fonts/openmojicolor.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    display: swap;
+}
+
+@font-face {
+    font-family: "Noto Color Emoji";
+    src: url("fonts/notocoloremoji.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    display: swap;
+}
+
+@font-face {
+    font-family: "Android Emoji";
+    src: url("fonts/AndroidEmoji.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    display: swap;
 }

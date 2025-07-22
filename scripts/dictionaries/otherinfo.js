@@ -18,6 +18,8 @@ var player = {
     food: 10,
     maxSaturation: 10,
     saturation: 5,
+    defaultSpeed: 0.2,
+    speed: 0.2,
     visibility: 100,
     isSprinting: false,
     isShifting: false,

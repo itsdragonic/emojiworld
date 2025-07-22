@@ -16,4 +16,5 @@ window.addEventListener('resize', () => {
     height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
+    if (!isGeneratingWorld) loadScreen();
 });

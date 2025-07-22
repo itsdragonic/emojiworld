@@ -48,7 +48,6 @@ function stringToNumbers(inputString) {
     return inputString.hashCode();
 }
 
-//console.log(rng(seed));
 var pixel_size = 1;
 
 function runPerlinAlgorithm(str) {

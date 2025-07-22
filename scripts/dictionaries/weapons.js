@@ -1,3 +1,5 @@
+var unstackable = ["🗡️", "⛏️", "🪓", "🔧", "🖌️", "🔨", "🔪", "⚔️", "⚒️", "🪚", "🪄", "🎻", "🎸", "🔫", "🎣"];
+
 var weaponProperties = {
     "👊": {
         name: "Fist",
@@ -51,11 +53,5 @@ var weaponProperties = {
         damage: 4,
         itemType: "🗡️",
         sub: 0,
-    },
-    "🎮": {
-        name: "Game Controller",
-        damage: 2,
-        itemType: "🗡️",
-        sub: 0,
-    },
+    }
 };
