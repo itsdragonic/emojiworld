@@ -41,6 +41,74 @@ function displayHotbarText(txt) {
     hotbarTextTime = 100;
 }
 
+function testFor(item,amount) {
+    for (let i = 0; i < player.inventory.length; i++) {
+        for (let j = 0; j < player.inventory[i].length; j++) {
+            if (player.inventoryValue[i][j] >= amount && player.inventory[i][j] === item) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+function addInventory(slot,amount) {
+    let success = false;
+    for (let i = 0; i < player.inventory.length; i++) {
+        for (let j = 0; j < player.inventory[i].length; j++) {
+            if (player.inventory[i][j] === slot && !(slot in unstackable)) {
+                player.inventoryValue[i][j] += amount;
+                success = true;
+                return;
+            }
+        }
+    }
+    if (!success) {
+        for (let i = 0; i < player.inventory.length; i++) {
+            for (let j = 0; j < player.inventory[i].length; j++) {
+                if (player.inventory[i][j] == 0) {
+                    player.inventory[i][j] = slot;
+                    player.inventoryValue[i][j] = amount;
+                    /*if (showInv != "") {
+                        openInventory();
+                    }*/
+                    return;
+                }
+            }
+        }
+    }
+}
+
+function removeInventory(slot, amount) {
+    if (testFor(slot, amount)) {
+        for (let i = 0; i < player.inventory.length; i++) {
+            for (let j = 0; j < player.inventory[i].length; j++) {
+                if (player.inventory[i][j] == slot) {
+                    if (player.inventoryValue[i][j] <= amount) {
+                        let remaining = amount - player.inventoryValue[i][j];
+                        player.inventory[i][j] = "";
+                        player.inventoryValue[i][j] = 0;
+                        removeInventory(slot,remaining);
+                    } else {
+                        player.inventoryValue[i][j] -= amount;
+                    }
+                }
+            }
+        }
+    }
+}
+
+function findName(item) {
+    if (itemNames[item]) return itemNames[item].name;
+    else if (weaponProperties[item]) return weaponProperties[item].name;
+    else if (armorProperties[item]) return armorProperties[item].name;
+    else if (foodProperties[item]) return foodProperties[item].name;
+    else if (farmCrops[item]) return farmCrops[item].name;
+    else if (objectProperties[item]) return objectProperties[item].name;
+    else if (craftingDictionary[item]) return craftingDictionary[item].name;
+    return item;
+}
+
 function surroundings(dx,dy) {
     let xStep = player.x + dx;
     let yStep = player.y + dy;
@@ -75,7 +143,7 @@ function surroundings(dx,dy) {
         map = overworld_map;
     }
 
-    let itemHeld = player.inventory[0][player.hotbarSelected];
+    itemHeld = player.inventory[0][player.hotbarSelected];
 
     // Block manipulation
     let xHover = Math.round(mouseX/emojiSize);
@@ -83,13 +151,25 @@ function surroundings(dx,dy) {
     let gridX = Math.round(width/emojiSize);
     let gridY = Math.round(height/emojiSize);
 
-    if (leftClick) {
+    if (leftClick || rightClick) {
         let distance = Math.sqrt((xHover-gridX/2)**2 + (yHover-gridY/2)**2);
         if (distance <= 7) {
             // Breaking blocks logic
-            let startX = Math.floor(player.x - gridX / 2);
-            let startY = Math.floor(player.y - gridY / 2);
-            map[startX + xHover][startY + yHover] = "";
+            let x = Math.floor(player.x - gridX / 2) + xHover;
+            let y = Math.floor(player.y - gridY / 2) + yHover;
+            if (leftClick) {
+                let Tile = objectProperties[map[x][y]];
+                if (Tile && Tile.loot) {
+                    addInventory(Tile.loot, 1);
+                }
+
+                map[x][y] = "";
+                
+            } else if (overridables.includes(map[x][y]) && objectProperties[itemHeld]) {
+                // Placing blocks logic
+                map[x][y] = itemHeld;
+                removeInventory(itemHeld,1);
+            }
         }
     }
 

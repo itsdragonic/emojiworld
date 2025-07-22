@@ -13,11 +13,35 @@ var objectProperties = {
         toolRequired: "🪓",
         loot: "🪵"
     },
+    "🌳s": {
+        name: "Small Tree",
+        description: "Cut down for wood",
+        canBeWalkedOn: true,
+        durability: 4,
+        toolRequired: "🪓",
+        loot: "🪵"
+    },
+    "🌳b": {
+        name: "Big Tree",
+        description: "Cut down for wood",
+        canBeWalkedOn: true,
+        durability: 7,
+        toolRequired: "🪓",
+        loot: "🪵"
+    },
     "🌲": {
-        name: "Evergreen Tree",
+        name: "Pine Tree",
         description: "Cut down for wood",
         canBeWalkedOn: true,
         durability: 6,
+        toolRequired: "🪓",
+        loot: "🪵"
+    },
+    "🌲b": {
+        name: "Big Pine Tree",
+        description: "Cut down for wood",
+        canBeWalkedOn: true,
+        durability: 8,
         toolRequired: "🪓",
         loot: "🪵"
     },
@@ -39,9 +63,16 @@ var objectProperties = {
     "🌵": {
         name: "Cactus",
         canBeWalkedOn: false,
-        durability: 5,
+        durability: 2,
         toolRequired: "🪓",
         loot: "🌵"
+    },
+    "🎋": {
+        name: "Bamboo",
+        canBeWalkedOn: false,
+        durability: 2,
+        toolRequired: "🪓",
+        loot: "🎍"
     },
     "🌱": {
         name: "Seedling",
@@ -49,6 +80,20 @@ var objectProperties = {
         durability: 3,
         toolRequired: "👊",
         loot: ""
+    },
+    "𓇼": {
+        name: "Starfish",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "𓇼"
+    },
+    "🐚": {
+        name: "Seashell",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "🐚"
     },
     "𓇠": {
         name: "Tomato Seed",
@@ -84,13 +129,6 @@ var objectProperties = {
         durability: 8,
         toolRequired: "👊",
         loot: "❦"
-    },
-    "𓇼": {
-        name: "Sand Seed",
-        canBeWalkedOn: true,
-        durability: 8,
-        toolRequired: "👊",
-        loot: "𓇼"
     },
     "𓇡": {
         name: "Bean Seed",
@@ -130,30 +168,58 @@ var objectProperties = {
     "☘️": {
         name: "Shamrock",
         canBeWalkedOn: true,
-        durability: 3,
+        durability: 1,
         toolRequired: "👊",
         loot: "☘️"
     },
     "🍀": {
-        name: "Four-leaf Clover",
+        name: "Four-Leaf Clover",
         canBeWalkedOn: true,
-        durability: 3,
+        durability: 1,
         toolRequired: "👊",
         loot: "🍀"
     },
     "🌸": {
         name: "Cherry Blossom",
         canBeWalkedOn: true,
-        durability: 3,
+        durability: 1,
         toolRequired: "👊",
         loot: "🌸"
     },
     "🌷": {
         name: "Tulip",
         canBeWalkedOn: true,
-        durability: 3,
+        durability: 1,
         toolRequired: "👊",
         loot: "🌷"
+    },
+    "🌼": {
+        name: "Blossom",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "🌼"
+    },
+    "🪻": {
+        name: "Hyacinth",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "🪻"
+    },
+     "🪷": {
+        name: "Lotus",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "🪷"
+    },
+     "🪺": {
+        name: "Bird Nest",
+        canBeWalkedOn: true,
+        durability: 2,
+        toolRequired: "👊",
+        loot: "🥚"
     },
     "🧨": {
         name: "Dynamite",
@@ -1131,11 +1197,18 @@ var objectProperties = {
         loot: "🏭"
     },
     "🍄": {
-        name: "Mushroom",
+        name: "Red Mushroom",
         canBeWalkedOn: true,
-        durability: 3,
+        durability: 1,
         toolRequired: "👊",
         loot: "🍄"
+    },
+    "🍄‍🟫": {
+        name: "Brown Mushroom",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "🍄‍🟫"
     },
     "🔮": {
         name: "Crystal Ball",
@@ -1146,10 +1219,31 @@ var objectProperties = {
         loot: "🔮"
     },
     "🏖️": {
+        name: "Beach Sand",
+        canBeWalkedOn: true,
+        durability: 3,
+        toolRequired: "🥄",
+        loot: "⏳"
+    },
+    "𓂃": {
         name: "Sand",
         canBeWalkedOn: true,
         durability: 3,
-        toolRequired: "⛏️",
+        toolRequired: "🥄",
+        loot: "⏳"
+    },
+    "࿔*:": {
+        name: "Sand",
+        canBeWalkedOn: true,
+        durability: 3,
+        toolRequired: "🥄",
+        loot: "⏳"
+    },
+    "࿐": {
+        name: "Sand",
+        canBeWalkedOn: true,
+        durability: 3,
+        toolRequired: "🥄",
         loot: "⏳"
     },
     "🌿": {

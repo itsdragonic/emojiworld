@@ -1,5 +1,6 @@
 var map = overworld_map;
 var elapsedTime = 0;
+var itemHeld;
 
 // Hearts
 var hearts = {
@@ -43,7 +44,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     });
 
     // Change emoji font
-    useFont = font.openmoji;
+    useFont = font.apple;
 
     ctx.font = emojiSize + "px " + useFont + ", Arial";
 
@@ -83,16 +84,20 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         const key = e.key.toLowerCase();
         e.preventDefault();
 
-        // Prevent default tab behavior
         if (key === 'tab') {
             player.isSprinting = !player.isSprinting;
             return;
-        } else if (e.key >= "1" && e.key <= "9") {
+        }
+        
+        // Keys 0-9
+        else if (e.key >= "1" && e.key <= "9") {
             player.hotbarSelected = parseInt(e.key) - 1;
+            itemHeld = player.inventory[0][player.hotbarSelected];
+            displayHotbarText(findName(itemHeld));
         } else if (e.key === "0") {
             player.hotbarSelected = 9;
-        } else if (e.key === "j" || e.button == 0) {
-            leftClick();
+            itemHeld = player.inventory[0][player.hotbarSelected];
+            displayHotbarText(findName(itemHeld));
         }
 
         pressedKeys.add(key);
@@ -104,7 +109,6 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
     function updatePlayer() {
         // update player emote
-        
         let dx = 0, dy = 0;
         if (pressedKeys.has('w')) dy -= player.speed;
         if (pressedKeys.has('s')) {
@@ -283,7 +287,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         // Items
         for (let i = 0; i < player.inventory[0].length; i++) {
             let item = player.inventory[0][i];
-            let value = player.inventoryValues[0][i];
+            let value = player.inventoryValue[0][i];
 
             let drawX = hotbarX + padding + i * (itemSize + gap) + itemSize / 2;
             let drawY = hotbarY + padding + itemSize / 2;
@@ -321,8 +325,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             ctx.fillStyle = "white";
             ctx.fillText(item, drawX, drawY);
 
-            // Draw count at bottom right if it's not "1" or empty
-            if (value && value !== "1") {
+            // Item count
+            if (value && value > 1) {
                 ctx.fillStyle = "white";
                 ctx.font = (itemSize * 0.6) + "px " + "Arial";
                 ctx.textAlign = "right";
