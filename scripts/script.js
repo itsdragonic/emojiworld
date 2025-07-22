@@ -16,8 +16,13 @@ var background = {
     damage: "#992222"
 }
 
+// Texts
 var hotbarText = "";
 var hotbarTextTime = 0;
+
+// Mouse clicks
+var leftClick = false;
+var rightClick = false;
 
 // Entities
 let entities = [];
@@ -38,7 +43,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     });
 
     // Change emoji font
-    useFont = font.default;
+    useFont = font.openmoji;
 
     ctx.font = emojiSize + "px " + useFont + ", Arial";
 
@@ -61,20 +66,33 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
     let pressedKeys = new Set();
 
+    document.addEventListener('mousedown', (e) => {
+        if (e.button === 0) leftClick = true;
+        if (e.button === 2) rightClick = true;
+    });
+    document.addEventListener('mouseup', (e) => {
+        if (e.button === 0) leftClick = false;
+        if (e.button === 2) rightClick = false;
+    });
+    document.addEventListener('mouseleave', (e) => {
+        leftClick = false;
+        rightClick = false;
+    });
+
     document.addEventListener('keydown', (e) => {
         const key = e.key.toLowerCase();
+        e.preventDefault();
 
         // Prevent default tab behavior
         if (key === 'tab') {
-            e.preventDefault();
             player.isSprinting = !player.isSprinting;
             return;
-        }
-
-        if (e.key >= "1" && e.key <= "9") {
+        } else if (e.key >= "1" && e.key <= "9") {
             player.hotbarSelected = parseInt(e.key) - 1;
         } else if (e.key === "0") {
             player.hotbarSelected = 9;
+        } else if (e.key === "j" || e.button == 0) {
+            leftClick();
         }
 
         pressedKeys.add(key);

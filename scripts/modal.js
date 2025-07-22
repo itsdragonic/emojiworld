@@ -1,5 +1,41 @@
 let isGeneratingWorld = false;
 
+const emojiOptions = {
+  first: [
+    { emoji: "😜", weight: 4 },
+    { emoji: "😎", weight: 3 },
+    { emoji: "🤪", weight: 2 },
+    { emoji: "😆", weight: 1 },
+    { emoji: "🙃", weight: 1 }
+  ],
+  second: [
+    { emoji: "🌎", weight: 3 },
+    { emoji: "🌍", weight: 3 },
+    { emoji: "🌏", weight: 3 },
+  ]
+};
+
+function getWeightedRandom(options) {
+  const totalWeight = options.reduce((sum, item) => sum + item.weight, 0);
+  let random = Math.random() * totalWeight;
+  
+  for (const item of options) {
+    if (random < item.weight) return item.emoji;
+    random -= item.weight;
+  }
+  
+  return options[0].emoji;
+}
+
+// Generate logo text
+function generateLogoText() {
+  const firstEmoji = getWeightedRandom(emojiOptions.first);
+  const secondEmoji = getWeightedRandom(emojiOptions.second);
+  
+  return `EM${firstEmoji}Jℹ️   W${secondEmoji}RLD`;
+}
+
+// Load title screen
 function loadScreen() {
     ctx.fillStyle = "#333";
     ctx.fillRect(0, 0, width, height);
@@ -8,7 +44,7 @@ function loadScreen() {
     ctx.fillStyle = "white";
     ctx.font = "bold 48px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("EM😜Jℹ️   W🌎RLD", width / 2, height / 3);
+    ctx.fillText(generateLogoText(), width / 2, height / 3);
 
     // Credits
     ctx.font = "14px sans-serif";
@@ -62,6 +98,12 @@ canvas.addEventListener("click", function (e) {
         myInput = document.getElementById("myInput");
         document.querySelectorAll('.elements').forEach(element => {
             element.style.display = 'none';
+        });
+
+        // Mouse movements (within viewport)
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
         // Start world generation

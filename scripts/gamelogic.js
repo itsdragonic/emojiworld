@@ -77,6 +77,22 @@ function surroundings(dx,dy) {
 
     let itemHeld = player.inventory[0][player.hotbarSelected];
 
+    // Block manipulation
+    let xHover = Math.round(mouseX/emojiSize);
+    let yHover = Math.round(mouseY/emojiSize);
+    let gridX = Math.round(width/emojiSize);
+    let gridY = Math.round(height/emojiSize);
+
+    if (leftClick) {
+        let distance = Math.sqrt((xHover-gridX/2)**2 + (yHover-gridY/2)**2);
+        if (distance <= 7) {
+            // Breaking blocks logic
+            let startX = Math.floor(player.x - gridX / 2);
+            let startY = Math.floor(player.y - gridY / 2);
+            map[startX + xHover][startY + yHover] = "";
+        }
+    }
+
     // Move player
     player.x += dx;
     player.y += dy;

@@ -18,3 +18,7 @@ window.addEventListener('resize', () => {
     canvas.height = height;
     if (!isGeneratingWorld) loadScreen();
 });
+
+// Mouse movements
+let mouseX = 0;
+let mouseY = 0;
