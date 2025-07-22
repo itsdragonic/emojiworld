@@ -21,6 +21,8 @@ var player = {
     defaultSpeed: 0.2,
     speed: 0.2,
     visibility: 100,
+    progressBar: 0,
+    progressType: "",
     isSprinting: false,
     isShifting: false,
     isJumping: false,
@@ -32,7 +34,7 @@ var player = {
     burning: 0,
     hotbarSelected: 0,
     inventory: [
-        ["🪓", "⛏️", "🔦", "", "", "", "", "", "", ""],
+        ["🪓", "⛏️", "🔦", "🥄", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],

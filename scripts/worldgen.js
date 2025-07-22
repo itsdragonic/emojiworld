@@ -502,7 +502,7 @@ function generateWorld() {
                 if (chance < 0.01) {
                     row.push("🌋b");
                 } else {
-                    row.push("🗻g");
+                    row.push("🗻b");
                 }
             }
             // warm ocean

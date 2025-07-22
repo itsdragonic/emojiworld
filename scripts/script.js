@@ -339,6 +339,44 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }
         }
 
+        // Progress bar
+        if (player.progressBar > 0) {
+    const barHeight = 8;
+    const barRadius = 6;
+
+    // Clamp value between 0 and 100
+    const progress = Math.min(player.progressBar, 100);
+
+    // Progress fill color
+    let fillColor = "#cccccc"; // default fallback
+    if (player.progressType == "mining") {
+        fillColor = player.correctTool ? "#00ce4bff" : "#ba3737ff";
+    }
+
+    const barX = hotbarX;
+    const barY = hotbarY - totalHeight + 30;
+
+    // Background bar (full width, black)
+    ctx.save();
+    ctx.globalAlpha = 0.5;
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.roundRect(barX, barY, totalWidth, barHeight, barRadius);
+    ctx.fill();
+    ctx.restore();
+
+    // Filled portion
+    const filledWidth = (progress / 100) * totalWidth;
+
+    ctx.save();
+    ctx.fillStyle = fillColor;
+    ctx.beginPath();
+    ctx.roundRect(barX, barY, filledWidth, barHeight, barRadius);
+    ctx.fill();
+    ctx.restore();
+}
+
+
         // Text above hotbar
         if (hotbarTextTime > 0) {
             ctx.font = emojiSize + "px Arial";

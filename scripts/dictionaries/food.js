@@ -53,6 +53,9 @@ var foodProperties = {
     }, "🍉": {
         name: "Melon",
         nutrition: 2,
+    }, "🥥": {
+        name: "Coconut",
+        nutrition: 3,
     }, "🥛": {
         name: "Milk",
         nutrition: 3,

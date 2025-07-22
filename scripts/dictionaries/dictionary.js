@@ -3,6 +3,28 @@ var objectProperties = {
         name: "Water",
         canBeWalkedOn: true,
         durability: 99,
+        unbreakable: true,
+        toolRequired: ""
+    },
+    "💦": {
+        name: "Water",
+        canBeWalkedOn: true,
+        durability: 99,
+        unbreakable: true,
+        toolRequired: ""
+    },
+    "༄": {
+        name: "Water",
+        canBeWalkedOn: true,
+        durability: 99,
+        unbreakable: true,
+        toolRequired: ""
+    },
+    "ꕀ": {
+        name: "Water",
+        canBeWalkedOn: true,
+        durability: 99,
+        unbreakable: true,
         toolRequired: ""
     },
     "🌳": {
@@ -52,6 +74,21 @@ var objectProperties = {
         durability: 5,
         toolRequired: "🪓",
         loot: "🪵"
+    },
+    "🌴b": {
+        name: "Big Palm Tree",
+        description: "Cut down for wood",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "🪓",
+        loot: "🪵"
+    },
+    "🥥": {
+        name: "Coconut",
+        canBeWalkedOn: true,
+        durability: 2,
+        toolRequired: "👊",
+        loot: "🥥"
     },
     "🪵": {
         name: "Wood",
@@ -253,7 +290,7 @@ var objectProperties = {
     "🏔️b": {
         name: "Snowy Mountain",
         canBeWalkedOn: false,
-        durability: 15,
+        durability: 20,
         toolRequired: "⛏️",
         loot: "🪨"
     },
@@ -271,11 +308,19 @@ var objectProperties = {
         toolRequired: "👊",
         loot: "🧊"
     },
-    "🗻g": {
+    "🗻b": {
         name: "Big Mountain",
         canBeWalkedOn: false,
-        durability: 15,
+        durability: 25,
         toolRequired: "⛏️",
+        loot: "🪨"
+    },
+    "🗻g": {
+        name: "Mountain Wall",
+        canBeWalkedOn: false,
+        durability: 95,
+        toolRequired: "⛏️",
+        unbreakable: true,
         loot: "🪨"
     },
     "🕳️": {
@@ -290,7 +335,7 @@ var objectProperties = {
         name: "Ladder",
         description: "Exit the caves",
         canBeWalkedOn: true,
-        durability: 15,
+        durability: 4,
         toolRequired: "",
         loot: ""
     },
@@ -314,7 +359,7 @@ var objectProperties = {
         name: "Toolbox",
         description: "Use to craft stuff",
         canBeWalkedOn: false,
-        durability: 10,
+        durability: 8,
         toolRequired: "⛏️",
         loot: "🧰"
     },
@@ -322,7 +367,7 @@ var objectProperties = {
         name: "Frying Pan",
         description: "Use to cook stuff",
         canBeWalkedOn: false,
-        durability: 10,
+        durability: 8,
         toolRequired: "⛏️",
         loot: "🍳"
     },
@@ -338,7 +383,7 @@ var objectProperties = {
         name: "Box",
         description: "Stores stuff",
         canBeWalkedOn: false,
-        durability: 5,
+        durability: 4,
         toolRequired: "🪓",
         loot: ""
     },
@@ -1220,6 +1265,13 @@ var objectProperties = {
     },
     "🏖️": {
         name: "Beach Sand",
+        canBeWalkedOn: true,
+        durability: 3,
+        toolRequired: "🥄",
+        loot: "⏳"
+    },
+    "🏜️": {
+        name: "Desert Sand",
         canBeWalkedOn: true,
         durability: 3,
         toolRequired: "🥄",

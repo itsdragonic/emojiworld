@@ -8,7 +8,7 @@ var weaponProperties = {
     },
     "🗡️": {
         name: "Dagger",
-        damage: 1,
+        damage: 3,
         itemType: "🗡️",
         sub: 0,
     },
@@ -20,8 +20,14 @@ var weaponProperties = {
     },
     "🪓": {
         name: "Axe",
-        damage: 1,
+        damage: 2,
         itemType: "🪓",
+        sub: 0,
+    },
+    "🥄": {
+        name: "Spoon",
+        damage: 1,
+        itemType: "🥄",
         sub: 0,
     },
     "🔪": {

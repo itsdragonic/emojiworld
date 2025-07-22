@@ -152,26 +152,80 @@ function surroundings(dx,dy) {
     let gridY = Math.round(height/emojiSize);
 
     if (leftClick || rightClick) {
-        let distance = Math.sqrt((xHover-gridX/2)**2 + (yHover-gridY/2)**2);
+        let distance = Math.sqrt((xHover - gridX / 2) ** 2 + (yHover - gridY / 2) ** 2);
         if (distance <= 7) {
-            // Breaking blocks logic
+            // Block breaking logic
+            player.correctTool = true;
+
             let x = Math.floor(player.x - gridX / 2) + xHover;
             let y = Math.floor(player.y - gridY / 2) + yHover;
-            if (leftClick) {
-                let Tile = objectProperties[map[x][y]];
-                if (Tile && Tile.loot) {
-                    addInventory(Tile.loot, 1);
+
+            let block = map[x][y];
+            let Tile = objectProperties[block];
+
+            // ---------------- Mining logic ----------------
+            if (leftClick && block !== "" && (!Tile || !Tile.unbreakable)) {
+                const targetKey = x + "," + y;
+
+                // Check if mining same block
+                if (player.miningTarget !== targetKey) {
+                    player.miningTarget = targetKey;
+                    player.progressBar = 0;
                 }
 
-                map[x][y] = "";
-                
-            } else if (overridables.includes(map[x][y]) && objectProperties[itemHeld]) {
+                player.progressType = "mining";
+
+                let durability = Tile?.durability ?? 1;
+                durability = Math.max(durability, 1); // Prevent divide by zero
+
+                let speed = Tile?.durability || 3;
+
+                if (Tile?.toolRequired === "👊") {
+                    // Same speed
+                } else if (Tile?.toolRequired === "🪓") {
+                    if (itemHeld !== "🪓") player.correctTool = false;
+                    if (itemHeld === "🪓") speed /= 3; // Twice as fast
+                    else speed *= 4;
+                } else if (Tile?.toolRequired === "🥄") {
+                    if (itemHeld !== "🥄") player.correctTool = false;
+                    if (itemHeld === "🥄") speed /= 4;
+                } else if (Tile?.toolRequired === "⛏️") {
+                    if (itemHeld !== "⛏️") player.correctTool = false;
+                    if (itemHeld === "⛏️") speed /= 1.5;
+                    else speed *= 6;
+                }
+
+                player.progressBar += 1 / speed * 3; // adjust speed here
+
+
+                if (player.progressBar >= 100) {
+                    player.progressBar = 0;
+                    player.miningTarget = null;
+
+                    // Break block
+                    if (Tile && Tile.loot) {
+                        if (Tile.toolRequired === "⛏️" && itemHeld !== "⛏️") {
+                            // No loot if wrong tool
+                        } else {
+                            addInventory(Tile.loot, 1);
+                        }
+                    }
+
+                    map[x][y] = "";
+                }
+
+            } else if (rightClick && overridables.includes(block) && objectProperties[itemHeld]) {
                 // Placing blocks logic
                 map[x][y] = itemHeld;
-                removeInventory(itemHeld,1);
+                removeInventory(itemHeld, 1);
             }
         }
+    } else {
+        // Stop mining if not clicking
+        player.miningTarget = null;
+        player.progressBar = 0;
     }
+
 
     // Move player
     player.x += dx;
