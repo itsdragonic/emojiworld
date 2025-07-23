@@ -9,7 +9,7 @@ function gameLogic() {
 
     if (player.burning > 0) {
         if (player.fireCooldown <= 0) {
-            damagePlayer();
+            damage();
             player.fireCooldown = 400;
             player.burning --;
         }
@@ -23,7 +23,7 @@ function gameLogic() {
     }
 }
 
-function damagePlayer(amount = 1) {
+function damage(amount = 1) {
     if (player.damageCooldown <= 0) {
         player.health -= amount;
         player.damageTicks += 20;
@@ -109,6 +109,42 @@ function findName(item) {
     return item;
 }
 
+function hunger(value) {
+    // first try to fill up food health
+    if (value > 0) {
+        const remainingSpace = player.maxFood - player.food;
+        if (remainingSpace >= value) {
+            player.food += value;
+            return; // Food health increased successfully
+        } else {
+            player.food = player.maxFood;
+            value -= remainingSpace;
+        }
+
+        // Once maxed, increase saturation
+        if (value > 0) {
+            const remainingSaturation = player.maxSaturation - player.saturation;
+            if (remainingSaturation >= value) {
+                player.saturation += value;
+            } else {
+                player.saturation = player.maxSaturation;
+            }
+        }
+    }
+    // If value is negative, first reduce saturation, then food health
+    else if (value < 0) {
+        if (player.saturation > 0) {
+            player.saturation += value;
+        } else {
+            if (player.food >= -value) {
+                player.food += value;
+            } else {
+                player.food = 0;
+            }
+        }
+    }
+}
+
 function surroundings(dx,dy) {
     let xStep = player.x + dx;
     let yStep = player.y + dy;
@@ -125,7 +161,7 @@ function surroundings(dx,dy) {
 
     // Block interaction properties
     if (tile == "🌵") {
-        damagePlayer();
+        damage();
         displayHotbarText("Ouch!")
     }
     if (["🌋","🔥"].includes(tile)) {
@@ -151,7 +187,18 @@ function surroundings(dx,dy) {
     let gridX = Math.round(width/emojiSize);
     let gridY = Math.round(height/emojiSize);
 
-    if (leftClick || rightClick) {
+    // Eating priority
+    if (rightClick && foodProperties[itemHeld]) {
+        player.progressType = "eating";
+        player.progressBar += foodProperties[itemHeld].nutrition * 0.8; // adjust eating speed
+        if (player.progressBar >= 100) {
+            hunger(foodProperties[itemHeld].nutrition);
+            removeInventory(itemHeld,1);
+            player.progressBar = 0;
+        }
+    }
+    // Breaking and mining blocks
+    else if (leftClick || rightClick) {
         let distance = Math.sqrt((xHover - gridX / 2) ** 2 + (yHover - gridY / 2) ** 2);
         if (distance <= 7) {
             // Block breaking logic
@@ -224,6 +271,21 @@ function surroundings(dx,dy) {
         // Stop mining if not clicking
         player.miningTarget = null;
         player.progressBar = 0;
+    }
+
+    // Time related events
+    if (time >= 1000) {
+        time = 0;
+        day ++;
+    }
+    else time++;
+    
+    if (time % 900 == 0 && player.isSprinting) hunger(-1);
+    if (time % 400 == 0 && player.food == 0) damage(1);
+
+    if (time % 200 == 0 && player.health < player.maxHealth && player.food > 0) {
+        player.health ++;
+        hunger(-1);
     }
 
 

@@ -114,7 +114,14 @@ var objectProperties = {
     "🌱": {
         name: "Seedling",
         canBeWalkedOn: true,
-        durability: 3,
+        durability: 1,
+        toolRequired: "👊",
+        loot: ""
+    },
+    "෴": {
+        name: "Grass",
+        canBeWalkedOn: true,
+        durability: 1,
         toolRequired: "👊",
         loot: ""
     },

@@ -2,6 +2,10 @@ var map = overworld_map;
 var elapsedTime = 0;
 var itemHeld;
 
+// Time
+var time = 0;
+var day = 1;
+
 // Hearts
 var hearts = {
     default: "❤️",
@@ -339,55 +343,71 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }
         }
 
+        // Emotion Indicator
+        let radius = 40;
+        let centerX = width - radius - 5;
+        let centerY = height - radius - 5;
+        ctx.save();
+        ctx.fillStyle = "#333";
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.restore();
+        ctx.font = radius*1.5 + "px " + useFont + ", Arial";
+        ctx.fillText("😊",centerX, centerY + 3);
+
         // Progress bar
         if (player.progressBar > 0) {
-    const barHeight = 8;
-    const barRadius = 6;
+            const barHeight = 8;
+            const barRadius = 6;
 
-    // Clamp value between 0 and 100
-    const progress = Math.min(player.progressBar, 100);
+            // Clamp value between 0 and 100
+            const progress = Math.min(player.progressBar, 100);
 
-    // Progress fill color
-    let fillColor = "#cccccc"; // default fallback
-    if (player.progressType == "mining") {
-        fillColor = player.correctTool ? "#00ce4bff" : "#ba3737ff";
-    }
+            // Progress fill color
+            let fillColor = "#cccccc"; // default fallback
+            if (player.progressType == "mining") {
+                fillColor = player.correctTool ? "#00ce4bff" : "#ba3737ff";
+            } else if (player.progressType == "eating") {
+                fillColor = "#4d00ddff";
+            } 
 
-    const barX = hotbarX;
-    const barY = hotbarY - totalHeight + 30;
+            const barX = hotbarX;
+            const barY = hotbarY - totalHeight + 30;
 
-    // Background bar (full width, black)
-    ctx.save();
-    ctx.globalAlpha = 0.5;
-    ctx.fillStyle = "black";
-    ctx.beginPath();
-    ctx.roundRect(barX, barY, totalWidth, barHeight, barRadius);
-    ctx.fill();
-    ctx.restore();
+            // Background bar (full width, black)
+            ctx.save();
+            ctx.globalAlpha = 0.5;
+            ctx.fillStyle = "black";
+            ctx.beginPath();
+            ctx.roundRect(barX, barY, totalWidth, barHeight, barRadius);
+            ctx.fill();
+            ctx.restore();
 
-    // Filled portion
-    const filledWidth = (progress / 100) * totalWidth;
+            // Filled portion
+            const filledWidth = (progress / 100) * totalWidth;
 
-    ctx.save();
-    ctx.fillStyle = fillColor;
-    ctx.beginPath();
-    ctx.roundRect(barX, barY, filledWidth, barHeight, barRadius);
-    ctx.fill();
-    ctx.restore();
-}
+            ctx.save();
+            ctx.fillStyle = fillColor;
+            ctx.beginPath();
+            ctx.roundRect(barX, barY, filledWidth, barHeight, barRadius);
+            ctx.fill();
+            ctx.restore();
+        }
 
 
         // Text above hotbar
         if (hotbarTextTime > 0) {
             ctx.font = emojiSize + "px Arial";
-            
+
             let opacity = hotbarTextTime > 20 ? 1.0 : (hotbarTextTime * 0.05);
             opacity = Math.max(0, opacity);
-            
+
             ctx.globalAlpha = opacity;
             ctx.fillText(hotbarText, width / 2, height - itemSize - 36);
             ctx.globalAlpha = 1.0;
-            
+
             hotbarTextTime--;
         }
 
