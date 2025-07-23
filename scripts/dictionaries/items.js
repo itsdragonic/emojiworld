@@ -1,6 +1,7 @@
 var itemNames = {
     "🔦": { name: "Flashlight" },
     "🎍": { name: "Bamboo" },
+    "⏳": { name: "Sand" },
     "🎖️": { name: "Military Medal" },
     "🏅": { name: "Winning Medal" },
     "🥇": { name: "Boss Medal" },

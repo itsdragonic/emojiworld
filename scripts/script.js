@@ -1,6 +1,8 @@
 var map = overworld_map;
-var elapsedTime = 0;
+var level = 0;
+
 var itemHeld;
+let pressedKeys = new Set();
 
 // Time
 var time = 0;
@@ -21,7 +23,7 @@ var background = {
     damage: "#992222"
 }
 
-// Texts
+// Pop ups
 var hotbarText = "";
 var hotbarTextTime = 0;
 
@@ -68,48 +70,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     });
 
     characterEmote = character.default;
-
-    let pressedKeys = new Set();
-
-    document.addEventListener('mousedown', (e) => {
-        if (e.button === 0) leftClick = true;
-        if (e.button === 2) rightClick = true;
-    });
-    document.addEventListener('mouseup', (e) => {
-        if (e.button === 0) leftClick = false;
-        if (e.button === 2) rightClick = false;
-    });
-    document.addEventListener('mouseleave', (e) => {
-        leftClick = false;
-        rightClick = false;
-    });
-
-    document.addEventListener('keydown', (e) => {
-        const key = e.key.toLowerCase();
-        e.preventDefault();
-
-        if (key === 'tab') {
-            player.isSprinting = !player.isSprinting;
-            return;
-        }
-        
-        // Keys 0-9
-        else if (e.key >= "1" && e.key <= "9") {
-            player.hotbarSelected = parseInt(e.key) - 1;
-            itemHeld = player.inventory[0][player.hotbarSelected];
-            displayHotbarText(findName(itemHeld));
-        } else if (e.key === "0") {
-            player.hotbarSelected = 9;
-            itemHeld = player.inventory[0][player.hotbarSelected];
-            displayHotbarText(findName(itemHeld));
-        }
-
-        pressedKeys.add(key);
-    });
-
-    document.addEventListener('keyup', (e) => {
-        pressedKeys.delete(e.key.toLowerCase());
-    });
+    
 
     function updatePlayer() {
         // update player emote
@@ -136,6 +97,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         if (pressedKeys.has(' ')) {
             player.isJumping = true;
             characterEmote = character.cartwheel;
+            player.emotion = "😜";
+            player.emotionTime = 20;
         } else {
             player.isJumping = false;
         }
@@ -196,8 +159,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     }
 
                     // Ladders
-                    if (map == overworld_map && cave1_map[mapX][mapY] == "🪜") {
-                        emoji = "🕳️";
+                    if (level == 0 && cave1_map[mapX][mapY] == "🪜") {
+                        emoji = "🕳️b";
                     }
 
                     // Special size conditions
@@ -213,6 +176,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     } else {
                         ctx.font = emojiSize + "px " + useFont + ", Arial";
                     }
+
                     ctx.fillText(emoji, drawX, drawY);
                 }
 
@@ -247,7 +211,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     }
 
                     if (cave1_map[xCoords][yCoords] == "🪜" && player.isShifting) {
-                        map = cave1_map;
+                        changeLevel(-1);
                     }
 
                     // Draw player
@@ -262,7 +226,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         } else if (map == cave1_map) {
             player.visibility = 10;
             if (player.inventory.flat().includes("🔦")) {
-                player.visibility = 50;
+                player.visibility = 30;
             }
         }
         drawVisibilityOverlay();
@@ -355,7 +319,14 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         ctx.fill();
         ctx.restore();
         ctx.font = radius*1.5 + "px " + useFont + ", Arial";
-        ctx.fillText("😊",centerX, centerY + 3);
+
+        let emotionHUD = player.defaultEmotion;
+        if (player.emotion != "" && player.emotionTime > 0) {
+            emotionHUD = player.emotion;
+            player.emotionTime --;
+        };
+
+        ctx.fillText(emotionHUD,centerX, centerY + 3);
 
         // Progress bar
         if (player.progressBar > 0) {

@@ -307,7 +307,7 @@ function generateWorld() {
                     row.push("🌷");
                 } else if (chance < 0.005) {
                     row.push("🪨");
-                } else if (chance < 0.05) {
+                } else if (chance < 0.02) {
                     row.push("🌾");
                 } else if (chance < 0.1) {
                     row.push("🌱");
@@ -330,7 +330,7 @@ function generateWorld() {
                     row.push("🌼");
                 } else if (chance < 0.005) {
                     row.push("🪨");
-                } else if (chance < 0.03) {
+                } else if (chance < 0.01) {
                     row.push("🌾");
                 } else if (chance < 0.06) {
                     row.push("🌱");
@@ -473,6 +473,8 @@ function generateWorld() {
                     row.push("🍂");
                 } else if (chance < 0.003) {
                     row.push("🪨");
+                } else if (chance < 0.01) {
+                    row.push("⛄");
                 } else if (chance < 0.03) {
                     row.push("☘️");
                 } else if (chance < 0.3) {

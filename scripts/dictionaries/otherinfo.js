@@ -50,7 +50,9 @@ var player = {
         [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ],
     armor: ["🧢", "", "", "", "", ""],
-    emotions: []
+    defaultEmotion: "😊",
+    emotion: "",
+    emotionTime: 0
 }
 
 var moonPhases = ["🌑","🌒","🌓","🌔","🌕","🌖","🌗","🌘"];

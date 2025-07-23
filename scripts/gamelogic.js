@@ -1,9 +1,27 @@
 function gameLogic() {
-    if (elapsedTime >= 1000) {
-        elapsedTime = 0;
-    } else {
-        elapsedTime ++;
+    // Time related events
+    if (time >= 1000) {
+        time = 0;
+        day ++;
     }
+    else time++;
+    
+    if (time % 900 == 0 && player.isSprinting) hunger(-1);
+    if (time % 400 == 0 && player.food == 0) damage(1);
+
+    if (time % 200 == 0 && player.health < player.maxHealth && player.food > 0) {
+        player.health ++;
+        hunger(-1);
+    }
+
+    // Level related
+    if (level == 0) {
+        player.defaultEmotion = "😊";
+    } else if (level == -1) {
+        player.defaultEmotion = "😓";
+    }
+
+    // burning logic
     if (player.damageCooldown > 0) player.damageCooldown --;
     if (player.fireCooldown > 0) player.fireCooldown --;
 
@@ -11,9 +29,11 @@ function gameLogic() {
         if (player.fireCooldown <= 0) {
             damage();
             player.fireCooldown = 400;
-            player.burning --;
+            player.burning--;
         }
         healthEmoji = hearts.burning;
+        player.emotion = "🥵";
+        player.emotionTime = 100;
     } else {
         healthEmoji = hearts.default;
     }
@@ -23,11 +43,73 @@ function gameLogic() {
     }
 }
 
+// Map related events
+function changeLevel(lvl) {
+    level = lvl;
+    switch (lvl) {
+        case 0:
+            map = overworld_map;
+            break;
+        case 1:
+            map = sky_map;
+            break;
+        case 2:
+            map = space_map;
+            break;
+        case -1:
+            map = cave1_map;
+            break;
+        case -2:
+            map = hell_map;
+            break;
+        case -3:
+            map = dungeon_map;
+            break;
+        case 3:
+            map = house_map;
+            break;
+        case 4:
+            map = moon_map;
+            break;
+    }
+}
+
+function dim() {
+    switch (level) {
+        case 0:
+            return overworld_map;
+            break;
+        case 1:
+            return sky_map;
+            break;
+        case 2:
+            return space_map;
+            break;
+        case -1:
+            return cave1_map;
+            break;
+        case -2:
+            return hell_map;
+            break;
+        case -3:
+            return dungeon_map;
+            break;
+        case 3:
+            return house_map;
+            break;
+        case 4:
+            return moon_map;
+            break;
+    }
+}
+
 function damage(amount = 1) {
     if (player.damageCooldown <= 0) {
         player.health -= amount;
         player.damageTicks += 20;
         player.damageCooldown = 100;
+        player.emotion = "🤕";
+        player.emotionTime = 500;
 
         if (player.health <= 0) {
             player.health = 0;
@@ -112,6 +194,16 @@ function findName(item) {
 function hunger(value) {
     // first try to fill up food health
     if (value > 0) {
+
+        // Yummy yummy
+        if (value > 3) {
+            player.emotion = "🤤";
+            player.emotionTime = 900;
+        } else {
+            player.emotion = "😋";
+            player.emotionTime = 400;
+        }
+        
         const remainingSpace = player.maxFood - player.food;
         if (remainingSpace >= value) {
             player.food += value;
@@ -170,13 +262,13 @@ function surroundings(dx,dy) {
     if (water.includes(tile)) {
         player.burning = 0;
     }
-    
+
     // Map transitioning
     if (player.isShifting && tile == "🕳️") {
-        map = cave1_map;
+        changeLevel(-1);
     }
     if (player.isJumping && tile == "🪜") {
-        map = overworld_map;
+        changeLevel(0);
     }
 
     itemHeld = player.inventory[0][player.hotbarSelected];
@@ -190,9 +282,15 @@ function surroundings(dx,dy) {
     // Eating priority
     if (rightClick && foodProperties[itemHeld]) {
         player.progressType = "eating";
-        player.progressBar += foodProperties[itemHeld].nutrition * 0.8; // adjust eating speed
+        player.progressBar += 1 / (foodProperties[itemHeld].nutrition * 0.075); // adjust eating speed (smaller = faster)
         if (player.progressBar >= 100) {
             hunger(foodProperties[itemHeld].nutrition);
+
+            // Custom emotions
+            if (["🍺","🍸"].includes(itemHeld)) {
+                player.emotion = "🥴";
+            }
+
             removeInventory(itemHeld,1);
             player.progressBar = 0;
         }
@@ -272,22 +370,6 @@ function surroundings(dx,dy) {
         player.miningTarget = null;
         player.progressBar = 0;
     }
-
-    // Time related events
-    if (time >= 1000) {
-        time = 0;
-        day ++;
-    }
-    else time++;
-    
-    if (time % 900 == 0 && player.isSprinting) hunger(-1);
-    if (time % 400 == 0 && player.food == 0) damage(1);
-
-    if (time % 200 == 0 && player.health < player.maxHealth && player.food > 0) {
-        player.health ++;
-        hunger(-1);
-    }
-
 
     // Move player
     player.x += dx;

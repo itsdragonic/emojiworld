@@ -106,6 +106,50 @@ canvas.addEventListener("click", function (e) {
             mouseY = e.clientY;
         });
 
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousedown', (e) => {
+            if (e.button === 0) leftClick = true;
+            if (e.button === 2) rightClick = true;
+        });
+        document.addEventListener('mouseup', (e) => {
+            if (e.button === 0) leftClick = false;
+            if (e.button === 2) rightClick = false;
+        });
+        document.addEventListener('mouseleave', (e) => {
+            leftClick = false;
+            rightClick = false;
+        });
+
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+            e.preventDefault();
+
+            if (key === 'tab') {
+                player.isSprinting = !player.isSprinting;
+                return;
+            }
+            
+            // Keys 0-9
+            else if (e.key >= "1" && e.key <= "9") {
+                player.hotbarSelected = parseInt(e.key) - 1;
+                itemHeld = player.inventory[0][player.hotbarSelected];
+                displayHotbarText(findName(itemHeld));
+            } else if (e.key === "0") {
+                player.hotbarSelected = 9;
+                itemHeld = player.inventory[0][player.hotbarSelected];
+                displayHotbarText(findName(itemHeld));
+            }
+
+            pressedKeys.add(key);
+        });
+
+        document.addEventListener('keyup', (e) => {
+            pressedKeys.delete(e.key.toLowerCase());
+        });
+
         // Start world generation
         if (myInput.value != "") {
             seed = myInput.value;
