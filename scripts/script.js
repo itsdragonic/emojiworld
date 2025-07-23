@@ -367,6 +367,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             ctx.restore();
         }
 
+        // Inventory
+        if (player.inventoryOpen) drawInventory();
 
         // Text above hotbar
         if (hotbarTextTime > 0) {

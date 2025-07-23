@@ -111,6 +111,13 @@ var objectProperties = {
         toolRequired: "🪓",
         loot: "🎍"
     },
+    "🎍": {
+        name: "Bamboo",
+        canBeWalkedOn: false,
+        durability: 2,
+        toolRequired: "🪓",
+        loot: "🎍"
+    },
     "🌱": {
         name: "Seedling",
         canBeWalkedOn: true,

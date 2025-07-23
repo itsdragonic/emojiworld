@@ -130,6 +130,8 @@ canvas.addEventListener("click", function (e) {
             if (key === 'tab') {
                 player.isSprinting = !player.isSprinting;
                 return;
+            } else if (key === 'e') {
+                player.inventoryOpen = !player.inventoryOpen;
             }
             
             // Keys 0-9
@@ -158,3 +160,134 @@ canvas.addEventListener("click", function (e) {
         gameLoop();
     }
 });
+
+function drawRoundedBox(ctx, x, y, width, height, radius = 10, nw = true, ne = true, sw = true, se = true) {
+    ctx.beginPath();
+
+    // Top-left corner
+    if (nw) {
+        ctx.moveTo(x + radius, y);
+    } else {
+        ctx.moveTo(x, y);
+    }
+
+    // Top edge
+    if (ne) {
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    } else {
+        ctx.lineTo(x + width, y);
+    }
+
+    // Right edge
+    if (se) {
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    } else {
+        ctx.lineTo(x + width, y + height);
+    }
+
+    // Bottom edge
+    if (sw) {
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    } else {
+        ctx.lineTo(x, y + height);
+    }
+
+    // Left edge
+    if (nw) {
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+    } else {
+        ctx.lineTo(x, y);
+    }
+
+    ctx.closePath();
+    ctx.fill();
+}
+
+function drawInventory() {
+    const iwidth = width * 0.6;
+    const iheight = height * 0.7;
+    const x = (width - iwidth) / 2;
+    const y = (height - iheight) / 2;
+    const radius = 6;
+    const sideBarWidth = 120;
+    const slotSize = emojiSize * 1.75;
+    const gapSize = 5;
+    
+    // Main inventory background
+    ctx.save();
+    ctx.fillStyle = 'rgba(128, 128, 128, 0.5)';
+    drawRoundedBox(ctx,x,y,iwidth,iheight,radius);
+
+    // Top horizontal bar
+    ctx.fillStyle = 'rgba(160, 160, 160, 0.4)';
+    drawRoundedBox(ctx,x+sideBarWidth,y,iwidth-sideBarWidth,35,radius,false,true,false,false);
+
+    // Left vertical bar
+    ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
+    drawRoundedBox(ctx,x,y,sideBarWidth,iheight,radius,true,false,true,false);
+
+    // Mac-style dots
+    const dotRadius = 6;
+    const dotY = y + 15;
+    const dotXStart = x + 15;
+    const dotSpacing = 18;
+    const colors = ['#ff5f56', '#ffbd2e', '#27c93f'];
+
+    colors.forEach((color, i) => {
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.arc(dotXStart + i * dotSpacing, dotY, dotRadius, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    // Section labels: Armor, Accessories
+    ctx.fillStyle = '#fff';
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('Armor', x + 10, y + 50);
+    ctx.fillText('Accessories', x + 10, y + 150);
+
+    // Inventory label
+    ctx.font = '20px Arial';
+    ctx.fillText('Inventory', x + sideBarWidth + 20, y + 20);
+
+    // Crafting box
+    const craftingX = x + iwidth * 0.6;
+    const craftingY = y + 50;
+    const craftingWidth = iwidth * 0.39;
+    const craftingHeight = iheight - 60;
+
+    ctx.fillStyle = 'rgba(64, 64, 64, 0.58)';
+    drawRoundedBox(ctx,craftingX,craftingY,craftingWidth,craftingHeight,radius);
+    ctx.fill();
+
+    // Crafting label
+    ctx.fillStyle = '#fff';
+    ctx.font = '18px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('Crafting', craftingX + 15, craftingY + 25);
+
+    // Inventory items
+    //player.font = '18px ' + useFont + ', Arial';
+    let xinvStart = x + sideBarWidth + 20;
+    let xinv = xinvStart;
+    let yinv = y + 50;
+    for (let i = 0; i < player.inventory.length; i++) {
+        for (let j = 0; j < player.inventory[i].length; j++) {
+            ctx.fillStyle = 'rgba(160, 160, 160, 0.3)';
+            drawRoundedBox(ctx, xinv, yinv, slotSize, slotSize, radius);
+            ctx.fill();
+            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            ctx.fillText(player.inventory[i][j],xinv,yinv + slotSize/2)
+            xinv += slotSize + gapSize;
+        }
+        xinv = xinvStart;
+        yinv += slotSize + gapSize;
+    }
+
+    ctx.restore();
+}
