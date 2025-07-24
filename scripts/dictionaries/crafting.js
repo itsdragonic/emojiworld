@@ -65,6 +65,12 @@ var craftingDictionary = {
         amountsNeeded: [3],
         required: "🧰",
     },
+    "🛞": {
+        name: "Wheel",
+        itemsNeeded: ["🪵","🔩"],
+        amountsNeeded: [3,1],
+        required: "🧰",
+    },
     "🥧": {
         name: "Apple Pie",
         itemsNeeded: ["🍞", "🍎", "🍏"],

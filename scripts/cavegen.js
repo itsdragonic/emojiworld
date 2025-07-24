@@ -40,8 +40,16 @@ function caveGen() {
             // ocean floor features
             if (cave_map[i][j] == "🌊") {
                 let chance = rng();
-                if (chance < 0.0001) {
+                if (chance < 0.00001) {
                     row.push("⚓");
+                } if (chance < 0.0001) {
+                    row.push("💠");
+                } else if (chance < 0.0005) {
+                    row.push("💎");
+                } else if (chance < 0.002) {
+                    row.push("🪙");
+                } else if (chance < 0.004) {
+                    row.push("🔩");
                 } else if (chance < 0.1 && temp_map[i][j] == "🏜️") {
                     row.push("🪸");
                 } else {

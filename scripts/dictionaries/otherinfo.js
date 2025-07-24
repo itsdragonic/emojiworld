@@ -12,7 +12,10 @@ var character = {
 
 // Creating Player
 var player = {
+    // Current map
     level: 0,
+
+    // Stat bars
     maxHealth: 10,
     health: 10,
     maxHunger: 10,
@@ -21,6 +24,10 @@ var player = {
     saturation: 5,
     maxThirst: 10,
     thirst: 10,
+    maxBreath: 10,
+    breath: 10,
+    isDrowning: false,
+
     defaultSpeed: 0.2,
     speed: 0.2,
     visibility: 100,
@@ -57,7 +64,7 @@ var player = {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ],
     accessories: [
-        ["🍀", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""]
     ],
     armor: ["", "👕", "👖", "👞"],

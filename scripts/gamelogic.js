@@ -14,10 +14,27 @@ function gameLogic() {
         hunger(-1);
     }
 
+    // Drowning logic
+    if (gameData.time % 200 == 0 && player.isDrowning) {
+        if (player.breath > 0) {
+            player.breath --;
+        } else {
+            damage(1);
+        }
+    }
+    if (gameData.time % 50 == 0) {
+        if (player.breath < player.maxBreath && !player.isDrowning) {
+            player.breath ++;
+        }
+    }
+
+    // Dragging items in inventory
     if (timeSinceDragging > 0) timeSinceDragging --;
 
     // Default Emotion
-    if (player.hunger < 4 || player.thirst < 4) {
+    if (player.breath <= 0) {
+        player.defaultEmotion = "🤢"
+    } else if (player.hunger < 4 || player.thirst < 4 || player.breath < 4) {
         player.defaultEmotion = "😵‍💫";
     } else if (player.level == 0) {
         player.defaultEmotion = "😊";
@@ -42,6 +59,7 @@ function gameLogic() {
         healthEmoji = hearts.default;
     }
 
+    // entity logic
     for (let entity of gameData.entities) {
         entity.update(map);
     }
@@ -202,17 +220,17 @@ function updateAdjacent() {
     let yPos = Math.round(player.y);
     
     player.adjacent = [
-        getTileSafe(xPos-1, yPos-1),  // Top-left
+        getTileSafe(xPos-1, yPos-1),   // Top-left
         getTileSafe(xPos,   yPos-1),   // Top-center
-        getTileSafe(xPos+1, yPos-1),  // Top-right
+        getTileSafe(xPos+1, yPos-1),   // Top-right
         
         getTileSafe(xPos-1, yPos),     // Left
         getTileSafe(xPos,   yPos),     // Center (player position)
         getTileSafe(xPos+1, yPos),     // Right
         
-        getTileSafe(xPos-1, yPos+1),  // Bottom-left
+        getTileSafe(xPos-1, yPos+1),   // Bottom-left
         getTileSafe(xPos,   yPos+1),   // Bottom-center
-        getTileSafe(xPos+1, yPos+1)   // Bottom-right
+        getTileSafe(xPos+1, yPos+1)    // Bottom-right
     ];
 }
 
@@ -252,7 +270,9 @@ function updateCraftingPossibilities() {
                 for (let j = 0; j < player.inventory[i].length; j++) {
                     if (
                         player.inventory[i][j] === ingredient &&
-                        (required === "" || player.adjacent.includes(required))
+                        (required === "" ||
+                        player.adjacent.includes(required) ||
+                        player.accessories.flat().includes(required))
                     ) {
                         hasAtLeastOneIngredient = true;
                     }
@@ -340,11 +360,24 @@ function surroundings(dx,dy) {
         player.burning = 0;
     }
 
+    // Drowning
+    if (player.level == -1 && water.includes(tile)) {
+        player.isDrowning = true;
+    } else {
+        player.isDrowning = false;
+    }
+
     // Map transitioning
     if (player.isShifting && tile == "🕳️") {
         changeLevel(-1);
     }
     if (player.isJumping && tile == "🪜") {
+        changeLevel(0);
+    }
+    if (player.level == 0 && player.isShifting && water.includes(tile)) {
+        changeLevel(-1);
+    }
+    if (player.level == -1 && player.isJumping && water.includes(tile)) {
         changeLevel(0);
     }
 
@@ -355,6 +388,17 @@ function surroundings(dx,dy) {
     let yHover = Math.round(mouseY/emojiSize);
     let gridX = Math.round(width/emojiSize);
     let gridY = Math.round(height/emojiSize);
+    let x = Math.floor(player.x - gridX / 2) + xHover;
+    let y = Math.floor(player.y - gridY / 2) + yHover;
+
+    // Trash bin
+    if (leftClick && map[x][y] == "🗑️") {
+        player.itemDrag = {
+            item: "",
+            value: 0
+        }
+        player.hoverText = "";
+    }
 
     // Eating priority
     if (!player.inventoryOpen) {
@@ -379,9 +423,6 @@ function surroundings(dx,dy) {
             if (distance <= 7) {
                 // Block breaking logic
                 player.correctTool = true;
-
-                let x = Math.floor(player.x - gridX / 2) + xHover;
-                let y = Math.floor(player.y - gridY / 2) + yHover;
 
                 let block = map[x][y];
                 let Tile = objectProperties[block];

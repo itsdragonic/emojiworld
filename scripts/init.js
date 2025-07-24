@@ -15,7 +15,6 @@ var MAP_HEIGHT = 200;
 var seed = "a";
 
 let emojiSize = 20;
-
 const font = Object.freeze({
     default: "Roboto Bold",
     apple: "Apple Color Emoji",
@@ -35,30 +34,47 @@ const specialFontConditions = {
 };
 
 let useFont = font.default;
+let isFontLoading = false;
 
-document.getElementById("fontSelect").addEventListener("change", (e) => {
+document.getElementById("fontSelect").addEventListener("change", async (e) => {
+    if (isFontLoading) return;
+    isFontLoading = true;
+    
     const selectedKey = e.target.value;
     useFont = font[selectedKey] || font.default;
-    setFontAndDraw(useFont);
+
+    try {
+        await setFontAndDraw(useFont);
+    } finally {
+        isFontLoading = false;
+    }
 });
 
 async function setFontAndDraw(fontName) {
-    // Tell browser to load the font if it's not yet
-    await document.fonts.load(`16px "${fontName}"`);
+    // Load font with fallback
+    const fontString = `16px "${fontName}"`;
+    try {
+        await document.fonts.load(fontString);
+        if (!document.fonts.check(fontString)) {
+            console.warn(`Font ${fontName} not loaded, using fallback`);
+        }
+    } catch (e) {
+        console.error("Font loading error:", e);
+    }
+
+    // Apply special conditions before redraw
+    const specialConditions = specialFontConditions[fontName] || {};
+    const oldWalk = character.walkRight;
+    const oldSprint = character.sprintRight;
+    
+    character.walkRight = specialConditions.walkRight || oldWalk;
+    character.sprintRight = specialConditions.sprintRight || oldSprint;
+
+    // Force redraw
+    loadScreen();
+    
+    // Wait for fonts to be fully ready
     await document.fonts.ready;
-
-    useFont = fontName;
-
-    let specialConditions = specialFontConditions[fontName];
-    if (specialConditions.walkRight) {
-        character.walkRight = specialConditions.walkRight;
-    }
-    if (specialConditions.sprintRight) {
-        character.sprintRight = specialConditions.sprintRight;
-    }
-
-    // Now you can safely redraw canvas
-    loadScreen(); // Replace with your drawing function
 }
 
 

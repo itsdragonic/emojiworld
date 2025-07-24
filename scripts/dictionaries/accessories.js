@@ -1,4 +1,8 @@
 var accessoriesProperties = {
+    "🧰": {
+        name: "Toolbox",
+        description: "Use to craft more advanced items"
+    },
     "🍀": {
         name: "Four-Leaf Clover",
         description: "When in accessory bar, it gives the player better odds for RNG events (such as loot drops)"

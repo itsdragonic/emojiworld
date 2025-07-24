@@ -367,13 +367,23 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         }
 
         /* Stat Bars */
-        // Health Bar
         let healthSize = emojiSize;
         ctx.font = healthSize + "px " + useFont;
+
+        // Health Bar
         for (let i = 0; i < player.maxHealth; i++) {
             let x = 15 + i * (healthSize + 4);
             let health = i < player.health ? healthEmoji : "🖤";
             ctx.fillText(health, x, 15);
+        }
+
+        // Breath Bar
+        if (player.isDrowning) {
+            for (let i = 0; i < player.maxBreath; i++) {
+                let x = 15 + i * (healthSize + 4);
+                let health = i < player.breath ? "🫧" : "⚫";
+                ctx.fillText(health, x, emojiSize + 19);
+            }
         }
 
         // Hunger Bar

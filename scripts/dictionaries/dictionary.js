@@ -1108,7 +1108,7 @@ var objectProperties = {
         name: "Melon",
         canBeWalkedOn: true,
         durability: 4,
-        toolRequired: "👊",
+        toolRequired: "🪓",
         loot: "🍉"
     },
     "🚪": {
@@ -1198,6 +1198,22 @@ var objectProperties = {
         toolRequired: "⛏️",
         loot: "🗿"
     },
+    "🗿b": {
+        name: "Big Stone Statue",
+        description: "🍷🗿",
+        canBeWalkedOn: false,
+        durability: 15,
+        toolRequired: "⛏️",
+        loot: "🗿"
+    },
+    "🗿g": {
+        name: "Giant Stone Statue",
+        description: "🍷🗿",
+        canBeWalkedOn: false,
+        durability: 20,
+        toolRequired: "⛏️",
+        loot: "🗿"
+    },
     "⛲": {
         name: "Fountain",
         description: "Toss a coin in for good luck!",
@@ -1252,9 +1268,9 @@ var objectProperties = {
     },
     "🗑️": {
         name: "Trash Bin",
-        description: "Stand on me to remove items",
+        description: "Grab item from inventory and left click it to delete item",
         canBeWalkedOn: true,
-        durability: 10,
+        durability: 4,
         toolRequired: "⛏️",
         loot: "🗑️"
     },
