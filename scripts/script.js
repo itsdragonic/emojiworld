@@ -29,10 +29,6 @@ var background = {
 var hotbarText = "";
 var hotbarTextTime = 0;
 
-// Mouse clicks
-var leftClick = false;
-var rightClick = false;
-
 // Entities
 gameData.entities.push(new Chicken(60, 100));
 
@@ -397,6 +393,28 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             let x = width - 15 - (i * (healthSize + 4));
             let health = i < player.thirst ? "💧" : "⚫";
             ctx.fillText(health, x, emojiSize + 19);
+        }
+
+        // Hover text
+        if (player.hoverText != "" && player.hoverText !== "0") {
+            ctx.save();
+            let metrics = ctx.measureText("hello");
+            let width = metrics.width;
+            let padding = 4;
+            let offset = 8;
+
+            // Correct for emoji width
+            if (player.hoverText.length === 2 && /^\p{Emoji}$/u.test(player.hoverText)) {
+                width = emojiSize;
+                padding = 8;
+            }
+
+            ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
+            drawRoundedBox(ctx,mouseX + offset,mouseY,width + padding,emojiSize + padding,4);
+            ctx.textAlign = 'left';
+            ctx.fillStyle = 'black';
+            ctx.fillText(player.hoverText,mouseX + padding/2 + offset,mouseY + emojiSize/2 + padding/2)
+            ctx.restore();
         }
 
         gameLogic();

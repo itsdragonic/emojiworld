@@ -14,6 +14,8 @@ function gameLogic() {
         hunger(-1);
     }
 
+    if (timeSinceDragging > 0) timeSinceDragging --;
+
     // Default Emotion
     if (player.hunger < 4 || player.thirst < 4) {
         player.defaultEmotion = "😵‍💫";

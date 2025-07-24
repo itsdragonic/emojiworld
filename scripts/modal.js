@@ -1,38 +1,43 @@
 let isGeneratingWorld = false;
 
+// Mouse clicks
+var leftClick = false;
+var rightClick = false;
+var timeSinceDragging = 0;
+
 const emojiOptions = {
-  first: [
-    { emoji: "😜", weight: 4 },
-    { emoji: "😎", weight: 3 },
-    { emoji: "🤪", weight: 2 },
-    { emoji: "😆", weight: 1 },
-    { emoji: "🙃", weight: 1 }
-  ],
-  second: [
-    { emoji: "🌎", weight: 3 },
-    { emoji: "🌍", weight: 3 },
-    { emoji: "🌏", weight: 3 },
-  ]
+    first: [
+        { emoji: "😜", weight: 4 },
+        { emoji: "😎", weight: 3 },
+        { emoji: "🤪", weight: 2 },
+        { emoji: "😆", weight: 1 },
+        { emoji: "🙃", weight: 1 }
+    ],
+    second: [
+        { emoji: "🌎", weight: 3 },
+        { emoji: "🌍", weight: 3 },
+        { emoji: "🌏", weight: 3 },
+    ]
 };
 
 function getWeightedRandom(options) {
-  const totalWeight = options.reduce((sum, item) => sum + item.weight, 0);
-  let random = Math.random() * totalWeight;
-  
-  for (const item of options) {
-    if (random < item.weight) return item.emoji;
-    random -= item.weight;
-  }
-  
-  return options[0].emoji;
+    const totalWeight = options.reduce((sum, item) => sum + item.weight, 0);
+    let random = Math.random() * totalWeight;
+
+    for (const item of options) {
+        if (random < item.weight) return item.emoji;
+        random -= item.weight;
+    }
+
+    return options[0].emoji;
 }
 
 // Generate logo text
 function generateLogoText() {
-  const firstEmoji = getWeightedRandom(emojiOptions.first);
-  const secondEmoji = getWeightedRandom(emojiOptions.second);
-  
-  return `EM${firstEmoji}Jℹ️ W${secondEmoji}RLD`;
+    const firstEmoji = getWeightedRandom(emojiOptions.first);
+    const secondEmoji = getWeightedRandom(emojiOptions.second);
+
+    return `EM${firstEmoji}Jℹ️ W${secondEmoji}RLD`;
 }
 
 // Load title screen
@@ -275,32 +280,56 @@ function drawInventory() {
 
     // Inventory items
     let xinvStart = x + sideBarWidth + 20;
-    let xinv = xinvStart;
-    let yinv = y + 50;
+    let yinvStart = y + 50;
+
+    let mx = mouseX;
+    let my = mouseY;
+
+    ctx.font = '18px ' + useFont + ', Arial';
     for (let i = 0; i < player.inventory.length; i++) {
         for (let j = 0; j < player.inventory[i].length; j++) {
+            // Compute per-slot position
+            const slotX = xinvStart + j * (slotSize + gapSize);
+            const slotY = yinvStart + i * (slotSize + gapSize);
+
+            // Draw slot background
             ctx.fillStyle = 'rgba(160, 160, 160, 0.3)';
-            drawRoundedBox(ctx, xinv, yinv, slotSize, slotSize, radius);
-            ctx.fill();
+            drawRoundedBox(ctx, slotX, slotY, slotSize, slotSize, radius);
 
-            // Draw item
-            ctx.font = '18px ' + useFont + ', Arial';
-            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-            let Xinv = xinv + 6;
-            let Yinv = yinv + slotSize/2;
-            ctx.fillText(player.inventory[i][j],Xinv,Yinv);
+            // Detect hover
+            if (mx >= slotX && mx <= slotX + slotSize &&
+                my >= slotY && my <= slotY + slotSize) {
 
-            // Draw item amount
-            let value = player.inventoryValue[i][j];
-            ctx.font = '18px Arial';
-            if (value && value > 1) {
-                ctx.fillText(player.inventoryValue[i][j],Xinv + 16,Yinv + 12);
+                // Dragging item logic
+                if ((leftClick || rightClick) && timeSinceDragging == 0) {
+                    let item = player.itemDrag.item;
+                    let value = player.itemDrag.value;
+                    player.itemDrag.item = player.inventory[i][j];
+                    player.itemDrag.value = player.inventoryValue[i][j];
+                    player.inventory[i][j] = item;
+                    player.inventoryValue[i][j] = value;
+                    player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
+                    timeSinceDragging = 20;
+                }
             }
 
-            xinv += slotSize + gapSize;
+            // Draw item
+            const item = player.inventory[i][j];
+            if (item) {
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(item, slotX + 6, slotY + slotSize / 2);
+
+                // Draw amount if more than 1
+                const value = player.inventoryValue[i][j];
+                if (value && value > 1) {
+                    ctx.font = '14px Arial';
+                    ctx.fillStyle = 'white';
+                    ctx.fillText(value, slotX + slotSize - 12, slotY + slotSize - 8);
+                }
+            }
         }
-        xinv = xinvStart;
-        yinv += slotSize + gapSize;
     }
 
     // Accessory items

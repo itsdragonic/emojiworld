@@ -36,6 +36,7 @@ var player = {
     fireCooldown: 0,
     burning: 0,
     hotbarSelected: 0,
+    hoverText: "",
     inventoryOpen: false,
     inventory: [
         ["🪓", "⛏️", "🥄", "", "", "", "", "", "", ""],
@@ -60,6 +61,10 @@ var player = {
         ["", "", "", "", "", "", "", "", "", ""]
     ],
     armor: ["", "👕", "👖", "👞"],
+    itemDrag: {
+        item: "",
+        value: 0
+    },
     defaultEmotion: "😊",
     emotion: "",
     emotionTime: 0
