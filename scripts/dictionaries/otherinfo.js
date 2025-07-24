@@ -39,7 +39,7 @@ var player = {
     hoverText: "",
     inventoryOpen: false,
     inventory: [
-        ["🪓", "⛏️", "🥄", "", "", "", "", "", "", ""],
+        ["🪓", "⛏️", "🧰", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],
@@ -65,6 +65,9 @@ var player = {
         item: "",
         value: 0
     },
+    adjacent: [],
+    canCraft: [],
+    possiblyCraft: [],
     defaultEmotion: "😊",
     emotion: "",
     emotionTime: 0

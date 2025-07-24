@@ -56,6 +56,12 @@ var craftingDictionary = {
     "🪑": {
         name: "Chair",
         itemsNeeded: ["🪵"],
+        amountsNeeded: [2],
+        required: "🧰",
+    },
+    "🚪": {
+        name: "Door",
+        itemsNeeded: ["🪵"],
         amountsNeeded: [3],
         required: "🧰",
     },

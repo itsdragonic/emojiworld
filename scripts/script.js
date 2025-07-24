@@ -92,6 +92,9 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             dx *= norm;
             dy *= norm;
         }
+        if (dx !== 0 || dy !== 0) {
+            updateAdjacent();
+        }
 
         surroundings(dx,dy);
     }
@@ -344,7 +347,10 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         }
 
         // Inventory
-        if (player.inventoryOpen) drawInventory();
+        if (player.inventoryOpen) {
+            updateCraftingPossibilities();
+            drawInventory();
+        }
 
         // Text above hotbar
         if (hotbarTextTime > 0) {

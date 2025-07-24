@@ -76,6 +76,7 @@ function changeLevel(lvl) {
             map = moon_map;
             break;
     }
+    updateAdjacent();
 }
 
 function dim() {
@@ -194,6 +195,77 @@ function findName(item) {
     else if (objectProperties[item]) return objectProperties[item].name;
     else if (craftingDictionary[item]) return craftingDictionary[item].name;
     return item;
+}
+
+function updateAdjacent() {
+    let xPos = Math.round(player.x);
+    let yPos = Math.round(player.y);
+    
+    player.adjacent = [
+        getTileSafe(xPos-1, yPos-1),  // Top-left
+        getTileSafe(xPos,   yPos-1),   // Top-center
+        getTileSafe(xPos+1, yPos-1),  // Top-right
+        
+        getTileSafe(xPos-1, yPos),     // Left
+        getTileSafe(xPos,   yPos),     // Center (player position)
+        getTileSafe(xPos+1, yPos),     // Right
+        
+        getTileSafe(xPos-1, yPos+1),  // Bottom-left
+        getTileSafe(xPos,   yPos+1),   // Bottom-center
+        getTileSafe(xPos+1, yPos+1)   // Bottom-right
+    ];
+}
+
+function getTileSafe(x, y) {
+    // Check if coordinates are within map bounds
+    if (x >= 0 && x < map.length && y >= 0 && y < map[0].length) {
+        return map[x][y];
+    }
+    return null; // represents "out of bounds"
+}
+
+function updateCraftingPossibilities() {
+    player.possiblyCraft = [];
+    player.canCraft = [];
+
+    for (const itemName in craftingDictionary) {
+        const craftingRecipe = craftingDictionary[itemName];
+        const { itemsNeeded, amountsNeeded, required } = craftingRecipe;
+
+        let requirementsMet = 0;
+        let hasAtLeastOneIngredient = false;
+
+        if (required !== "") {
+            updateAdjacent();
+        }
+
+        for (let h = 0; h < itemsNeeded.length; h++) {
+            const ingredient = itemsNeeded[h];
+            const amount = amountsNeeded[h];
+
+            if (testFor(ingredient, amount)) {
+                requirementsMet++;
+            }
+
+            // Check if player has at least one of this ingredient
+            for (let i = 0; i < player.inventory.length; i++) {
+                for (let j = 0; j < player.inventory[i].length; j++) {
+                    if (
+                        player.inventory[i][j] === ingredient &&
+                        (required === "" || player.adjacent.includes(required))
+                    ) {
+                        hasAtLeastOneIngredient = true;
+                    }
+                }
+            }
+        }
+
+        if (requirementsMet === itemsNeeded.length) {
+            player.canCraft.push(itemName);
+        } else if (hasAtLeastOneIngredient) {
+            player.possiblyCraft.push(itemName);
+        }
+    }
 }
 
 function hunger(value) {

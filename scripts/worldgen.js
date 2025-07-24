@@ -441,7 +441,9 @@ function generateWorld() {
             // bamboo forest
             else if (biome_map[i][j] == "🎋") {
                 let chance = rng();
-                if (chance < 0.02) {
+                if (chance < 0.004) {
+                    row.push("🍈");
+                } else if (chance < 0.1) {
                     row.push("🎋");
                 } else {
                     row.push("");

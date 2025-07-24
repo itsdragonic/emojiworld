@@ -457,5 +457,60 @@ function drawInventory() {
         yarmor += slotSize + gapSize;
     }
 
+    // Crafting System
+    const maxCraftingColumns = 8; // Items per row
+
+    let currentX = craftingX + 10;
+    let currentY = craftingY + 40;
+
+    ctx.font = `18px ${useFont}, Arial`;
+
+    const craftableColor = 'rgba(104, 104, 104, 0.3)';
+    const uncraftableColor = 'rgba(198, 75, 75, 0.3)';
+
+    let mergedCrafts = player.canCraft.concat(player.possiblyCraft);
+
+    for (let i = 0; i < mergedCrafts.length; i++) {
+        const col = i % maxCraftingColumns;
+        const row = Math.floor(i / maxCraftingColumns);
+
+        const xPos = currentX + col * (slotSize + gapSize);
+        const yPos = currentY + row * (slotSize + gapSize);
+
+        let canCraft;
+        if (i < player.canCraft.length) {
+            ctx.fillStyle = craftableColor;
+            canCraft = true;
+        } else {
+            ctx.fillStyle = uncraftableColor;
+            canCraft = false;
+        }
+
+        drawRoundedBox(ctx, xPos, yPos, slotSize, slotSize, radius);
+
+        // Crafting logic
+        if (mx >= xPos && mx <= xPos + slotSize &&
+            my >= yPos && my <= yPos + slotSize) {
+            //player.hoverText = mergedCrafts[i];
+            if (leftClick || rightClick && timeSinceDragging == 0) {
+                if (canCraft) {
+                    // Remove ingredients
+                    const recipe = craftingDictionary[mergedCrafts[i]];
+
+                    for (let i = 0; i < recipe.itemsNeeded.length; i++) {
+                        removeInventory(recipe.itemsNeeded[i], recipe.amountsNeeded[i]);
+                    }
+
+                    addInventory(mergedCrafts[i], 1);
+                }
+            }
+        }
+
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(mergedCrafts[i], xPos + 6, yPos + slotSize / 2);
+    }
+
     ctx.restore();
 }
