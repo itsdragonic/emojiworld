@@ -125,6 +125,13 @@ var objectProperties = {
         toolRequired: "👊",
         loot: "🍂"
     },
+    "🍂s": {
+        name: "Fallen Leaves",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "🍂"
+    },
     "🌱": {
         name: "Seedling",
         canBeWalkedOn: true,
@@ -279,14 +286,21 @@ var objectProperties = {
         toolRequired: "👊",
         loot: "🪻"
     },
-     "🪷": {
+    "🪷": {
         name: "Lotus",
         canBeWalkedOn: true,
         durability: 1,
         toolRequired: "👊",
         loot: "🪷"
     },
-     "🪺": {
+    "🪺": {
+        name: "Nest",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: ""
+    },
+    "🪺": {
         name: "Bird Nest",
         canBeWalkedOn: true,
         durability: 2,
@@ -318,7 +332,14 @@ var objectProperties = {
     "🪨": {
         name: "Stone",
         canBeWalkedOn: false,
-        durability: 5,
+        durability: 4,
+        toolRequired: "⛏️",
+        loot: "🪨"
+    },
+    "🪨b": {
+        name: "Boulder",
+        canBeWalkedOn: false,
+        durability: 6,
         toolRequired: "⛏️",
         loot: "🪨"
     },
@@ -1147,7 +1168,7 @@ var objectProperties = {
         loot: "💎"
     },
     "🪙": {
-        name: "Precious Metal",
+        name: "Metal",
         canBeWalkedOn: false,
         durability: 10,
         toolRequired: "⛏️",
@@ -1289,6 +1310,27 @@ var objectProperties = {
         durability: 1,
         toolRequired: "👊",
         loot: "🍄‍🟫"
+    },
+    "🍄s": {
+        name: "Small Red Mushroom",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "🍄"
+    },
+    "🍄‍🟫s": {
+        name: "Small Brown Mushroom",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "🍄‍🟫"
+    },
+    "🕸️": {
+        name: "Web",
+        canBeWalkedOn: true,
+        durability: 4,
+        toolRequired: "👊",
+        loot: "🕸️"
     },
     "🔮": {
         name: "Crystal Ball",

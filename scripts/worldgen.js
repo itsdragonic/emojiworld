@@ -320,7 +320,7 @@ function generateWorld() {
             // woods
             else if (biome_map[i][j] == "🌱") {
                 let chance = rng();
-                if (chance < 0.0001) {
+                if (chance < 0.00015) {
                     row.push("🍀");
                 } else if (chance < 0.003) {
                     row.push("☘️");
@@ -345,10 +345,12 @@ function generateWorld() {
             // forest
             else if (biome_map[i][j] == "🌳") {
                 let chance = rng();
-                if (chance < 0.0001) {
+                if (chance < 0.00009) {
                     row.push("🍀");
-                } else if (chance < 0.002) {
+                } else if (chance < 0.001) {
                     row.push("🪺");
+                } else if (chance < 0.002) {
+                    row.push("🪹");
                 } else if (chance < 0.003) {
                     row.push("☘️");
                 } else if (chance < 0.001) {
@@ -407,8 +409,10 @@ function generateWorld() {
                     row.push("🪨");
                 } else if (chance < 0.02) {
                     row.push("🏖️");
-                } else if (chance < 0.1) {
+                } else if (chance < 0.03) {
                     row.push("🌴");
+                } else if (chance < 0.1) {
+                    row.push("🌴b");
                 } else if (chance < 0.2) {
                     row.push("𓂃");
                 } else if (chance < 0.4) {

@@ -76,6 +76,8 @@ function caveGen() {
                     row.push("🪙");
                 } else if (chance < 0.02) {
                     row.push("🔩");
+                } else if (chance < 0.4) {
+                    row.push("🪨b");
                 } else {
                     row.push("🪨")
                 }

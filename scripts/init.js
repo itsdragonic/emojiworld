@@ -37,8 +37,6 @@ async function setFontAndDraw(fontName) {
 
     useFont = fontName;
 
-    console.log("Font loaded:", useFont);
-
     // Now you can safely redraw canvas
     loadScreen(); // Replace with your drawing function
 }

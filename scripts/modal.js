@@ -300,5 +300,46 @@ function drawInventory() {
         yinv += slotSize + gapSize;
     }
 
+    // Accessory items
+    let xaccStart = x + sideBarWidth + 20;
+    let xacc = xinvStart;
+    let yacc = y + 7*(slotSize+gapSize) + 90 + 20;
+    for (let i = 0; i < player.accessories.length; i++) {
+        for (let j = 0; j < player.accessories[i].length; j++) {
+            ctx.fillStyle = 'rgba(160, 160, 160, 0.3)';
+            drawRoundedBox(ctx, xacc, yacc, slotSize, slotSize, radius);
+            ctx.fill();
+
+            // Draw item
+            ctx.font = '18px ' + useFont + ', Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            let Xinv = xacc + 6;
+            let Yinv = yacc + slotSize/2;
+            ctx.fillText(player.accessories[i][j],Xinv,Yinv);
+
+            xacc += slotSize + gapSize;
+        }
+        xacc = xaccStart;
+        yacc += slotSize + gapSize;
+    }
+
+    // Armor slots
+    let xarmor = x + 10;
+    let yarmor = y + 70;
+    for (let i = 0; i < player.armor.length; i++) {
+        ctx.fillStyle = 'rgba(104, 104, 104, 0.3)';
+        drawRoundedBox(ctx, xarmor, yarmor, slotSize, slotSize, radius);
+        ctx.fill();
+
+        // Draw item
+        ctx.font = '18px ' + useFont + ', Arial';
+        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+        let Xinv = xarmor + 6;
+        let Yinv = yarmor + slotSize/2;
+        ctx.fillText(player.armor[i],Xinv,Yinv);
+
+        yarmor += slotSize + gapSize;
+    }
+    
     ctx.restore();
 }
