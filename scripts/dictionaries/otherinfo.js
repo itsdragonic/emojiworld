@@ -12,10 +12,11 @@ var character = {
 
 // Creating Player
 var player = {
+    level: 0,
     maxHealth: 10,
     health: 10,
-    maxFood: 10,
-    food: 10,
+    maxHunger: 10,
+    hunger: 10,
     maxSaturation: 10,
     saturation: 5,
     maxThirst: 10,

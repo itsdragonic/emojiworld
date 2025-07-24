@@ -1,25 +1,25 @@
 function gameLogic() {
     // Time related events
-    if (time >= 1000) {
-        time = 0;
-        day ++;
+    if (gameData.time >= 1000) {
+        gameData.time = 0;
+        gameData.day ++;
     }
-    else time++;
+    else gameData.time++;
     
-    if (time % 900 == 0 && player.isSprinting) hunger(-1);
-    if (time % 400 == 0 && player.food == 0) damage(1);
+    if (gameData.time % 900 == 0 && player.isSprinting) hunger(-1);
+    if (gameData.time % 400 == 0 && player.hunger == 0) damage(1);
 
-    if (time % 200 == 0 && player.health < player.maxHealth && player.food > 0) {
+    if (gameData.time % 200 == 0 && player.health < player.maxHealth && player.hunger > 0) {
         player.health ++;
         hunger(-1);
     }
 
     // Default Emotion
-    if (player.food < 4 || player.thirst < 4) {
+    if (player.hunger < 4 || player.thirst < 4) {
         player.defaultEmotion = "😵‍💫";
-    } else if (level == 0) {
+    } else if (player.level == 0) {
         player.defaultEmotion = "😊";
-    } else if (level == -1) {
+    } else if (player.level == -1) {
         player.defaultEmotion = "😓";
     }
 
@@ -47,7 +47,7 @@ function gameLogic() {
 
 // Map related events
 function changeLevel(lvl) {
-    level = lvl;
+    player.level = lvl;
     switch (lvl) {
         case 0:
             map = overworld_map;
@@ -77,7 +77,7 @@ function changeLevel(lvl) {
 }
 
 function dim() {
-    switch (level) {
+    switch (player.level) {
         case 0:
             return overworld_map;
             break;
@@ -206,12 +206,12 @@ function hunger(value) {
             player.emotionTime = 400;
         }
         
-        const remainingSpace = player.maxFood - player.food;
+        const remainingSpace = player.maxHunger - player.hunger;
         if (remainingSpace >= value) {
-            player.food += value;
+            player.hunger += value;
             return; // Food health increased successfully
         } else {
-            player.food = player.maxFood;
+            player.hunger = player.maxHunger;
             value -= remainingSpace;
         }
 
@@ -230,10 +230,10 @@ function hunger(value) {
         if (player.saturation > 0) {
             player.saturation += value;
         } else {
-            if (player.food >= -value) {
-                player.food += value;
+            if (player.hunger >= -value) {
+                player.hunger += value;
             } else {
-                player.food = 0;
+                player.hunger = 0;
             }
         }
     }

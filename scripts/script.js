@@ -1,12 +1,13 @@
 var map = overworld_map;
-var level = 0;
 
 var itemHeld;
 let pressedKeys = new Set();
 
 // Time
-var time = 0;
-var day = 1;
+var gameData = {
+    time: 0,
+    day: 1
+}
 
 // Hearts
 var hearts = {
@@ -145,7 +146,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     }
 
                     // Ladders
-                    if (level == 0 && cave1_map[mapX][mapY] == "🪜") {
+                    if (player.level == 0 && cave1_map[mapX][mapY] == "🪜") {
                         emoji = "🕳️b";
                     }
 
@@ -159,6 +160,10 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     } else if (emoji.at(-1) == "s") {
                         ctx.font = (emojiSize * 0.75) + "px " + useFont + ", Arial";
                         emoji = emoji.slice(0,-1);
+                    }
+                    // Normal characters
+                    else if (emoji.includes("*")) {
+                        ctx.font = emojiSize + "px Arial";
                     } else {
                         ctx.font = emojiSize + "px " + useFont + ", Arial";
                     }
@@ -381,9 +386,9 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         }
 
         // Hunger Bar
-        for (let i = 0; i < player.maxFood; i++) {
+        for (let i = 0; i < player.maxHunger; i++) {
             let x = width - 15 - (i * (healthSize + 4));
-            let health = i < player.food ? "🍗" : "⚫";
+            let health = i < player.hunger ? "🍗" : "⚫";
             ctx.fillText(health, x, 15);
         }
 

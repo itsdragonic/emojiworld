@@ -19,7 +19,9 @@ const font = Object.freeze({
     twemoji: "Twemoji",
     openmoji: "Open Moji Color",
     notocolor: "Noto Color Emoji",
-    whatsapp: "WhatsApp Emoji"
+    whatsapp: "WhatsApp Emoji",
+    serenity: "SerenityOS",
+    joypixels: "JoyPixels"
 });
 
 let useFont = font.default;

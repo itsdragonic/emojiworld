@@ -150,3 +150,19 @@ canvas {
     font-style: normal;
     display: swap;
 }
+
+@font-face {
+    font-family: "SerenityOS";
+    src: url("fonts/SerenityOS-Emoji.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    display: swap;
+}
+
+@font-face {
+    font-family: "JoyPixels";
+    src: url("fonts/joypixels-android.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    display: swap;
+}
