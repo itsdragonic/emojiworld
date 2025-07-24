@@ -208,14 +208,17 @@ function drawRoundedBox(ctx, x, y, width, height, radius = 10, nw = true, ne = t
 }
 
 function drawInventory() {
-    const iwidth = width * 0.6;
-    const iheight = height * 0.7;
-    const x = (width - iwidth) / 2;
-    const y = (height - iheight) / 2;
-    const radius = 6;
-    const sideBarWidth = 120;
     const slotSize = emojiSize * 1.75;
     const gapSize = 5;
+    const radius = 6;
+    const sideBarWidth = 120;
+    const topBarWidth = 35;
+    const craftingSize = 4;
+
+    const iwidth = sideBarWidth + (slotSize + gapSize) * (player.inventory.length + craftingSize) + 360;
+    const iheight = topBarWidth + (slotSize + gapSize) * (player.inventory[0].length + 2) - 30;
+    const x = (width - iwidth) / 2;
+    const y = (height - iheight) / 2;
     
     // Main inventory background
     ctx.save();
@@ -224,7 +227,7 @@ function drawInventory() {
 
     // Top horizontal bar
     ctx.fillStyle = 'rgba(160, 160, 160, 0.4)';
-    drawRoundedBox(ctx,x+sideBarWidth,y,iwidth-sideBarWidth,35,radius,false,true,false,false);
+    drawRoundedBox(ctx,x+sideBarWidth,y,iwidth-sideBarWidth,topBarWidth,radius,false,true,false,false);
 
     // Left vertical bar
     ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
@@ -257,8 +260,8 @@ function drawInventory() {
     // Crafting box
     const craftingX = x + iwidth * 0.6;
     const craftingY = y + 50;
-    const craftingWidth = iwidth * 0.39;
-    const craftingHeight = iheight - 60;
+    const craftingWidth = iwidth * 0.385;
+    const craftingHeight = iheight - 70;
 
     ctx.fillStyle = 'rgba(64, 64, 64, 0.58)';
     drawRoundedBox(ctx,craftingX,craftingY,craftingWidth,craftingHeight,radius);

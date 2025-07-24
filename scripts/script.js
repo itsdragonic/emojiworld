@@ -6,7 +6,8 @@ let pressedKeys = new Set();
 // Time
 var gameData = {
     time: 0,
-    day: 1
+    day: 1,
+    entities: []
 }
 
 // Hearts
@@ -33,8 +34,7 @@ var leftClick = false;
 var rightClick = false;
 
 // Entities
-let entities = [];
-entities.push(new Chicken(60, 100));
+gameData.entities.push(new Chicken(60, 100));
 
 // Custom fonts
 document.fonts.load("32px Apple Color Emoji").then(() => {
@@ -172,7 +172,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                 }
 
                 // Draw entities
-                for (let entity of entities) {
+                for (let entity of gameData.entities) {
                     if (Math.round(entity.x) == mapX && Math.round(entity.y) == mapY) {
                         entity.draw(ctx, i * emojiSize - offsetX, j * emojiSize - offsetY);
                     }

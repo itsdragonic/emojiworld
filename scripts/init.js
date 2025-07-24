@@ -5,6 +5,9 @@ var height = window.innerHeight;
 canvas.width = width;
 canvas.height = height;
 
+//console.log(`${width} + ${height}`);
+//1536 + 691
+
 // How big the world is
 var MAP_WIDTH = 200;
 var MAP_HEIGHT = 200;

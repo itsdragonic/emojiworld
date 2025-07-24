@@ -40,7 +40,7 @@ function gameLogic() {
         healthEmoji = hearts.default;
     }
 
-    for (let entity of entities) {
+    for (let entity of gameData.entities) {
         entity.update(map);
     }
 }
