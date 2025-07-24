@@ -27,6 +27,13 @@ const font = Object.freeze({
     joypixels: "JoyPixels"
 });
 
+const specialFontConditions = {
+    [font.twemoji]: { walkRight: "🚶", sprintRight: "🏃" },
+    [font.openmoji]: { walkRight: "🚶", sprintRight: "🏃" },
+    [font.notocolor]: { walkRight: "🚶", sprintRight: "🏃" },
+    [font.serenity]: { walkRight: "🚶", sprintRight: "🏃" }
+};
+
 let useFont = font.default;
 
 document.getElementById("fontSelect").addEventListener("change", (e) => {
@@ -41,6 +48,14 @@ async function setFontAndDraw(fontName) {
     await document.fonts.ready;
 
     useFont = fontName;
+
+    let specialConditions = specialFontConditions[fontName];
+    if (specialConditions.walkRight) {
+        character.walkRight = specialConditions.walkRight;
+    }
+    if (specialConditions.sprintRight) {
+        character.sprintRight = specialConditions.sprintRight;
+    }
 
     // Now you can safely redraw canvas
     loadScreen(); // Replace with your drawing function

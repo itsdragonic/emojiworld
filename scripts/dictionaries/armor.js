@@ -14,11 +14,6 @@ var armorProperties = {
         protection: 4,
         slot: 0,
     },
-    "💫": {
-        name: "Star Crown",
-        protection: 20,
-        slot: 0,
-    },
     "👑": {
         name: "Golden Crown",
         protection: 10,
@@ -44,28 +39,23 @@ var armorProperties = {
         protection: 7,
         slot: 1,
     },
-    "🛡️": {
-        name: "Shield",
-        protection: 3,
-        slot: 4,
-    },
-    "💍": {
-        name: "Diamond Ring",
-        protection: 10,
-        slot: 4,
+    "👞": {
+        name: "Shoes",
+        protection: 2,
+        slot: 3,
     },
     "👟": {
-        name: "Shoe",
+        name: "Running Shoes",
         protection: 3,
         slot: 3,
     },
     "🥾": {
-        name: "Boot",
+        name: "Boots",
         protection: 5,
         slot: 3,
     },
     "👢": {
-        name: "Tall Boot",
+        name: "Tall Boots",
         protection: 8,
         slot: 3,
     },

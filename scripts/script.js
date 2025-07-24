@@ -257,19 +257,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
                 ctx.save();
                 ctx.globalAlpha = 0.2;
-                ctx.fillStyle = "#cccccc"; // light gray
-                ctx.beginPath();
-                ctx.moveTo(rectX + radius, rectY);
-                ctx.lineTo(rectX + size - radius, rectY);
-                ctx.quadraticCurveTo(rectX + size, rectY, rectX + size, rectY + radius);
-                ctx.lineTo(rectX + size, rectY + size - radius);
-                ctx.quadraticCurveTo(rectX + size, rectY + size, rectX + size - radius, rectY + size);
-                ctx.lineTo(rectX + radius, rectY + size);
-                ctx.quadraticCurveTo(rectX, rectY + size, rectX, rectY + size - radius);
-                ctx.lineTo(rectX, rectY + radius);
-                ctx.quadraticCurveTo(rectX, rectY, rectX + radius, rectY);
-                ctx.closePath();
-                ctx.fill();
+                ctx.fillStyle = "#cccccc";
+                drawRoundedBox(ctx,rectX,rectY,size,size,radius);
                 ctx.restore();
             }
 

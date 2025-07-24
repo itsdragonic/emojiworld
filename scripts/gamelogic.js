@@ -185,7 +185,8 @@ function removeInventory(slot, amount) {
 }
 
 function findName(item) {
-    if (itemNames[item]) return itemNames[item].name;
+    if (accessoriesProperties[item]) return accessoriesProperties[item].name;
+    else if (itemNames[item]) return itemNames[item].name;
     else if (weaponProperties[item]) return weaponProperties[item].name;
     else if (armorProperties[item]) return armorProperties[item].name;
     else if (foodProperties[item]) return foodProperties[item].name;

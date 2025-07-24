@@ -304,10 +304,16 @@ function drawInventory() {
                 if ((leftClick || rightClick) && timeSinceDragging == 0) {
                     let item = player.itemDrag.item;
                     let value = player.itemDrag.value;
-                    player.itemDrag.item = player.inventory[i][j];
-                    player.itemDrag.value = player.inventoryValue[i][j];
-                    player.inventory[i][j] = item;
-                    player.inventoryValue[i][j] = value;
+                    if (item == player.inventory[i][j] && !unstackable.includes(item)) {
+                        player.inventoryValue[i][j] += value;
+                        player.itemDrag.item = "";
+                        player.itemDrag.value = 0;
+                    } else {
+                        player.itemDrag.item = player.inventory[i][j];
+                        player.itemDrag.value = player.inventoryValue[i][j];
+                        player.inventory[i][j] = item;
+                        player.inventoryValue[i][j] = value;
+                    }
                     player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
                     timeSinceDragging = 20;
                 }
@@ -315,6 +321,7 @@ function drawInventory() {
 
             // Draw item
             const item = player.inventory[i][j];
+            ctx.font = '18px ' + useFont + ', Arial';
             if (item) {
                 ctx.fillStyle = 'white';
                 ctx.textAlign = 'left';
@@ -334,44 +341,121 @@ function drawInventory() {
 
     // Accessory items
     let xaccStart = x + sideBarWidth + 20;
-    let xacc = xinvStart;
-    let yacc = y + 7*(slotSize+gapSize) + 90 + 20;
+    let yaccStart = y + 7*(slotSize+gapSize) + 90 + 20;
+
+    ctx.font = '18px ' + useFont + ', Arial';
     for (let i = 0; i < player.accessories.length; i++) {
         for (let j = 0; j < player.accessories[i].length; j++) {
+            // Compute per-slot position
+            const slotX = xaccStart + j * (slotSize + gapSize);
+            const slotY = yaccStart + i * (slotSize + gapSize);
+
+            // Draw slot background
             ctx.fillStyle = 'rgba(160, 160, 160, 0.3)';
-            drawRoundedBox(ctx, xacc, yacc, slotSize, slotSize, radius);
-            ctx.fill();
+            drawRoundedBox(ctx, slotX, slotY, slotSize, slotSize, radius);
+
+            // Detect hover
+            if (mx >= slotX && mx <= slotX + slotSize &&
+                my >= slotY && my <= slotY + slotSize) {
+
+                // Dragging item logic
+                if (
+                    (leftClick || rightClick) && 
+                    timeSinceDragging === 0 && 
+                    (Object.hasOwn(accessoriesProperties, player.itemDrag.item) || player.itemDrag.item === "")
+                ) {
+                    let item = player.accessories[i][j];
+                    if (player.itemDrag.value > 1) {
+                        player.accessories[i][j] = player.itemDrag.item;
+                        player.itemDrag.value--;
+                    } else {
+                        player.accessories[i][j] = player.itemDrag.item;
+                        player.itemDrag.item = item;
+                        if (item == "") {
+                            player.itemDrag.value = 0;
+                        } else {
+                            player.itemDrag.value = 1;
+                        }
+                    }
+                    player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
+                    timeSinceDragging = 20;
+                }
+            }
 
             // Draw item
-            ctx.font = '18px ' + useFont + ', Arial';
-            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-            let Xinv = xacc + 6;
-            let Yinv = yacc + slotSize/2;
-            ctx.fillText(player.accessories[i][j],Xinv,Yinv);
-
-            xacc += slotSize + gapSize;
+            const item = player.accessories[i][j];
+            if (item) {
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(item, slotX + 6, slotY + slotSize / 2);
+            }
         }
-        xacc = xaccStart;
-        yacc += slotSize + gapSize;
     }
 
     // Armor slots
     let xarmor = x + 10;
     let yarmor = y + 70;
     for (let i = 0; i < player.armor.length; i++) {
+        // Draw slot background
         ctx.fillStyle = 'rgba(104, 104, 104, 0.3)';
         drawRoundedBox(ctx, xarmor, yarmor, slotSize, slotSize, radius);
-        ctx.fill();
 
-        // Draw item
+        // Detect hover
+        if (mx >= xarmor && mx <= xarmor + slotSize &&
+            my >= yarmor && my <= yarmor + slotSize) {
+
+            // Dragging item logic (with slot validation)
+            if (
+                (leftClick || rightClick) &&
+                timeSinceDragging === 0 &&
+                (Object.hasOwn(armorProperties, player.itemDrag.item) || player.itemDrag.item === "")
+            ) {
+                // Check if the dragged item belongs in this slot
+                const isValidSlot = (
+                    player.itemDrag.item === "" ||
+                    armorProperties[player.itemDrag.item]?.slot === i
+                );
+
+                if (isValidSlot) {
+                    let item = player.armor[i];
+                    if (player.itemDrag.value > 1) {
+                        player.armor[i] = player.itemDrag.item;
+                        player.itemDrag.value--;
+                    } else {
+                        player.armor[i] = player.itemDrag.item;
+                        player.itemDrag.item = item;
+                        player.itemDrag.value = (item === "") ? 0 : 1;
+                    }
+                    player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
+                    timeSinceDragging = 20;
+                } else {
+                    // Show message here that it's the wrong slot
+                }
+            }
+        }
+
+        // Draw item and slot label
+        const item = player.armor[i];
         ctx.font = '18px ' + useFont + ', Arial';
-        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        let Xinv = xarmor + 6;
-        let Yinv = yarmor + slotSize/2;
-        ctx.fillText(player.armor[i],Xinv,Yinv);
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+
+        if (item) {
+            ctx.fillText(item, xarmor + 6, yarmor + slotSize / 2);
+        }
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.font = '12px Arial';
+        ctx.fillText(
+            ["Head", "Chest", "Legs", "Feet"][i] || `Slot ${i}`,
+            xarmor + slotSize + 5,
+            yarmor + slotSize / 2
+        );
 
         yarmor += slotSize + gapSize;
     }
-    
+
     ctx.restore();
 }
