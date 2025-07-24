@@ -56,7 +56,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     
 
     function updatePlayer() {
-        // update player emote
+        // WASD
         let dx = 0, dy = 0;
         if (pressedKeys.has('w')) dy -= player.speed;
         if (pressedKeys.has('s')) {
@@ -72,11 +72,14 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             dx += player.speed;
         }
 
+        // Shift
         if (pressedKeys.has('shift')) {
             player.isShifting = true;
         } else {
             player.isShifting = false;
         }
+
+        // Space
         if (pressedKeys.has(' ')) {
             player.isJumping = true;
             characterEmote = character.cartwheel;
@@ -84,6 +87,11 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.emotionTime = 20;
         } else {
             player.isJumping = false;
+        }
+
+        // Other conditions
+        if (player.level == 1) {
+            characterEmote = character.meditate
         }
 
         // Normalize diagonal movement

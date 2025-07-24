@@ -490,6 +490,62 @@ var objectProperties = {
         toolRequired: "👊",
         loot: "⚡"
     },
+    "🌩️b": {
+        name: "Big Thunder Cloud",
+        description: "Bit stormy outside",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "👊",
+        loot: "⚡"
+    },
+    "⛈️b": {
+        name: "Big Rainy Thunder Cloud",
+        description: "Bit stormy outside",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "👊",
+        loot: "⚡"
+    },
+    "🌩️g": {
+        name: "Giant Thunder Cloud",
+        description: "Bit stormy outside",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "👊",
+        loot: "⚡"
+    },
+    "⛈️g": {
+        name: "Giant Rainy Thunder Cloud",
+        description: "Bit stormy outside",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "👊",
+        loot: "⚡"
+    },
+    "🌨️": {
+        name: "Snow Cloud",
+        description: "Bit snowy outside",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "👊",
+        loot: "❄️"
+    },
+    "🌨️b": {
+        name: "Big Snow Cloud",
+        description: "Bit snowy outside",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "👊",
+        loot: "❄️"
+    },
+    "🌨️g": {
+        name: "Giant Snow Cloud",
+        description: "Bit snowy outside",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "👊",
+        loot: "❄️"
+    },
     "❄️": {
         name: "Snowflake",
         description: "Chilly",
@@ -527,6 +583,11 @@ var objectProperties = {
         durability: 10,
         toolRequired: "⛏️",
         loot: "🪟"
+    },
+    "🌫️g": {
+        name: "Cloud Wall",
+        canBeWalkedOn: false,
+        unbreakable: true
     },
     "🌫️": {
         name: "Marble",

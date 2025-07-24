@@ -581,5 +581,6 @@ function generateWorld() {
             }
         }
     }
+    
     caveGen();
 }

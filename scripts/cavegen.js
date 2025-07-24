@@ -38,7 +38,7 @@ function caveGen() {
                 row.push("🪨g");
             }
             // ocean floor features
-            if (cave_map[i][j] == "🌊") {
+            else if (cave_map[i][j] == "🌊") {
                 let chance = rng();
                 if (chance < 0.00001) {
                     row.push("⚓");
@@ -93,4 +93,6 @@ function caveGen() {
         }
         cave1_map.push(row);
     }
+
+    skyGen();
 }

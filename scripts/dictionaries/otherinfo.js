@@ -7,6 +7,7 @@ var character = {
     kneelLeft: "🧎",
     kneelRight: "🧎‍➡️",
     swim: "🏊",
+    meditate: "🧘",
     cartwheel: "🤸"
 };
 
