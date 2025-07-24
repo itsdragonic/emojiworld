@@ -35,22 +35,8 @@ var rightClick = false;
 let entities = [];
 entities.push(new Chicken(60, 100));
 
-let emojiSize = 20;
-
 // Custom fonts
 document.fonts.load("32px Apple Color Emoji").then(() => {
-
-    const font = Object.freeze({
-        apple: "Apple Color Emoji",
-        twemoji: "Twemoji",
-        openmoji: "Open Moji Color",
-        notocolor: "Noto Color Emoji",
-        android: "Android Emoji",
-        default: "Roboto Bold"
-    });
-
-    // Change emoji font
-    useFont = font.apple;
 
     ctx.font = emojiSize + "px " + useFont + ", Arial";
 
@@ -390,15 +376,22 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         ctx.font = healthSize + "px " + useFont;
         for (let i = 0; i < player.maxHealth; i++) {
             let x = 15 + i * (healthSize + 4);
-            let heart = i < player.health ? healthEmoji : "🖤";
-            ctx.fillText(heart, x, 15);
+            let health = i < player.health ? healthEmoji : "🖤";
+            ctx.fillText(health, x, 15);
         }
 
-        // Hunger Bars
+        // Hunger Bar
         for (let i = 0; i < player.maxFood; i++) {
             let x = width - 15 - (i * (healthSize + 4));
-            let heart = i < player.food ? "🍗" : "⚫";
-            ctx.fillText(heart, x, 15);
+            let health = i < player.food ? "🍗" : "⚫";
+            ctx.fillText(health, x, 15);
+        }
+
+        // Thirst Bar
+        for (let i = 0; i < player.maxThirst; i++) {
+            let x = width - 15 - (i * (healthSize + 4));
+            let health = i < player.thirst ? "💧" : "⚫";
+            ctx.fillText(health, x, emojiSize + 19);
         }
 
         gameLogic();

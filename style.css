@@ -21,7 +21,7 @@ html {
 
 #myInput {
     top: 80%;
-    left: 50%;
+    left: 85%;
     transform: translate(-50%, -50%);
     
     width: 200px;
@@ -44,6 +44,65 @@ html {
 #myInput:focus {
     background-color: #aaa;
     box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+}
+
+#fontLabel {
+    top: 50%;
+    left: 80%;
+    display: block;
+    text-align: center;
+    margin-bottom: 8px;
+
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #ddd;
+
+    background-color: #2e2e2e;
+    padding: 4px 10px;
+    border-radius: 6px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#fontSelect {
+    top: 60%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+
+    position: absolute;
+    width: 200px;
+    padding: 10px 15px;
+
+    background-color: #505050;
+    border: 4px solid #2e2e2e;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #fff;
+
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+
+    appearance: none; /* hides default arrow in some browsers */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23fff'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px 6px;
+    padding-right: 30px;
+}
+
+#fontSelect:focus {
+    background-color: #aaa;
+    color: #222;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 canvas {
@@ -85,8 +144,8 @@ canvas {
 }
 
 @font-face {
-    font-family: "Android Emoji";
-    src: url("fonts/AndroidEmoji.ttf") format("truetype");
+    font-family: "WhatsApp Emoji";
+    src: url("fonts/WhatsAppEmoji.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
     display: swap;

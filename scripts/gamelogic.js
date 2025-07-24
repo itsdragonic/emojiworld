@@ -14,8 +14,10 @@ function gameLogic() {
         hunger(-1);
     }
 
-    // Level related
-    if (level == 0) {
+    // Default Emotion
+    if (player.food < 4 || player.thirst < 4) {
+        player.defaultEmotion = "😵‍💫";
+    } else if (level == 0) {
         player.defaultEmotion = "😊";
     } else if (level == -1) {
         player.defaultEmotion = "😓";
@@ -362,6 +364,9 @@ function surroundings(dx,dy) {
 
                 } else if (rightClick && overridables.includes(block) && objectProperties[itemHeld]) {
                     // Placing blocks logic
+                    if (sand.includes(block)) {
+                        addInventory("⏳",1);
+                    }
                     map[x][y] = itemHeld;
                     removeInventory(itemHeld, 1);
                 }

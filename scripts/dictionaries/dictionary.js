@@ -118,6 +118,13 @@ var objectProperties = {
         toolRequired: "🪓",
         loot: "🎍"
     },
+    "🍂": {
+        name: "Fallen Leaves",
+        canBeWalkedOn: true,
+        durability: 1,
+        toolRequired: "👊",
+        loot: "🍂"
+    },
     "🌱": {
         name: "Seedling",
         canBeWalkedOn: true,
@@ -1087,7 +1094,7 @@ var objectProperties = {
         name: "Door",
         description: "Enter/exit house",
         canBeWalkedOn: true,
-        durability: 10,
+        durability: 8,
         toolRequired: "🪓",
         loot: "🚪"
     },
@@ -1116,7 +1123,7 @@ var objectProperties = {
         loot: "🪵"
     },
     "🛖": {
-        name: "House",
+        name: "Hut",
         description: "It ain't much but it's nice",
         canBeWalkedOn: true,
         durability: 20,

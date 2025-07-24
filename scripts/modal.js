@@ -32,7 +32,7 @@ function generateLogoText() {
   const firstEmoji = getWeightedRandom(emojiOptions.first);
   const secondEmoji = getWeightedRandom(emojiOptions.second);
   
-  return `EM${firstEmoji}Jℹ️   W${secondEmoji}RLD`;
+  return `EM${firstEmoji}Jℹ️ W${secondEmoji}RLD`;
 }
 
 // Load title screen
@@ -42,7 +42,7 @@ function loadScreen() {
 
     // Title text
     ctx.fillStyle = "white";
-    ctx.font = "bold 48px sans-serif";
+    ctx.font = "bold 48px " + useFont + ", Arial";
     ctx.textAlign = "center";
     ctx.fillText(generateLogoText(), width / 2, height / 3);
 
@@ -244,16 +244,15 @@ function drawInventory() {
         ctx.fill();
     });
 
-    // Section labels: Armor, Accessories
+    // Inventory-related labels
     ctx.fillStyle = '#fff';
-    ctx.font = '16px Arial';
+    ctx.font = '20px Arial';
     ctx.textAlign = 'left';
     ctx.fillText('Armor', x + 10, y + 50);
-    ctx.fillText('Accessories', x + 10, y + 150);
+    ctx.fillText('Stats', x + 10, y + 300);
 
-    // Inventory label
-    ctx.font = '20px Arial';
     ctx.fillText('Inventory', x + sideBarWidth + 20, y + 20);
+    ctx.fillText('Accessories', x + sideBarWidth + 20, y + 7*(slotSize+gapSize) + 90);
 
     // Crafting box
     const craftingX = x + iwidth * 0.6;
@@ -272,7 +271,6 @@ function drawInventory() {
     ctx.fillText('Crafting', craftingX + 15, craftingY + 25);
 
     // Inventory items
-    //player.font = '18px ' + useFont + ', Arial';
     let xinvStart = x + sideBarWidth + 20;
     let xinv = xinvStart;
     let yinv = y + 50;
@@ -281,8 +279,21 @@ function drawInventory() {
             ctx.fillStyle = 'rgba(160, 160, 160, 0.3)';
             drawRoundedBox(ctx, xinv, yinv, slotSize, slotSize, radius);
             ctx.fill();
+
+            // Draw item
+            ctx.font = '18px ' + useFont + ', Arial';
             ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-            ctx.fillText(player.inventory[i][j],xinv,yinv + slotSize/2)
+            let Xinv = xinv + 6;
+            let Yinv = yinv + slotSize/2;
+            ctx.fillText(player.inventory[i][j],Xinv,Yinv);
+
+            // Draw item amount
+            let value = player.inventoryValue[i][j];
+            ctx.font = '18px Arial';
+            if (value && value > 1) {
+                ctx.fillText(player.inventoryValue[i][j],Xinv + 16,Yinv + 12);
+            }
+
             xinv += slotSize + gapSize;
         }
         xinv = xinvStart;
