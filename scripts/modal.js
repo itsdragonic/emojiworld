@@ -533,7 +533,9 @@ ${craftingDictionary[mergedCrafts[i]].required
                     : ''}`;
             hovering = true;
 
-            if (leftClick || rightClick && timeSinceDragging == 0) {
+            // Clicking
+            if ((leftClick || rightClick) && timeSinceDragging == 0) {
+                timeSinceDragging = 25;
                 if (canCraft) {
                     // Remove ingredients
                     const recipe = craftingDictionary[mergedCrafts[i]];

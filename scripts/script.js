@@ -463,9 +463,20 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     }
 
     // Game loop
+    let gameSpeed = 110; // time per second
+    let lastPlayerUpdate = Date.now();
+    let playerInterval = 1000 / gameSpeed;
+
     window.gameLoop = function() {
-        updatePlayer();
-        update();
+        let now = Date.now();
+
+        // Run at gameSpeed rate
+        if (now - lastPlayerUpdate >= playerInterval) {
+            updatePlayer();
+            update();
+            lastPlayerUpdate = now;
+        }
+
         requestAnimationFrame(gameLoop);
     };
 
