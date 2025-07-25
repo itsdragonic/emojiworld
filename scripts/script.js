@@ -409,25 +409,54 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         }
 
         // Hover text
-        if (player.hoverText != "" && player.hoverText !== "0") {
-            ctx.save();
-            let metrics = ctx.measureText("hello");
-            let width = metrics.width;
-            let padding = 4;
-            let offset = 8;
+        if (player.hoverText && player.hoverText !== "0") {
+            if ((player.inventoryOpen && hovering) || (player.inventoryOpen && player.itemDrag.value > 0) || (!player.inventoryOpen && player.itemDrag.value > 0)) {
+                ctx.save();
 
-            // Correct for emoji width
-            if (player.hoverText.length === 2 && /^\p{Emoji}$/u.test(player.hoverText)) {
-                width = emojiSize;
-                padding = 8;
+                // Split text by newlines
+                const lines = player.hoverText.split('\n');
+                const lineHeight = emojiSize * 1.2; // 1.2em line height
+                const padding = 4;
+                const offset = 8;
+
+                // Calculate max width and total height
+                let maxWidth = 0;
+                lines.forEach(line => {
+                    const metrics = ctx.measureText(line);
+                    maxWidth = Math.max(maxWidth, metrics.width);
+                });
+
+                // Special handling for single emoji
+                if (lines.length === 1 && lines[0].length === 2 && /^\p{Emoji}$/u.test(lines[0])) {
+                    maxWidth = emojiSize;
+                }
+
+                const totalHeight = (lines.length * lineHeight) + padding;
+
+                // Draw background
+                ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
+                drawRoundedBox(
+                    ctx,
+                    mouseX + offset,
+                    mouseY,
+                    maxWidth + padding * 2,
+                    totalHeight,
+                    4
+                );
+
+                // Draw each line of text
+                ctx.textAlign = 'left';
+                ctx.fillStyle = 'black';
+                lines.forEach((line, i) => {
+                    ctx.fillText(
+                        line,
+                        mouseX + padding + offset,
+                        mouseY + (i * lineHeight) + lineHeight * 0.8 // Vertical position
+                    );
+                });
+
+                ctx.restore();
             }
-
-            ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
-            drawRoundedBox(ctx,mouseX + offset,mouseY,width + padding,emojiSize + padding,4);
-            ctx.textAlign = 'left';
-            ctx.fillStyle = 'black';
-            ctx.fillText(player.hoverText,mouseX + padding/2 + offset,mouseY + emojiSize/2 + padding/2)
-            ctx.restore();
         }
 
         gameLogic();

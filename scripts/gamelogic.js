@@ -215,6 +215,18 @@ function findName(item) {
     return item;
 }
 
+function findDesc(item) {
+    if (accessoriesProperties[item]?.description) return accessoriesProperties[item].description;
+    else if (itemNames[item]?.description) return itemNames[item].description;
+    else if (weaponProperties[item]?.description) return weaponProperties[item].description;
+    else if (armorProperties[item]?.description) return armorProperties[item].description;
+    else if (foodProperties[item]?.description) return foodProperties[item].description;
+    else if (farmCrops[item]?.description) return farmCrops[item].description;
+    else if (objectProperties[item]?.description) return objectProperties[item].description;
+    else if (craftingDictionary[item]?.description) return craftingDictionary[item].description;
+    return "";
+}
+
 function updateAdjacent() {
     let xPos = Math.round(player.x);
     let yPos = Math.round(player.y);
@@ -374,10 +386,10 @@ function surroundings(dx,dy) {
     if (player.isJumping && tile == "🪜") {
         changeLevel(0);
     }
-    if (player.level == 0 && player.isShifting && water.includes(tile)) {
+    if (player.level == 0 && player.isShifting && water.includes(tile) && water.includes(cave1_map[Math.round(xStep)][Math.round(yStep)])) {
         changeLevel(-1);
     }
-    if (player.level == -1 && player.isJumping && water.includes(tile)) {
+    if (player.level == -1 && player.isJumping && water.includes(tile) && water.includes(overworld_map[Math.round(xStep)][Math.round(yStep)])) {
         changeLevel(0);
     }
 

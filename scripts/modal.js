@@ -5,6 +5,8 @@ var leftClick = false;
 var rightClick = false;
 var timeSinceDragging = 0;
 
+var hovering = false;
+
 const emojiOptions = {
     first: [
         { emoji: "😜", weight: 4 },
@@ -278,6 +280,26 @@ function drawInventory() {
     ctx.textAlign = 'left';
     ctx.fillText('Crafting', craftingX + 15, craftingY + 25);
 
+    // Descriptions
+    hovering = false;
+    function itemDescription(item) {
+        if (item != "" && player.itemDrag.value == 0) {
+            if (armorProperties[item]) {
+                player.hoverText = `${item}${findName(item)}
+${findDesc(item)}
+Protection: ${armorProperties[item].protection}`;
+            } else if (accessoriesProperties[item]) {
+                player.hoverText = `${item}${findName(item)}
+⊹ Accessory ⊹
+${findDesc(item)}`;
+            } else {
+                player.hoverText = `${item}${findName(item)}
+${findDesc(item)}`;
+            }
+            return true;
+        }
+    }
+
     // Inventory items
     let xinvStart = x + sideBarWidth + 20;
     let yinvStart = y + 50;
@@ -299,6 +321,8 @@ function drawInventory() {
             // Detect hover
             if (mx >= slotX && mx <= slotX + slotSize &&
                 my >= slotY && my <= slotY + slotSize) {
+
+                if (itemDescription(player.inventory[i][j])) hovering = true;
 
                 // Dragging item logic
                 if ((leftClick || rightClick) && timeSinceDragging == 0) {
@@ -358,6 +382,8 @@ function drawInventory() {
             if (mx >= slotX && mx <= slotX + slotSize &&
                 my >= slotY && my <= slotY + slotSize) {
 
+                if (itemDescription(player.accessories[i][j])) hovering = true;
+
                 // Dragging item logic
                 if (
                     (leftClick || rightClick) && 
@@ -404,6 +430,8 @@ function drawInventory() {
         // Detect hover
         if (mx >= xarmor && mx <= xarmor + slotSize &&
             my >= yarmor && my <= yarmor + slotSize) {
+
+            if (itemDescription(player.armor[i])) hovering = true;
 
             // Dragging item logic (with slot validation)
             if (
@@ -491,7 +519,20 @@ function drawInventory() {
         // Crafting logic
         if (mx >= xPos && mx <= xPos + slotSize &&
             my >= yPos && my <= yPos + slotSize) {
-            //player.hoverText = mergedCrafts[i];
+
+            // Description Text
+            player.hoverText = `${mergedCrafts[i]} ${findName(mergedCrafts[i])}
+${findDesc(mergedCrafts[i])}
+
+Requirements:
+${craftingDictionary[mergedCrafts[i]].itemsNeeded
+                    .map((item, index) => `${craftingDictionary[mergedCrafts[i]].amountsNeeded[index]}×${item}`)
+                    .join(', ')}
+${craftingDictionary[mergedCrafts[i]].required
+                    ? `\nRequired Tool: ${craftingDictionary[mergedCrafts[i]].required}`
+                    : ''}`;
+            hovering = true;
+
             if (leftClick || rightClick && timeSinceDragging == 0) {
                 if (canCraft) {
                     // Remove ingredients

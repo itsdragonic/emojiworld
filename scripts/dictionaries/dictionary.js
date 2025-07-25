@@ -1168,7 +1168,7 @@ var objectProperties = {
     "🍈": {
         name: "Melon",
         canBeWalkedOn: true,
-        durability: 4,
+        durability: 2,
         toolRequired: "🪓",
         loot: "🍉"
     },

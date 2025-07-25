@@ -70,8 +70,8 @@ var armorProperties = {
         slot: 2,
     },
     "👖": {
-        name: "Pants",
-        protection: 7,
+        name: "Jeans",
+        protection: 3,
         slot: 2,
     },
 };

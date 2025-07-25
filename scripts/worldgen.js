@@ -443,7 +443,7 @@ function generateWorld() {
                 let chance = rng();
                 if (chance < 0.004) {
                     row.push("🍈");
-                } else if (chance < 0.1) {
+                } else if (chance < 0.08) {
                     row.push("🎋");
                 } else {
                     row.push("");
@@ -581,6 +581,6 @@ function generateWorld() {
             }
         }
     }
-    
+
     caveGen();
 }
