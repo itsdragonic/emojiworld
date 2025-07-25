@@ -1,17 +1,31 @@
 function gameLogic() {
     // Time related events
-    if (gameData.time >= 1000) {
+    let maxTime = gameSpeed*60; // 9000 currently
+    if (gameData.time >= maxTime) {
         gameData.time = 0;
         gameData.day ++;
     }
     else gameData.time++;
     
-    if (gameData.time % 900 == 0 && player.isSprinting) hunger(-1);
-    if (gameData.time % 400 == 0 && player.hunger == 0) damage(1);
-
+    // Regeneration
     if (gameData.time % 200 == 0 && player.health < player.maxHealth && player.hunger > 0) {
         player.health ++;
         hunger(-1);
+    }
+
+    // Hunger and Thirst logic
+    if (gameData.time % 400 == 0 && (player.hunger == 0 || player.thirst == 0)) damage(1);
+
+    if (player.walkTime == 700) {
+        if (player.thirst > 0) {
+            thirst(-1);
+        }
+    }
+    if (player.walkTime == 800) {
+        if (player.hunger > 0) {
+            hunger(-1);
+        }
+        player.walkTime = 0;
     }
 
     // Drowning logic
@@ -61,6 +75,7 @@ function gameLogic() {
 
     // entity logic
     for (let entity of gameData.entities) {
+        //entity.target(player.x,player.y,map);
         entity.update(map);
     }
 }
@@ -300,6 +315,16 @@ function updateCraftingPossibilities() {
     }
 }
 
+function thirst(value) {
+    if (value === 0 || typeof value !== 'number') return;
+
+    if (value > 0) {
+        player.thirst = Math.min(player.thirst + value, player.maxThirst);
+    } else {
+        player.thirst = Math.max(player.thirst + value, 0);
+    }
+}
+
 function hunger(value) {
     // first try to fill up food health
     if (value > 0) {
@@ -346,6 +371,7 @@ function hunger(value) {
     }
 }
 
+// Generally for events near the player
 function surroundings(dx,dy) {
     let xStep = player.x + dx;
     let yStep = player.y + dy;
@@ -419,6 +445,7 @@ function surroundings(dx,dy) {
             player.progressBar += 1 / (foodProperties[itemHeld].nutrition * 0.075); // adjust eating speed (smaller = faster)
             if (player.progressBar >= 100) {
                 hunger(foodProperties[itemHeld].nutrition);
+                if (foodProperties[itemHeld]?.thirst) thirst(foodProperties[itemHeld].thirst);
 
                 // Custom emotions
                 if (["🍺","🍸"].includes(itemHeld)) {

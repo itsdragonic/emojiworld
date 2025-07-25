@@ -1459,12 +1459,12 @@ var objectProperties = {
         toolRequired: "👊",
         loot: "🌿"
     },
-    " ": {
+    "": {
         name: " ",
         canBeWalkedOn: true,
         durability: 99,
         toolRequired: "",
-        loot: " "
+        loot: ""
     },
     "🧙": {
         name: "Witch NPC",

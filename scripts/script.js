@@ -10,6 +10,11 @@ var gameData = {
     entities: []
 }
 
+// Game loop
+let gameSpeed = 150; // times per second
+let lastPlayerUpdate = Date.now();
+let playerInterval = 1000 / gameSpeed;
+
 // Hearts
 var hearts = {
     default: "❤️",
@@ -44,31 +49,23 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         sandColor = "#d4bf9a";
     }
 
-    // Movement
-    var direction = Object.freeze({
-        left: 0,
-        right: 1,
-        up: 2,
-        down: 3
-    });
-
-    characterEmote = character.default;
+    player.characterEmote = character.default;
     
 
     function updatePlayer() {
-        // WASD
+        // WASD movement
         let dx = 0, dy = 0;
         if (pressedKeys.has('w')) dy -= player.speed;
         if (pressedKeys.has('s')) {
-            characterEmote = character.default;
+            player.characterEmote = character.default;
             dy += player.speed;
         }
         if (pressedKeys.has('a')) {
-            characterEmote = player.isSprinting ? character.sprintLeft : character.walkLeft;
+            player.characterEmote = player.isSprinting ? character.sprintLeft : character.walkLeft;
             dx -= player.speed;
         }
         if (pressedKeys.has('d')) {
-            characterEmote = player.isSprinting ? character.sprintRight : character.walkRight;
+            player.characterEmote = player.isSprinting ? character.sprintRight : character.walkRight;
             dx += player.speed;
         }
 
@@ -82,7 +79,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         // Space
         if (pressedKeys.has(' ')) {
             player.isJumping = true;
-            characterEmote = character.cartwheel;
+            player.characterEmote = character.cartwheel;
             player.emotion = "😜";
             player.emotionTime = 20;
         } else {
@@ -90,8 +87,14 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         }
 
         // Other conditions
+        if (water.includes(player.adjacent[4])) {
+            player.characterEmote = character.swim;
+            player.speed = player.defaultSpeed * 0.5;
+        } else {
+            player.speed = player.defaultSpeed;
+        }
         if (player.level == 1) {
-            characterEmote = character.meditate
+            player.characterEmote = character.meditate;
         }
 
         // Normalize diagonal movement
@@ -101,6 +104,11 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             dy *= norm;
         }
         if (dx !== 0 || dy !== 0) {
+            if (player.isSprinting) {
+                player.walkTime +=2;
+            } else {
+                player.walkTime ++;
+            }
             updateAdjacent();
         }
 
@@ -129,6 +137,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         let offsetX = (player.x - startX - gridX / 2) * emojiSize;
         let offsetY = (player.y - startY - gridY / 2) * emojiSize;
 
+        // Draw tiles and player inside the tile loop
         for (let i = 0; i < gridX; i++) {
             for (let j = 0; j < gridY; j++) {
                 let mapX = startX + i;
@@ -178,43 +187,24 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     ctx.fillText(emoji, drawX, drawY);
                 }
 
-                // Draw entities
-                for (let entity of gameData.entities) {
-                    if (Math.round(entity.x) == mapX && Math.round(entity.y) == mapY) {
-                        entity.draw(ctx, i * emojiSize - offsetX, j * emojiSize - offsetY);
-                    }
-                }
-                /*// Draw entities (supporting sub-tile movement)
-                for (let entity of entities) {
-                    const screenX = (entity.x - player.x + gridX / 2) * emojiSize - offsetX;
-                    const screenY = (entity.y - player.y + gridY / 2) * emojiSize - offsetY;
-                    entity.draw(ctx, screenX, screenY);
-                }*/
-
-
-                // Draw Player
+                // Draw player at center tile
                 if (i == Math.round(gridX/2) && j == Math.round(gridY/2)) {
                     ctx.font = emojiSize + "px " + useFont + ", Arial";
-
-                    // special player events
-                    let xCoords = Math.round(player.x);
-                    let yCoords = Math.round(player.y);
-                    if (water.includes(map[xCoords][yCoords])) {
-                        characterEmote = character.swim;
-                        player.speed = player.defaultSpeed * 0.4;
-                    } else if (player.isSprinting) {
-                        player.speed = player.defaultSpeed * 1.5;
-                    } else {
-                        player.speed = player.defaultSpeed;
-                    }
-
-                    if (cave1_map[xCoords][yCoords] == "🪜" && player.isShifting) {
-                        changeLevel(-1);
-                    }
-
-                    // Draw player
-                    ctx.fillText(characterEmote, gridX/2 * emojiSize, gridY/2 * emojiSize);
+                    ctx.fillText(player.characterEmote, gridX/2 * emojiSize, gridY/2 * emojiSize);
                 }
+            }
+        }
+
+        // Draw entities (outside tile loop, only if within sight)
+        for (let entity of gameData.entities) {
+            // Check if entity is within visible grid
+            if (
+                entity.x >= startX && entity.x < startX + gridX &&
+                entity.y >= startY && entity.y < startY + gridY
+            ) {
+                const drawX = (entity.x - startX) * emojiSize - offsetX;
+                const drawY = (entity.y - startY) * emojiSize - offsetY;
+                entity.draw(ctx, drawX, drawY);
             }
         }
 
@@ -386,7 +376,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         }
 
         // Breath Bar
-        if (player.isDrowning) {
+        if (player.isDrowning || player.breath < player.maxBreath) {
             for (let i = 0; i < player.maxBreath; i++) {
                 let x = 15 + i * (healthSize + 4);
                 let health = i < player.breath ? "🫧" : "⚫";
@@ -461,11 +451,6 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
         gameLogic();
     }
-
-    // Game loop
-    let gameSpeed = 110; // time per second
-    let lastPlayerUpdate = Date.now();
-    let playerInterval = 1000 / gameSpeed;
 
     window.gameLoop = function() {
         let now = Date.now();

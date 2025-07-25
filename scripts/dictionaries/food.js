@@ -28,7 +28,8 @@ var foodProperties = {
         nutrition: 4,
     }, "🫖": {
         name: "Tea Pot",
-        nutrition: 2,
+        nutrition: 1,
+        thirst: 4
     }, "🥚": {
         name: "Egg",
         nutrition: 2,
@@ -41,45 +42,56 @@ var foodProperties = {
     }, "🍅": {
         name: "Tomato",
         nutrition: 1,
+        thirst: 1
     }, "🥬": {
         name: "Lettuce",
         nutrition: 1,
+        thirst: 1
     }, "🥔": {
         name: "Potato",
         nutrition: 2,
     }, "🍇": {
         name: "Grapes",
         nutrition: 2,
+        thirst: 1
     }, "🍉": {
         name: "Melon",
         nutrition: 2,
+        thirst: 2
     }, "🥥": {
         name: "Coconut",
         nutrition: 3,
+        thirst: 2,
     }, "🥛": {
         name: "Milk",
         nutrition: 3,
+        thirst: 3
     }, "🧀": {
         name: "Cheese",
         nutrition: 4,
     }, "🍺": {
         name: "Beer",
-        nutrition: 4,
+        nutrition: 3,
+        thirst: 2
     }, "☕": {
         name: "Coffee",
-        nutrition: 4,
+        nutrition: 3,
+        thirst: 3
     }, "🍷": {
         name: "Wine",
         nutrition: 4,
+        thirst: 4
     }, "🍹": {
         name: "Tropical Drink",
         nutrition: 5,
+        thirst: 5
     }, "🍯": {
         name: "Honey",
         nutrition: 3,
     }, "🍸": {
         name: "Cocktail",
         nutrition: 5,
+        thirst: 5
     }, "🍔": {
         name: "Hamburger",
         nutrition: 14,
@@ -95,6 +107,7 @@ var foodProperties = {
     }, "🥗": {
         name: "Salad",
         nutrition: 8,
+        thirst: 1
     }, "🍕": {
         name: "Pizza",
         nutrition: 9,
@@ -113,12 +126,15 @@ var foodProperties = {
     }, "🍎": {
         name: "Red Apple",
         nutrition: 2,
+        thirst: 1
     }, "🍏": {
         name: "Green Apple",
         nutrition: 2,
+        thirst: 1
     }, "🍊": {
         name: "Orange",
         nutrition: 2,
+        thirst: 1
     }, "🥧": {
         name: "Apple Pie",
         nutrition: 9,
@@ -139,6 +155,7 @@ var foodProperties = {
     }, "🧪": {
         name: "Regeneration Potion",
         nutrition: 0,
+        thirst: 1,
         effect: "regeneration",
     }, "💉": {
         name: "Vitality Shot",
@@ -147,6 +164,7 @@ var foodProperties = {
     }, "🌡️": {
         name: "Fire Potion",
         nutrition: 0,
+        thirst: 1,
         effect: "fireres",
     }, "🏺": {
         name: "Elixir",

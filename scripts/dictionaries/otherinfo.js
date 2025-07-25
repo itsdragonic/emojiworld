@@ -27,8 +27,10 @@ var player = {
     thirst: 10,
     maxBreath: 10,
     breath: 10,
-    isDrowning: false,
 
+    characterEmote: character.default,
+    walkTime: 0,
+    isDrowning: false,
     defaultSpeed: 0.2,
     speed: 0.2,
     visibility: 100,
