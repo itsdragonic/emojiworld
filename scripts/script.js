@@ -2,6 +2,7 @@ var map = overworld_map;
 
 var itemHeld;
 let pressedKeys = new Set();
+let xHover,yHover,gridX,gridY,x,y;
 
 // Time
 var gameData = {
@@ -53,19 +54,23 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     
 
     function updatePlayer() {
+        let wheelchair = player.accessories.flat().includes("♿");
+
         // WASD movement
         let dx = 0, dy = 0;
         if (pressedKeys.has('w')) dy -= player.speed;
         if (pressedKeys.has('s')) {
-            player.characterEmote = character.default;
+            if (!wheelchair) player.characterEmote = character.default;
             dy += player.speed;
         }
         if (pressedKeys.has('a')) {
             player.characterEmote = player.isSprinting ? character.sprintLeft : character.walkLeft;
+            if (wheelchair) player.characterEmote = character.wheelchairLeft;
             dx -= player.speed;
         }
         if (pressedKeys.has('d')) {
             player.characterEmote = player.isSprinting ? character.sprintRight : character.walkRight;
+            if (wheelchair) player.characterEmote = character.wheelchairRight;
             dx += player.speed;
         }
 
@@ -86,13 +91,17 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.isJumping = false;
         }
 
-        // Other conditions
+        // Speed conditions
         if (water.includes(player.adjacent[4])) {
             player.characterEmote = character.swim;
+            player.speed = player.defaultSpeed * 0.5;
+        } else if (tree.includes(player.adjacent[4]) && !player.armor.includes("🥾")) {
             player.speed = player.defaultSpeed * 0.5;
         } else {
             player.speed = player.defaultSpeed;
         }
+
+        // Other conditions
         if (player.level == 1) {
             player.characterEmote = character.meditate;
         }
@@ -109,6 +118,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             } else {
                 player.walkTime ++;
             }
+            if (wheelchair) player.walkTime --;
             updateAdjacent();
         }
 
@@ -127,8 +137,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         }
         ctx.fillRect(0,0,width,height);
 
-        gridX = Math.ceil(width/emojiSize) + 1;
-        gridY = Math.ceil(height/emojiSize) + 1;
+        gridX = Math.floor(width/emojiSize) + 1;
+        gridY = Math.floor(height/emojiSize) + 1;
 
         let startX = Math.floor(player.x - gridX / 2);
         let startY = Math.floor(player.y - gridY / 2);
@@ -191,6 +201,31 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                 if (i == Math.round(gridX/2) && j == Math.round(gridY/2)) {
                     ctx.font = emojiSize + "px " + useFont + ", Arial";
                     ctx.fillText(player.characterEmote, gridX/2 * emojiSize, gridY/2 * emojiSize);
+                }
+
+                // Highlight hovered tile with white outline box
+                if ((i - 1) === xHover && (j - 1) === yHover) {
+                    let emoji = map[mapX] && map[mapX][mapY] ? map[mapX][mapY] : "";
+                    let size = emojiSize;
+                    let offset = 0;
+                    if (emoji.at(-1) === "g") {
+                        size = emojiSize * 3;
+                        offset = -(size - emojiSize) / 2;
+                    } else if (emoji.at(-1) === "b") {
+                        size = emojiSize * 1.5;
+                        offset = -(size - emojiSize) / 2;
+                    }
+                    // Draw white outline box
+                    ctx.save();
+                    ctx.strokeStyle = "white";
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(
+                        (i * emojiSize - offsetX + offset) - emojiSize/2,
+                        (j * emojiSize - offsetY + offset) - emojiSize/2,
+                        size,
+                        size
+                    );
+                    ctx.restore();
                 }
             }
         }

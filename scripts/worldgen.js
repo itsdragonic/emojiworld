@@ -142,6 +142,7 @@ const water = ["🌊", "💦", "🧊","༄","ꕀ"];
 var waterColor = "#7aaae1";
 const sand = ["𓂃","࿔*:","࿐","🏖️"];
 var sandColor = "#cabb9d";
+const tree = ["🌳","🌳b","🌳s","🌲","🌲b","🌴","🌴b"];
 const grass = ["🌱","෴"];
 var grassColor = "#76a763";
 var coords = [];
@@ -462,6 +463,8 @@ function generateWorld() {
                     row.push("☘️");
                 } else if (chance < 0.06) {
                     row.push("🍂s");
+                } else if (chance < 0.1) {
+                    row.push("🌿");
                 } else if (chance < 0.5) {
                     row.push("🌲b");
                 } else if (chance < 0.75) {

@@ -7,6 +7,10 @@ var accessoriesProperties = {
         name: "Four-Leaf Clover",
         description: "When in accessory bar, it gives the player better odds for RNG events (such as loot drops)"
     },
+    "♿": {
+        name: "Wheelchair",
+        description: "When in accessory bar, the player loses 50% less hunger while moving"
+    },
     "🛡️": {
         name: "Shield",
         protection: 3,

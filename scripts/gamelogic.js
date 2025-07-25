@@ -16,12 +16,12 @@ function gameLogic() {
     // Hunger and Thirst logic
     if (gameData.time % 400 == 0 && (player.hunger == 0 || player.thirst == 0)) damage(1);
 
-    if (player.walkTime == 700) {
+    if (player.walkTime == 1100) {
         if (player.thirst > 0) {
             thirst(-1);
         }
     }
-    if (player.walkTime == 800) {
+    if (player.walkTime == 1300) {
         if (player.hunger > 0) {
             hunger(-1);
         }
@@ -158,7 +158,7 @@ function damage(amount = 1) {
 
 function displayHotbarText(txt) {
     hotbarText = txt;
-    hotbarTextTime = 100;
+    hotbarTextTime = 150;
 }
 
 function testFor(item,amount) {
@@ -422,12 +422,12 @@ function surroundings(dx,dy) {
     itemHeld = player.inventory[0][player.hotbarSelected];
 
     // Block manipulation
-    let xHover = Math.round(mouseX/emojiSize);
-    let yHover = Math.round(mouseY/emojiSize);
-    let gridX = Math.round(width/emojiSize);
-    let gridY = Math.round(height/emojiSize);
-    let x = Math.floor(player.x - gridX / 2) + xHover;
-    let y = Math.floor(player.y - gridY / 2) + yHover;
+    xHover = Math.floor(mouseX/emojiSize);
+    yHover = Math.floor(mouseY/emojiSize);
+    gridX = Math.floor(width/emojiSize);
+    gridY = Math.floor(height/emojiSize);
+    x = Math.round(player.x - gridX / 2) + xHover;
+    y = Math.round(player.y - gridY / 2) + yHover;
 
     // Trash bin
     if (leftClick && map[x][y] == "🗑️") {
@@ -507,9 +507,25 @@ function surroundings(dx,dy) {
 
                         // Break block
                         if (Tile && Tile.loot) {
+                            // Check for correct tool if required
                             if (Tile.toolRequired === "⛏️" && itemHeld !== "⛏️") {
                                 // No loot if wrong tool
-                            } else {
+                                return;
+                            }
+
+                            // Handle new loot table format (array of objects)
+                            if (Array.isArray(Tile.loot)) {
+                                for (const lootItem of Tile.loot) {
+                                    if (Math.random() < lootItem.chance) {
+                                        const amount = Math.floor(
+                                            Math.random() * (lootItem.max - lootItem.min + 1)
+                                        ) + lootItem.min;
+                                        addInventory(lootItem.item, amount);
+                                    }
+                                }
+                            }
+                            // Handle old simple string format
+                            else if (typeof Tile.loot === 'string') {
                                 addInventory(Tile.loot, 1);
                             }
                         }
@@ -517,13 +533,28 @@ function surroundings(dx,dy) {
                         map[x][y] = "";
                     }
 
-                } else if (rightClick && overridables.includes(block) && objectProperties[itemHeld]) {
-                    // Placing blocks logic
+                } else if (
+                    rightClick && overridables.includes(block) &&
+                    (objectProperties[itemHeld] || objectProperties[player.itemDrag.item])) {
+                    const itemToPlace = objectProperties[itemHeld] ? itemHeld : player.itemDrag.item;
+
                     if (sand.includes(block)) {
-                        addInventory("⏳",1);
+                        addInventory("⏳", 1);
                     }
-                    map[x][y] = itemHeld;
-                    removeInventory(itemHeld, 1);
+
+                    map[x][y] = itemToPlace;
+
+                    if (objectProperties[itemHeld]) {
+                        removeInventory(itemHeld, 1);
+                    } else {
+                        if (player.itemDrag.value <= 1) {
+                            player.itemDrag.item = "";
+                            player.itemDrag.value = 0;
+                        } else {
+                            player.itemDrag.value--;
+                            player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
+                        }
+                    }
                 }
             }
         } else {

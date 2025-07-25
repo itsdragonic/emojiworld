@@ -126,7 +126,7 @@ class Chicken {
     }
 
     draw(ctx,mapX,mapY) {
-        ctx.font = "20px serif";
+        ctx.font = emojiSize + "px " + useFont + ", Arial";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText("🐓", mapX, mapY);

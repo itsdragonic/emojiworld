@@ -33,7 +33,12 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 5,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 1, max: 2, chance: 1 },
+            { item: "🍎", min: 1, max: 1, chance: 0.03 },
+            { item: "🍏", min: 1, max: 1, chance: 0.03 },
+            { item: "🍊", min: 1, max: 1, chance: 0.02 }
+        ]
     },
     "🌳s": {
         name: "Small Tree",
@@ -41,7 +46,12 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 4,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 1, max: 1, chance: 1 },
+            { item: "🍎", min: 1, max: 1, chance: 0.03 },
+            { item: "🍏", min: 1, max: 1, chance: 0.03 },
+            { item: "🍊", min: 1, max: 1, chance: 0.02 }
+        ]
     },
     "🌳b": {
         name: "Big Tree",
@@ -49,7 +59,12 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 7,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 1, max: 3, chance: 1 },
+            { item: "🍎", min: 1, max: 1, chance: 0.03 },
+            { item: "🍏", min: 1, max: 1, chance: 0.03 },
+            { item: "🍊", min: 1, max: 1, chance: 0.02 }
+        ]
     },
     "🌲": {
         name: "Pine Tree",
@@ -57,7 +72,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 6,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 1, max: 1, chance: 1 }
+        ]
     },
     "🌲b": {
         name: "Big Pine Tree",
@@ -65,7 +82,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 8,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 1, max: 2, chance: 1 }
+        ]
     },
     "🌴": {
         name: "Palm Tree",
@@ -73,7 +92,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 5,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 1, max: 1, chance: 1 }
+        ]
     },
     "🌴b": {
         name: "Big Palm Tree",
@@ -81,7 +102,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 5,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 1, max: 2, chance: 1 }
+        ]
     },
     "🥥": {
         name: "Coconut",
@@ -1459,13 +1482,13 @@ var objectProperties = {
         toolRequired: "👊",
         loot: "🌿"
     },
-    "": {
+    /*"": {
         name: " ",
         canBeWalkedOn: true,
         durability: 99,
         toolRequired: "",
         loot: ""
-    },
+    },*/
     "🧙": {
         name: "Witch NPC",
         description: "I'm in quite the mood for some milk and cookies! Tell you what, if you can get me some, I'll give you something in return :)",
