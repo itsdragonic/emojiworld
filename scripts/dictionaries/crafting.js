@@ -31,7 +31,7 @@ var craftingDictionary = {
     },
     "🏭": {
         name: "Factory",
-        itemsNeeded: ["🔩", "🧱", "✨", "💨"],
+        itemsNeeded: ["🔩", "🧱", "⚡", "💨"],
         amountsNeeded: [8, 16, 1, 1],
         required: "🧰",
     },
@@ -257,7 +257,7 @@ var craftingDictionary = {
         amountsNeeded: [2, 1],
         required: "🍳",
     },
-    "𓆩𓆪​": {
+    "🪽​": {
         name: "Wings",
         itemsNeeded: ["🪶"],
         amountsNeeded: [4],
@@ -378,19 +378,19 @@ var craftingDictionary = {
         required: "🧰",
     },
     "👟": {
-        name: "Shoe",
+        name: "Running Shoes",
         itemsNeeded: ["💠", "🪶"],
         amountsNeeded: [2, 2],
         required: "🧰",
     },
     "🥾": {
-        name: "Boot",
+        name: "Boots",
         itemsNeeded: ["💠", "🪶", "🌈", "✨"],
         amountsNeeded: [3, 2, 2, 1],
         required: "🧰",
     },
     "👢": {
-        name: "Tall Boot",
+        name: "Tall Boots",
         itemsNeeded: ["💠", "🪶", "✨", "🔥"],
         amountsNeeded: [4, 2, 1, 1],
         required: "🧰",
@@ -421,14 +421,14 @@ var craftingDictionary = {
     },
     "🔦": {
         name: "Flashlight",
-        itemsNeeded: ["🪟", "🔩"],
-        amountsNeeded: [1, 2],
+        itemsNeeded: ["🪟", "⚡", "🔩"],
+        amountsNeeded: [1, 1, 2],
         required: "🧰",
     },
     "🕹️": {
         name: "Teleporter",
-        itemsNeeded: ["💠", "🔩", "🌠", "🌌"],
-        amountsNeeded: [1, 3, 3, 1],
+        itemsNeeded: ["💠", "🔩", "⚡", "🌠", "🌌"],
+        amountsNeeded: [1, 3, 3, 3, 1],
         required: "🧰",
     },
     "⁍​": {

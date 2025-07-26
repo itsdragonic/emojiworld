@@ -20,6 +20,7 @@ function gameLogic() {
         if (player.thirst > 0) {
             thirst(-1);
         }
+        player.walkTime ++;
     }
     if (player.walkTime == 1300) {
         if (player.hunger > 0) {
@@ -406,7 +407,7 @@ function surroundings(dx,dy) {
     }
 
     // Map transitioning
-    if (player.isShifting && tile == "🕳️") {
+    if (player.isShifting && player.level == 0 && cave1_map[Math.round(xStep)][Math.round(yStep)] == "🪜") {
         changeLevel(-1);
     }
     if (player.isJumping && tile == "🪜") {
@@ -439,6 +440,7 @@ function surroundings(dx,dy) {
     }
 
     // Eating priority
+    player.isMining = false;
     if (!player.inventoryOpen) {
         if (rightClick && foodProperties[itemHeld]) {
             player.progressType = "eating";
@@ -459,7 +461,6 @@ function surroundings(dx,dy) {
         // Breaking and mining blocks
         else if (leftClick || rightClick) {
             let distance = Math.sqrt((xHover - gridX / 2) ** 2 + (yHover - gridY / 2) ** 2);
-            player.isMining = false;
             if (distance <= 7) {
                 // Block breaking logic
                 player.correctTool = true;
@@ -605,7 +606,8 @@ function drawFormattedText(x, y, text) {
     
     try {
         // Default font settings
-        ctx.font = `${emojiSize}px ${useFont}, Arial`;
+        //ctx.font = `${emojiSize}px ${useFont}, Arial`;
+        ctx.font = `${emojiSize}px Arial`;
         ctx.textAlign = 'left';
         ctx.fillStyle = 'black';
         

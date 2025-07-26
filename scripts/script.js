@@ -150,8 +150,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         let offsetY = (player.y - startY - gridY / 2) * emojiSize;
 
         // Draw tiles and player inside the tile loop
-        for (let i = 0; i < gridX; i++) {
-            for (let j = 0; j < gridY; j++) {
+        for (let i = 0; i < gridX + 1; i++) {
+            for (let j = 0; j < gridY + 1; j++) {
                 let mapX = startX + i;
                 let mapY = startY + j;
 
@@ -199,7 +199,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     ctx.fillText(emoji, drawX, drawY);
                 }
 
-                // Draw player at center tile
+                // Player
                 if (i == Math.round(gridX/2) && j == Math.round(gridY/2)) {
                     ctx.font = emojiSize + "px " + useFont + ", Arial";
                     ctx.fillText(player.characterEmote, gridX/2 * emojiSize, gridY/2 * emojiSize);
@@ -250,7 +250,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.visibility = 100;
         } else if (map == cave1_map) {
             player.visibility = 10;
-            if (player.inventory.flat().includes("🔦")) {
+            if (itemHeld == "🔦" || player.accessories.flat().includes("🔦")) {
                 player.visibility = 30;
             }
         }

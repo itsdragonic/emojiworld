@@ -36,8 +36,7 @@ var objectProperties = {
         loot: [
             { item: "🪵", min: 1, max: 2, chance: 1 },
             { item: "🍎", min: 1, max: 1, chance: 0.03 },
-            { item: "🍏", min: 1, max: 1, chance: 0.03 },
-            { item: "🍊", min: 1, max: 1, chance: 0.02 }
+            { item: "🍏", min: 1, max: 1, chance: 0.03 }
         ]
     },
     "🌳s": {
@@ -49,8 +48,7 @@ var objectProperties = {
         loot: [
             { item: "🪵", min: 1, max: 1, chance: 1 },
             { item: "🍎", min: 1, max: 1, chance: 0.03 },
-            { item: "🍏", min: 1, max: 1, chance: 0.03 },
-            { item: "🍊", min: 1, max: 1, chance: 0.02 }
+            { item: "🍏", min: 1, max: 1, chance: 0.03 }
         ]
     },
     "🌳b": {
@@ -62,8 +60,7 @@ var objectProperties = {
         loot: [
             { item: "🪵", min: 1, max: 3, chance: 1 },
             { item: "🍎", min: 1, max: 1, chance: 0.03 },
-            { item: "🍏", min: 1, max: 1, chance: 0.03 },
-            { item: "🍊", min: 1, max: 1, chance: 0.02 }
+            { item: "🍏", min: 1, max: 1, chance: 0.03 }
         ]
     },
     "🌲": {
@@ -316,19 +313,22 @@ var objectProperties = {
         toolRequired: "👊",
         loot: "🪷"
     },
-    "🪺": {
+    "🪹": {
         name: "Nest",
         canBeWalkedOn: true,
         durability: 1,
         toolRequired: "👊",
-        loot: ""
+        loot: "🪹"
     },
     "🪺": {
         name: "Bird Nest",
         canBeWalkedOn: true,
         durability: 2,
         toolRequired: "👊",
-        loot: "🥚"
+        loot: [
+            { item: "🪹", min: 1, max: 2, chance: 1 },
+            { item: "🥚", min: 1, max: 3, chance: 1 }
+        ]
     },
     "🧨": {
         name: "Dynamite",
@@ -354,31 +354,44 @@ var objectProperties = {
     },
     "🪨": {
         name: "Stone",
-        canBeWalkedOn: false,
+        canBeWalkedOn: true,
         durability: 4,
         toolRequired: "⛏️",
         loot: "🪨"
     },
     "🪨b": {
         name: "Boulder",
-        canBeWalkedOn: false,
+        canBeWalkedOn: true,
         durability: 6,
         toolRequired: "⛏️",
         loot: "🪨"
+    },
+    "🦴": {
+        name: "Bone",
+        canBeWalkedOn: false,
+        durability: 3,
+        toolRequired: "⛏️",
+        loot: "🦴"
     },
     "🏔️b": {
         name: "Snowy Mountain",
         canBeWalkedOn: false,
         durability: 20,
         toolRequired: "⛏️",
-        loot: "🪨"
+        loot: [
+            { item: "🪨", min: 2, max: 5, chance: 1 },
+            { item: "🔩", min: 1, max: 1, chance: 0.07 }
+        ]
     },
     "⛰️": {
         name: "Mountain",
         canBeWalkedOn: false,
         durability: 15,
         toolRequired: "⛏️",
-        loot: "🪨"
+        loot: [
+            { item: "🪨", min: 1, max: 4, chance: 1 },
+            { item: "🔩", min: 1, max: 1, chance: 0.06 }
+        ]
     },
     "🧊": {
         name: "Ice",
@@ -392,15 +405,17 @@ var objectProperties = {
         canBeWalkedOn: false,
         durability: 25,
         toolRequired: "⛏️",
-        loot: "🪨"
+        loot: [
+            { item: "🪨", min: 3, max: 6, chance: 1 },
+            { item: "🔩", min: 1, max: 1, chance: 0.08 }
+        ]
     },
     "🗻g": {
         name: "Mountain Wall",
         canBeWalkedOn: false,
         durability: 95,
         toolRequired: "⛏️",
-        unbreakable: true,
-        loot: "🪨"
+        unbreakable: true
     },
     "🕳️": {
         name: "Hole",
@@ -723,7 +738,10 @@ var objectProperties = {
         canBeWalkedOn: false,
         durability: 35,
         toolRequired: "⛏️",
-        loot: "🪨"
+        loot: [
+            { item: "🪨", min: 4, max: 7, chance: 1 },
+            { item: "🔩", min: 1, max: 2, chance: 0.25 }
+        ]
     },
     "💩": {
         name: "Poop",
@@ -1043,7 +1061,9 @@ var objectProperties = {
         canBeWalkedOn: false,
         durability: 15,
         toolRequired: "⛏️",
-        loot: "🔩"
+        loot: [
+            { item: "🔩", min: 1, max: 3, chance: 1 }
+        ]
     },
     "📡": {
         name: "Satellite Antenna",
@@ -1057,7 +1077,9 @@ var objectProperties = {
         canBeWalkedOn: false,
         durability: 18,
         toolRequired: "⛏️",
-        loot: "🔩"
+        loot: [
+            { item: "🔩", min: 1, max: 2, chance: 1 }
+        ]
     },
     "🚧": {
         name: "Construction Blocker",
@@ -1209,7 +1231,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 20,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 3, max: 5, chance: 1 }
+        ]
     },
     "🏡": {
         name: "House with Garden",
@@ -1217,7 +1241,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 20,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 3, max: 5, chance: 1 }
+        ]
     },
     "🏚": {
         name: "Abandoned House",
@@ -1225,7 +1251,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 20,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 3, max: 5, chance: 1 }
+        ]
     },
     "🛖": {
         name: "Hut",
@@ -1233,7 +1261,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 20,
         toolRequired: "🪓",
-        loot: "🪵"
+        loot: [
+            { item: "🪵", min: 2, max: 3, chance: 1 }
+        ]
     },
     "🏢": {
         name: "Building",
@@ -1241,7 +1271,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 20,
         toolRequired: "⛏",
-        loot: "🪨"
+        loot: [
+            { item: "🪨", min: 3, max: 5, chance: 1 }
+        ]
     },
     "💎": {
         name: "Gem",
@@ -1273,6 +1305,13 @@ var objectProperties = {
         durability: 15,
         toolRequired: "⛏️",
         loot: "💠"
+    },
+    "💰": {
+        name: "Money Bag",
+        canBeWalkedOn: false,
+        durability: 6,
+        toolRequired: "⛏️",
+        loot: "🪙"
     },
     "🗿": {
         name: "Stone Statue",
