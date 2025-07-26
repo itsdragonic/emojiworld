@@ -54,24 +54,26 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     
 
     function updatePlayer() {
-        let wheelchair = player.accessories.flat().includes("♿");
+        let wheelchair = player.accessories.flat().includes("🦽");
 
         // WASD movement
         let dx = 0, dy = 0;
-        if (pressedKeys.has('w')) dy -= player.speed;
-        if (pressedKeys.has('s')) {
-            if (!wheelchair) player.characterEmote = character.default;
-            dy += player.speed;
-        }
-        if (pressedKeys.has('a')) {
-            player.characterEmote = player.isSprinting ? character.sprintLeft : character.walkLeft;
-            if (wheelchair) player.characterEmote = character.wheelchairLeft;
-            dx -= player.speed;
-        }
-        if (pressedKeys.has('d')) {
-            player.characterEmote = player.isSprinting ? character.sprintRight : character.walkRight;
-            if (wheelchair) player.characterEmote = character.wheelchairRight;
-            dx += player.speed;
+        if (!player.isMining) {
+            if (pressedKeys.has('w')) dy -= player.speed;
+            if (pressedKeys.has('s')) {
+                if (!wheelchair) player.characterEmote = character.default;
+                dy += player.speed;
+            }
+            if (pressedKeys.has('a')) {
+                player.characterEmote = player.isSprinting ? character.sprintLeft : character.walkLeft;
+                if (wheelchair) player.characterEmote = character.wheelchairLeft;
+                dx -= player.speed;
+            }
+            if (pressedKeys.has('d')) {
+                player.characterEmote = player.isSprinting ? character.sprintRight : character.walkRight;
+                if (wheelchair) player.characterEmote = character.wheelchairRight;
+                dx += player.speed;
+            }
         }
 
         // Shift
@@ -204,7 +206,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                 }
 
                 // Highlight hovered tile with white outline box
-                if ((i - 1) === xHover && (j - 1) === yHover) {
+                if ((i - 1) === xHover && (j - 1) === yHover && !player.inventoryOpen) {
                     let emoji = map[mapX] && map[mapX][mapY] ? map[mapX][mapY] : "";
                     let size = emojiSize;
                     let offset = 0;
@@ -436,51 +438,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         // Hover text
         if (player.hoverText && player.hoverText !== "0") {
             if ((player.inventoryOpen && hovering) || (player.inventoryOpen && player.itemDrag.value > 0) || (!player.inventoryOpen && player.itemDrag.value > 0)) {
-                ctx.save();
-
-                // Split text by newlines
-                const lines = player.hoverText.split('\n');
-                const lineHeight = emojiSize * 1.2; // 1.2em line height
-                const padding = 4;
-                const offset = 8;
-
-                // Calculate max width and total height
-                let maxWidth = 0;
-                lines.forEach(line => {
-                    const metrics = ctx.measureText(line);
-                    maxWidth = Math.max(maxWidth, metrics.width);
-                });
-
-                // Special handling for single emoji
-                if (lines.length === 1 && lines[0].length === 2 && /^\p{Emoji}$/u.test(lines[0])) {
-                    maxWidth = emojiSize;
-                }
-
-                const totalHeight = (lines.length * lineHeight) + padding;
-
-                // Draw background
-                ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
-                drawRoundedBox(
-                    ctx,
-                    mouseX + offset,
-                    mouseY,
-                    maxWidth + padding * 2,
-                    totalHeight,
-                    4
-                );
-
-                // Draw each line of text
-                ctx.textAlign = 'left';
-                ctx.fillStyle = 'black';
-                lines.forEach((line, i) => {
-                    ctx.fillText(
-                        line,
-                        mouseX + padding + offset,
-                        mouseY + (i * lineHeight) + lineHeight * 0.8 // Vertical position
-                    );
-                });
-
-                ctx.restore();
+                drawFormattedText(mouseX, mouseY, player.hoverText);
             }
         }
 

@@ -38,6 +38,7 @@ var player = {
     visibility: 100,
     progressBar: 0,
     progressType: "",
+    isMining: false,
     isSprinting: false,
     isShifting: false,
     isJumping: false,

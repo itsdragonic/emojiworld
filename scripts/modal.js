@@ -285,15 +285,15 @@ function drawInventory() {
     function itemDescription(item) {
         if (item != "" && player.itemDrag.value == 0) {
             if (armorProperties[item]) {
-                player.hoverText = `${item}${findName(item)}
+                player.hoverText = `\\e${item}\\r\\a${findName(item)}
 ${findDesc(item)}
 Protection: ${armorProperties[item].protection}`;
             } else if (accessoriesProperties[item]) {
-                player.hoverText = `${item}${findName(item)}
+                player.hoverText = `\\e${item}\\r\\a${findName(item)}
 ⊹ Accessory ⊹
 ${findDesc(item)}`;
             } else {
-                player.hoverText = `${item}${findName(item)}
+                player.hoverText = `\\e${item}\\r\\a${findName(item)}
 ${findDesc(item)}`;
             }
             return true;

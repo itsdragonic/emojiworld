@@ -459,6 +459,7 @@ function surroundings(dx,dy) {
         // Breaking and mining blocks
         else if (leftClick || rightClick) {
             let distance = Math.sqrt((xHover - gridX / 2) ** 2 + (yHover - gridY / 2) ** 2);
+            player.isMining = false;
             if (distance <= 7) {
                 // Block breaking logic
                 player.correctTool = true;
@@ -468,6 +469,7 @@ function surroundings(dx,dy) {
 
                 // ---------------- Mining logic ----------------
                 if (leftClick && block !== "" && (!Tile || !Tile.unbreakable)) {
+                    player.isMining = true;
                     const targetKey = x + "," + y;
 
                     // Check if mining same block
@@ -594,4 +596,66 @@ function drawVisibilityOverlay() {
     // Draw the darkening overlay
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
+}
+
+function drawFormattedText(x, y, text) {
+    if (!text || typeof text !== 'string') return; // Skip if invalid
+    
+    ctx.save();
+    
+    try {
+        // Default font settings
+        ctx.font = `${emojiSize}px ${useFont}, Arial`;
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'black';
+        
+        // Split text by newlines (preserves original behavior)
+        const lines = text.split('\n');
+        const lineHeight = emojiSize * 1.2;
+        const padding = 4;
+        const offset = 8;
+        
+        // Calculate dimensions
+        let maxWidth = 0;
+        const measurements = [];
+        
+        lines.forEach(line => {
+            // Simple formatting handler (preserves old text)
+            const cleanLine = line.replace(/\\./g, ''); // Strip formatting
+            const metrics = ctx.measureText(cleanLine);
+            measurements.push(metrics);
+            maxWidth = Math.max(maxWidth, metrics.width);
+        });
+        
+        // Special emoji handling
+        if (lines.length === 1 && lines[0].length === 2 && /^\p{Emoji}$/u.test(lines[0])) {
+            maxWidth = emojiSize;
+        }
+        
+        // Draw background
+        ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
+        drawRoundedBox(
+            ctx,
+            x + offset,
+            y,
+            maxWidth + padding * 2,
+            (lines.length * lineHeight) + padding,
+            4
+        );
+        
+        // Draw text (ignores formatting but preserves \n)
+        ctx.fillStyle = 'black';
+        lines.forEach((line, i) => {
+            ctx.fillText(
+                line.replace(/\\./g, ''), // Draw without formatting
+                x + padding + offset,
+                y + (i * lineHeight) + lineHeight * 0.8
+            );
+        });
+        
+    } catch (e) {
+        console.warn('Text drawing error:', e);
+    } finally {
+        ctx.restore();
+    }
 }
