@@ -1,13 +1,13 @@
 var foodProperties = {
     "🍗": {
         name: "Drumstick",
-        nutrition: 2,
+        nutrition: 3,
     }, "🥩": {
         name: "Steak",
-        nutrition: 2,
+        nutrition: 4,
     }, "🥓": {
         name: "Bacon",
-        nutrition: 2,
+        nutrition: 3,
     }, "🍞": {
         name: "Bread",
         nutrition: 2,

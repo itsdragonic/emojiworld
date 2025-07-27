@@ -76,7 +76,7 @@ function gameLogic() {
 
     // entity logic
     for (let entity of gameData.entities) {
-        entity.target(player.x,player.y,map);
+        //entity.target(player.x,player.y,map);
         entity.update(map);
     }
 }
@@ -115,29 +115,26 @@ function changeLevel(lvl) {
 
 function dim() {
     switch (player.level) {
-        case 0:
-            return overworld_map;
+        case 3:
+            return moon_map;
+            break;
+        case 2:
+            return space_map;
             break;
         case 1:
             return sky_map;
             break;
-        case 2:
-            return space_map;
+        case 0:
+            return overworld_map;
             break;
         case -1:
             return cave1_map;
             break;
         case -2:
-            return hell_map;
+            return cave2_map;
             break;
         case -3:
-            return dungeon_map;
-            break;
-        case 3:
-            return house_map;
-            break;
-        case 4:
-            return moon_map;
+            return hell_map;
             break;
     }
 }
@@ -439,12 +436,27 @@ function surroundings(dx,dy) {
         player.hoverText = "";
     }
 
-    // Eating priority
     player.isMining = false;
     if (!player.inventoryOpen) {
+        // Attacking mobs
+        if (leftClick) {
+            for (let entity of gameData.entities) {
+                if (
+                    Math.round(Math.round(entity.x)) === Math.round(x) &&
+                    Math.round(Math.round(entity.y)) === Math.round(y)
+                ) {
+                    if (weaponProperties[itemHeld]) {
+                        entity.takeDamage(weaponProperties[itemHeld].damage);
+                    } else {
+                        entity.takeDamage(1);
+                    }
+                }
+            }
+        }
+        // Eating
         if (rightClick && foodProperties[itemHeld]) {
             player.progressType = "eating";
-            player.progressBar += 1 / (foodProperties[itemHeld].nutrition * 0.075); // adjust eating speed (smaller = faster)
+            player.progressBar += 1 / (foodProperties[itemHeld].nutrition * 0.1); // adjust eating speed (smaller = faster)
             if (player.progressBar >= 100) {
                 hunger(foodProperties[itemHeld].nutrition);
                 if (foodProperties[itemHeld]?.thirst) thirst(foodProperties[itemHeld].thirst);
@@ -457,10 +469,6 @@ function surroundings(dx,dy) {
                 removeInventory(itemHeld,1);
                 player.progressBar = 0;
             }
-        }
-        // Attacking mobs
-        else if (leftClick) {
-            // logic here...
         }
         // Breaking and mining blocks
         else if (leftClick || rightClick) {

@@ -10,7 +10,9 @@ var character = {
     kneelRight: "🧎‍➡️",
     swim: "🏊",
     meditate: "🧘",
-    cartwheel: "🤸"
+    cartwheel: "🤸",
+    flying: "🦸",
+    astronaut: "🧑‍🚀"
 };
 
 // Creating Player

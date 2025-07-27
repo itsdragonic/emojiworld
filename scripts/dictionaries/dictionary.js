@@ -126,7 +126,7 @@ var objectProperties = {
     },
     "🎋": {
         name: "Bamboo",
-        canBeWalkedOn: false,
+        canBeWalkedOn: true,
         durability: 2,
         toolRequired: "🪓",
         loot: "🎍"
@@ -982,6 +982,20 @@ var objectProperties = {
         toolRequired: "🪓",
         loot: "🚪"
     },
+    "⛺": {
+        name: "Tent",
+        canBeWalkedOn: true,
+        durability: 8,
+        toolRequired: "🪓",
+        loot: "⛺"
+    },
+    "🪧": {
+        name: "Sign",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "🪓",
+        loot: "🪧"
+    },
     "🏠": {
         name: "House",
         description: "Nice place to live",
@@ -1041,7 +1055,7 @@ var objectProperties = {
         loot: "💎"
     },
     "🪙": {
-        name: "Metal",
+        name: "Coin",
         canBeWalkedOn: false,
         durability: 10,
         toolRequired: "⛏️",
@@ -1227,6 +1241,14 @@ var objectProperties = {
         durability: 4,
         toolRequired: "👊",
         loot: "🕸️"
+    },
+    "👳‍♂️": {
+        name: "Merchant",
+        description: "Trade for useful items\n(Visible under crafting menu)",
+        canBeWalkedOn: false,
+        durability: 20,
+        toolRequired: "🗡️",
+        loot: ""
     },
     "🔮": {
         name: "Crystal Ball",

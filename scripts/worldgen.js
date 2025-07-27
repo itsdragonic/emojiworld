@@ -2,7 +2,7 @@ var rngCounter = 0;
 
 /* Seeds
  *
- * a - first dev seed
+ * a (200x200) - first dev seed
  * 
  */
 
@@ -142,16 +142,25 @@ const water = ["🌊", "💦", "🧊","༄","ꕀ"];
 var waterColor = "#7aaae1";
 const sand = ["𓂃","࿔*:","࿐","🏖️"];
 var sandColor = "#cabb9d";
-const tree = ["🌳","🌳b","🌳s","🌲","🌲b","🌴","🌴b"];
+const tree = ["🌳","🌳b","🌳s","🌲","🌲b","🌴","🌴b","🎋"];
 const grass = ["🌱","෴"];
 var grassColor = "#76a763";
 var coords = [];
 
-function randomCoords(int) {
+function randomCoords(int, borderDistance = 1) {
+    // Clear existing coordinates
     coords = [];
+    
+    // Calculate safe area boundaries
+    const minX = borderDistance;
+    const minY = borderDistance;
+    const maxX = MAP_WIDTH - borderDistance - 1;
+    const maxY = MAP_HEIGHT - borderDistance - 1;
+
+    // Generate new coordinates
     for (let i = 0; i < int; i++) {
-        let x = Math.floor(rng()*MAP_WIDTH);
-        let y = Math.floor(rng()*MAP_HEIGHT);
+        let x = Math.floor(minX + rng() * (maxX - minX));
+        let y = Math.floor(minY + rng() * (maxY - minY));
         coords.push([x, y]);
     }
 }
@@ -425,8 +434,10 @@ function generateWorld() {
             // desert
             else if (biome_map[i][j] == "🏜️") {
                 let chance = rng();
-                if (chance < 0.001) {
+                if (chance < 0.0005) {
                     row.push("🌺");
+                } else if (chance < 0.002) {
+                    row.push("🌸");
                 } else if (chance < 0.003) {
                     row.push("🪨");
                 } else if (chance < 0.006) {
@@ -584,6 +595,35 @@ function generateWorld() {
             }
         }
     }
+
+    // Merchant
+    randomCoords(4);
+    const merchant = [
+        ["", "💰", ""],
+        ["⛺", "👳‍♂️", ""],
+        ["💰", "", "🪧"]
+    ];
+    for (let i = 0; i < coords.length; i++) {
+        let xPos = coords[i][0];
+        let yPos = coords[i][1];
+
+        // Place 3x3 merchant structure
+        for (let mx = 0; mx < 3; mx++) {
+            for (let my = 0; my < 3; my++) {
+                const worldX = xPos + mx;
+                const worldY = yPos + my;
+
+                // Check map bounds and water
+                if (overworld_map[worldX] !== undefined &&
+                    overworld_map[worldX][worldY] !== undefined) {
+
+                    const tile = merchant[mx][my];
+                    overworld_map[worldX][worldY] = tile;
+                }
+            }
+        }
+    }
+    
 
     caveGen();
 }

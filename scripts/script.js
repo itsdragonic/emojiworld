@@ -36,7 +36,8 @@ var hotbarText = "";
 var hotbarTextTime = 0;
 
 // Entities
-gameData.entities.push(new Mob("🐓", 60, 100));
+var entityId = 0
+gameData.entities.push(new Mob("🐓", 60, 100, entityId));
 
 // Custom fonts
 document.fonts.load("32px Apple Color Emoji").then(() => {
@@ -105,7 +106,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
         // Other conditions
         if (player.level == 1) {
-            player.characterEmote = character.meditate;
+            player.characterEmote = character.flying;
         }
 
         // Normalize diagonal movement

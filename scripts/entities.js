@@ -1,20 +1,24 @@
 class Mob {
-    constructor(type, x, y) {
+    constructor(type, x, y, id) {
         this.type = type;
         this.health = entityProperties[this.type].health;
         this.aquatic = entityProperties[this.type].aquatic;
         this.x = x;
         this.y = y;
+        this.id = id;
 
-        this.lootTable = entityProperties[this.type].lootTable;
+        this.lootTable = entityProperties[this.type].loot;
         this.wanderCooldown = Math.floor(Math.random() * 100) + 50; // frames until next move
         this.hasTarget = false;
         this.targetX = null;
         this.targetY = null;
+        this.attackCooldown = 0;
     }
 
     takeDamage(amount) {
+        if (this.attackCooldown > 0) return;
         this.health -= amount;
+        this.attackCooldown = 20; // frames until can be hit again
         if (this.health <= 0) {
             this.die();
         }
@@ -29,13 +33,25 @@ class Mob {
         for (const loot of this.lootTable) {
             if (Math.random() <= loot.chance) {
                 const count = Math.floor(Math.random() * (loot.max - loot.min + 1)) + loot.min;
-                droppedItems[loot.item] = (droppedItems[loot.item] || 0) + count;
+                if (loot.item && loot.item !== "") {
+                    droppedItems[loot.item] = (droppedItems[loot.item] || 0) + count;
+                }
             }
         }
 
         // Add drops to inventory
-        for (const [item, amount] of Object.entries(droppedItems)) {
-            addInventory(item, amount);
+        if (typeof addInventory === "function") {
+            for (const [item, amount] of Object.entries(droppedItems)) {
+                addInventory(item, amount);
+            }
+        }
+
+        // Remove this mob from gameData.entities by unique id
+        for (let i = 0; i < gameData.entities.length; i++) {
+            if (gameData.entities[i]["id"] === this.id) {
+                gameData.entities.splice(i, 1);
+                break;
+            }
         }
     }
 
@@ -93,6 +109,9 @@ class Mob {
     }
 
     update(map) {
+        // Decrease attack cooldown
+        if (this.attackCooldown > 0) this.attackCooldown--;
+
         // Decrease cooldown before next wander or target move
         if (this.wanderCooldown > 0) {
             this.wanderCooldown--;

@@ -56,11 +56,17 @@ var craftingDictionary = {
     "🪑": {
         name: "Chair",
         itemsNeeded: ["🪵"],
-        amountsNeeded: [2],
+        amountsNeeded: [3],
         required: "🧰",
     },
     "🚪": {
         name: "Door",
+        itemsNeeded: ["🪵"],
+        amountsNeeded: [4],
+        required: "🧰",
+    },
+    "🪧": {
+        name: "Sign",
         itemsNeeded: ["🪵"],
         amountsNeeded: [3],
         required: "🧰",
@@ -203,11 +209,17 @@ var craftingDictionary = {
         amountsNeeded: [1],
         required: "🧰",
     },
+    "🔮": {
+        name: "Crystal Ball",
+        itemsNeeded: ["🪙","💎"],
+        amountsNeeded: [8,2],
+        required: "👳‍♂️",
+    },
     "💊": {
         name: "Health Pill",
         itemsNeeded: ["🌿", "🌸", "🌷"],
         amountsNeeded: [2, 1, 1],
-        required: "🧰",
+        required: "⚗️",
     },
     "🧪": {
         name: "Regeneration Potion",
