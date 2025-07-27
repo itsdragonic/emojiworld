@@ -36,7 +36,7 @@ var hotbarText = "";
 var hotbarTextTime = 0;
 
 // Entities
-gameData.entities.push(new Chicken(60, 100));
+gameData.entities.push(new Mob("🐓", 60, 100));
 
 // Custom fonts
 document.fonts.load("32px Apple Color Emoji").then(() => {
@@ -154,6 +154,17 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             for (let j = 0; j < gridY + 1; j++) {
                 let mapX = startX + i;
                 let mapY = startY + j;
+
+                // Draw hole if cave1_map has ladder and player is in overworld
+                if (player.level == 0 && cave1_map[mapX] && cave1_map[mapX][mapY] == "🪜") {
+                    let drawX = i * emojiSize - offsetX;
+                    let drawY = j * emojiSize - offsetY;
+                    ctx.font = (emojiSize * 1.5) + "px " + useFont + ", Arial";
+                    ctx.fillStyle = "#fff";
+                    ctx.fillText("🕳️", drawX, drawY);
+                    
+                    continue;
+                }
 
                 if (map[mapX] && map[mapX][mapY]) {
                     let emoji = map[mapX][mapY];

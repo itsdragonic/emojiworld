@@ -354,16 +354,24 @@ var objectProperties = {
     },
     "🪨": {
         name: "Stone",
-        canBeWalkedOn: true,
+        canBeWalkedOn: false,
         durability: 4,
         toolRequired: "⛏️",
         loot: "🪨"
     },
     "🪨b": {
         name: "Boulder",
-        canBeWalkedOn: true,
+        canBeWalkedOn: false,
         durability: 6,
         toolRequired: "⛏️",
+        loot: "🪨"
+    },
+    "🪨g": {
+        name: "Stone Wall",
+        canBeWalkedOn: false,
+        durability: 6,
+        toolRequired: "⛏️",
+        unbreakable: true,
         loot: "🪨"
     },
     "🦴": {
@@ -775,239 +783,6 @@ var objectProperties = {
         toolRequired: "⛏️",
         loot: "👹"
     },
-    "🐖": {
-        name: "Pig",
-        description: "Oink Oink",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🥓"
-    },
-    "🐄": {
-        name: "Cow",
-        description: "Moo Moo",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🥩"
-    },
-    "🦆": {
-        name: "Duck",
-        description: "Quack Quack",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🪶"
-    },
-    "🐓": {
-        name: "Rooster",
-        description: "Cock-a-doodle-doo!",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🍗"
-    },
-    "🐔": {
-        name: "Chicken",
-        description: "Cluck cluck!",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🍗"
-    },
-    "🐝": {
-        name: "Bee",
-        description: "Buzz! (Right-click with flower for honey)",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 30,
-        toolRequired: "🗡️",
-        loot: "🍯"
-    },
-    "🐕": {
-        name: "Dog",
-        description: "Aww..",
-        isAnimal: true,
-        canBeWalkedOn: true,
-        durability: 7,
-        toolRequired: "🗡️",
-        loot: ""
-    },
-    "🐈": {
-        name: "Cat",
-        description: "Aww..",
-        isAnimal: true,
-        canBeWalkedOn: true,
-        durability: 7,
-        toolRequired: "🗡️",
-        loot: ""
-    },
-    "🐶": {
-        name: "Doggy",
-        description: "Aww..",
-        isAnimal: true,
-        canBeWalkedOn: true,
-        durability: 7,
-        toolRequired: "🗡️",
-        loot: ""
-    },
-    "🐱": {
-        name: "Kitty",
-        description: "Aww..",
-        isAnimal: true,
-        canBeWalkedOn: true,
-        durability: 7,
-        toolRequired: "🗡️",
-        loot: ""
-    },
-    "🧟‍♂️": {
-        name: "Zombie Man",
-        description: "Brains...",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🍖"
-    },
-    "🧟‍♀️": {
-        name: "Zombie Woman",
-        description: "Brains...",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🦴"
-    },
-    "🧛": {
-        name: "Vampire",
-        description: "I want to suck your blood...",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🩸"
-    },
-    "👻": {
-        name: "Ghost",
-        description: "Boo!",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🔑"
-    },
-    "🐍": {
-        name: "Snake",
-        description: "Ssss...",
-        isAnimal: true,
-        canBeWalkedOn: true,
-        durability: 5,
-        toolRequired: "🗡️",
-        loot: "🦎"
-    },
-    "🐦": {
-        name: "Bird",
-        description: "Tweet Tweet",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🪶"
-    },
-    "🕊️": {
-        name: "Dove",
-        description: "Coo-oo",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🪶"
-    },
-    "🦉": {
-        name: "Owl",
-        description: "Hoot-hoot",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 4,
-        toolRequired: "🗡️",
-        loot: "🪶"
-    },
-    "🦔": {
-        name: "Hedgehog",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 4,
-        toolRequired: "🗡️",
-        loot: "🪶"
-    },
-    "🕷️": {
-        name: "Spider",
-        description: "Don't get bit!",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 3,
-        toolRequired: "🗡️",
-        loot: "🕸️"
-    },
-    "🦇": {
-        name: "Bat",
-        description: "Don't get bit!",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 2,
-        toolRequired: "🗡️",
-        loot: ""
-    },
-    "👼": {
-        name: "Baby Angel",
-        description: "Holy little fella",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 5,
-        toolRequired: "🗡️",
-        loot: "🌟"
-    },
-    "😇": {
-        name: "Angel",
-        description: "Holy art thou",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 5,
-        toolRequired: "🗡️",
-        loot: "🌟"
-    },
-    "🦄": {
-        name: "Unicorn",
-        description: "So pretty",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 7,
-        toolRequired: "🗡️",
-        loot: "🌈"
-    },
-    "🧞": {
-        name: "Genie",
-        description: "I'll grant you 3 wishes...",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 7,
-        toolRequired: "🗡️",
-        loot: "🫖"
-    },
-    "🧚": {
-        name: "Fairy",
-        description: ":3",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 6,
-        toolRequired: "🗡️",
-        loot: "✨"
-    },
     "🪬": {
         name: "Hamsa",
         description: "He sees all...",
@@ -1127,24 +902,6 @@ var objectProperties = {
         durability: 8,
         toolRequired: "⛏️",
         loot: "🌑"
-    },
-    "👿": {
-        name: "Mad Demon",
-        description: ">:(",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 10,
-        toolRequired: "🗡️",
-        loot: "🔥"
-    },
-    "😈": {
-        name: "Evil Demon",
-        description: ">:)",
-        isAnimal: true,
-        canBeWalkedOn: false,
-        durability: 9,
-        toolRequired: "🗡️",
-        loot: "🔥"
     },
     "🔥": {
         name: "Fire",

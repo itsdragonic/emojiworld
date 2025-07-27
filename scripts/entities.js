@@ -1,17 +1,12 @@
-var pets = ["🐶", "🐕‍🦺", "🦮", "🐩", "🐱", "🐈", "🐈‍⬛", "🐤", "🐥"];
-var hostileMobs = ["🕷️", "🧟‍♀", "🧟‍♂", "🧛", "👻", "👿", "😈", "🛸"];
-
-class Chicken {
-    constructor(x, y) {
-        this.type = "chicken";
-        this.health = 3;
+class Mob {
+    constructor(type, x, y) {
+        this.type = type;
+        this.health = entityProperties[this.type].health;
+        this.aquatic = entityProperties[this.type].aquatic;
         this.x = x;
         this.y = y;
 
-        this.lootTable = [
-            { item: "🍗", min: 1, max: 2 },
-            { item: "🪶", min: 1, max: 2 }
-        ];
+        this.lootTable = entityProperties[this.type].lootTable;
         this.wanderCooldown = Math.floor(Math.random() * 100) + 50; // frames until next move
         this.hasTarget = false;
         this.targetX = null;
@@ -26,15 +21,22 @@ class Chicken {
     }
 
     die() {
-        const drops = [];
-        for (let loot of this.lootTable) {
-            let count = Math.floor(Math.random() * (loot.max - loot.min + 1)) + loot.min;
-            for (let i = 0; i < count; i++) {
-                drops.push(loot.item);
+        if (!this.lootTable) return;
+
+        const droppedItems = {};
+
+        // Calculate drops with chance consideration
+        for (const loot of this.lootTable) {
+            if (Math.random() <= loot.chance) {
+                const count = Math.floor(Math.random() * (loot.max - loot.min + 1)) + loot.min;
+                droppedItems[loot.item] = (droppedItems[loot.item] || 0) + count;
             }
         }
-        console.log(`Chicken dropped: ${drops.join(" ")}`);
-        // You can later push drops into the world or player inventory here
+
+        // Add drops to inventory
+        for (const [item, amount] of Object.entries(droppedItems)) {
+            addInventory(item, amount);
+        }
     }
 
     // Call this to set a target
@@ -55,9 +57,12 @@ class Chicken {
         let dx = targetX - this.x;
         let dy = targetY - this.y;
 
-        // Use atan2 for optimal angle
+        // Using atan2 for optimal angle
         let angle = Math.atan2(dy, dx);
         let step = 0.1;
+        if (water.includes(map[Math.round(this.x)][Math.round(this.y)]) && !this.aquatic) {
+            step = 0.02;
+        }
         let moveX = Math.cos(angle) * step;
         let moveY = Math.sin(angle) * step;
 
@@ -74,9 +79,10 @@ class Chicken {
         for (let dir of candidates) {
             let newX = this.x + dir.dx;
             let newY = this.y + dir.dy;
+            let tile = map[Math.round(newX)][Math.round(newY)];
             if (
-                objectProperties[map[Math.round(newX)][Math.round(newY)]]?.canBeWalkedOn &&
-                !water.includes(map[Math.round(newX)][Math.round(newY)])
+                objectProperties[tile]?.canBeWalkedOn ||
+                tile == ""
             ) {
                 this.x = newX;
                 this.y = newY;
@@ -129,6 +135,6 @@ class Chicken {
         ctx.font = emojiSize + "px " + useFont + ", Arial";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText("🐓", mapX, mapY);
+        ctx.fillText(this.type, mapX, mapY);
     }
 }

@@ -76,7 +76,7 @@ function gameLogic() {
 
     // entity logic
     for (let entity of gameData.entities) {
-        //entity.target(player.x,player.y,map);
+        entity.target(player.x,player.y,map);
         entity.update(map);
     }
 }
@@ -457,6 +457,10 @@ function surroundings(dx,dy) {
                 removeInventory(itemHeld,1);
                 player.progressBar = 0;
             }
+        }
+        // Attacking mobs
+        else if (leftClick) {
+            // logic here...
         }
         // Breaking and mining blocks
         else if (leftClick || rightClick) {

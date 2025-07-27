@@ -283,8 +283,8 @@ var craftingDictionary = {
     },
     "🗡️": {
         name: "Dagger",
-        itemsNeeded: ["🪵", "🪨"],
-        amountsNeeded: [1, 3],
+        itemsNeeded: ["🪵", "🔩"],
+        amountsNeeded: [1, 2],
         required: "🧰",
     },
     "⛏️": {
