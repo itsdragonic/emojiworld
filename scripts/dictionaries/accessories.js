@@ -15,6 +15,10 @@ var accessoriesProperties = {
         name: "Wheelchair",
         description: "When in accessory bar, the player\nloses 50% less hunger while moving"
     },
+    "🪽": {
+        name: "Wings",
+        description: "When in accessory bar or chest,\npress jump [Space] to fly"
+    },
     "🛡️": {
         name: "Shield",
         protection: 3,

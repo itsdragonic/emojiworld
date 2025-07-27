@@ -209,12 +209,6 @@ var craftingDictionary = {
         amountsNeeded: [1],
         required: "🧰",
     },
-    "🔮": {
-        name: "Crystal Ball",
-        itemsNeeded: ["🪙","💎"],
-        amountsNeeded: [8,2],
-        required: "👳‍♂️",
-    },
     "💊": {
         name: "Health Pill",
         itemsNeeded: ["🌿", "🌸", "🌷"],
@@ -272,7 +266,7 @@ var craftingDictionary = {
     "🪽​": {
         name: "Wings",
         itemsNeeded: ["🪶"],
-        amountsNeeded: [4],
+        amountsNeeded: [15],
         required: "🔮",
     },
     "➶​": {
@@ -454,5 +448,43 @@ var craftingDictionary = {
         itemsNeeded: ["🪵"],
         amountsNeeded: [6],
         required: "🧰",
+    },
+
+    // Trading
+    "🔮": {
+        name: "Crystal Ball",
+        itemsNeeded: ["🪙","💎"],
+        amountsNeeded: [8,2],
+        required: "👳‍♂️",
+    },
+    "𓇠": {
+        name: "Tomato Seed",
+        itemsNeeded: ["🪙"],
+        amountsNeeded: [2],
+        required: "👳‍♂️",
+    },
+    "𓇢": {
+        name: "Corn Seed",
+        itemsNeeded: ["🪙"],
+        amountsNeeded: [2],
+        required: "👳‍♂️",
+    },
+    "𓄺": {
+        name: "Potato Seed",
+        itemsNeeded: ["🪙"],
+        amountsNeeded: [2],
+        required: "👳‍♂️",
+    },
+    "⌁": {
+        name: "Lettuce Seed",
+        itemsNeeded: ["🪙"],
+        amountsNeeded: [2],
+        required: "👳‍♂️",
+    },
+    "❦": {
+        name: "Grape Seed",
+        itemsNeeded: ["🪙"],
+        amountsNeeded: [2],
+        required: "👳‍♂️",
     },
 };

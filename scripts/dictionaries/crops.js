@@ -7,7 +7,7 @@ var farmCrops = {
     "🫘": { "name": "Beans", "seed": "𓇡" },
     "🌾": { "name": "Wheat", "seed": "." },
     "🍈": { "name": "Melon", "seed": ":･", "loot": "🍉" },
-    "🌳": { "name": "Tree", "seed": "˖", "loot": "🪵" },
+    "🌳": { "name": "Tree", "seed": "🌰", "loot": "🪵" },
     "🌲": { "name": "Pine Tree", "seed": "↟", "loot": "🪵" },
     "🍄": { "name": "Red Mushroom", "seed": "𓍊" },
     "🌿": { "name": "Herb", "seed": "⸙" },

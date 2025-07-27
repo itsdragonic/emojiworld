@@ -1,5 +1,7 @@
-var pets = ["🐶", "🐕‍🦺", "🦮", "🐩", "🐱", "🐈", "🐈‍⬛", "🐤", "🐥"];
-var hostileMobs = ["🕷️", "🧟‍♀", "🧟‍♂", "🧛", "👻", "👿", "😈", "🛸"];
+const pets = ["🐶", "🐕‍🦺", "🦮", "🐩", "🐱", "🐈", "🐈‍⬛", "🐤", "🐥"];
+const hostileMobs = ["🕷️", "🧟‍♀", "🧟‍♂", "🧛", "👻", "👿", "😈", "🛸"];
+
+const overworldMobs = ["🐖","🐄","🦆","🐓","🐝","🦃","🐿️","🐇"];
 
 var entityProperties = {
     "🐖": {
@@ -39,13 +41,40 @@ var entityProperties = {
             { item: "🪶", min: 1, max: 2, chance: 1 }
         ]
     },
+    "🦃": {
+        name: "Turkey",
+        health: 3,
+        speed: 1,
+        loot: [
+            { item: "🍗", min: 1, max: 2, chance: 1 },
+            { item: "🪶", min: 1, max: 2, chance: 1 }
+        ]
+    },
     "🐝": {
         name: "Bee",
-        description: "Buzz! (Right-click with flower for honey)",
-        health: 5,
+        description: "Buzz!\n(Right-click with flower for honey)",
+        health: 2,
         speed: 1,
         loot: [
             { item: "🍯", min: 1, max: 2, chance: 1 },
+        ]
+    },
+    "🐇": {
+        name: "Rabbit",
+        health: 3,
+        speed: 1,
+        loot: [
+            { item: "🍗", min: 1, max: 1, chance: 0.45 },
+            { item: "🪶", min: 0, max: 1, chance: 1 }
+        ]
+    },
+    "🐿️": {
+        name: "Squirrel",
+        health: 3,
+        speed: 1,
+        loot: [
+            { item: "🍗", min: 1, max: 1, chance: 0.2 },
+            { item: "🪶", min: 0, max: 1, chance: 1 }
         ]
     },
     "🐕": {

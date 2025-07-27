@@ -47,9 +47,9 @@ class Mob {
         }
 
         // Remove this mob from gameData.entities by unique id
-        for (let i = 0; i < gameData.entities.length; i++) {
-            if (gameData.entities[i]["id"] === this.id) {
-                gameData.entities.splice(i, 1);
+        for (let i = 0; i < gameData.entities[String(player.level)].length; i++) {
+            if (gameData.entities[String(player.level)][i]["id"] === this.id) {
+                gameData.entities[String(player.level)].splice(i, 1);
                 break;
             }
         }

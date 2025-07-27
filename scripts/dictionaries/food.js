@@ -62,6 +62,10 @@ var foodProperties = {
         name: "Coconut",
         nutrition: 3,
         thirst: 2,
+    }, "🥤": {
+        name: "Water Cup",
+        nutrition: 0,
+        thirst: 4
     }, "🥛": {
         name: "Milk",
         nutrition: 3,
@@ -71,26 +75,27 @@ var foodProperties = {
         nutrition: 4,
     }, "🍺": {
         name: "Beer",
-        nutrition: 3,
-        thirst: 2
+        nutrition: 2,
+        thirst: 3
     }, "☕": {
         name: "Coffee",
-        nutrition: 3,
+        nutrition: 2,
         thirst: 3
     }, "🍷": {
         name: "Wine",
-        nutrition: 4,
+        nutrition: 2,
         thirst: 4
     }, "🍹": {
         name: "Tropical Drink",
-        nutrition: 5,
+        nutrition: 3,
         thirst: 5
     }, "🍯": {
         name: "Honey",
         nutrition: 3,
+        thirst: 2,
     }, "🍸": {
         name: "Cocktail",
-        nutrition: 5,
+        nutrition: 2,
         thirst: 5
     }, "🍔": {
         name: "Hamburger",

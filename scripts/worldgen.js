@@ -599,9 +599,9 @@ function generateWorld() {
     // Merchant
     randomCoords(4);
     const merchant = [
-        ["", "💰", ""],
-        ["⛺", "👳‍♂️", ""],
-        ["💰", "", "🪧"]
+        ["𓂃", "💰", "𓂃"],
+        ["⛺", "👳‍♂️", "𓂃"],
+        ["💰", "𓂃", "🪧"]
     ];
     for (let i = 0; i < coords.length; i++) {
         let xPos = coords[i][0];

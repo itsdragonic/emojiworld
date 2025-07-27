@@ -35,6 +35,7 @@ var objectProperties = {
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 2, chance: 1 },
+            { item: "🌰", min: 1, max: 3, chance: 0.1 },
             { item: "🍎", min: 1, max: 1, chance: 0.03 },
             { item: "🍏", min: 1, max: 1, chance: 0.03 }
         ]
@@ -47,6 +48,7 @@ var objectProperties = {
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 1, chance: 1 },
+            { item: "🌰", min: 1, max: 2, chance: 0.1 },
             { item: "🍎", min: 1, max: 1, chance: 0.03 },
             { item: "🍏", min: 1, max: 1, chance: 0.03 }
         ]
@@ -59,6 +61,7 @@ var objectProperties = {
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 3, chance: 1 },
+            { item: "🌰", min: 1, max: 5, chance: 0.1 },
             { item: "🍎", min: 1, max: 1, chance: 0.03 },
             { item: "🍏", min: 1, max: 1, chance: 0.03 }
         ]
@@ -250,12 +253,12 @@ var objectProperties = {
         toolRequired: "👊",
         loot: ":･"
     },
-    "˖": {
-        name: "Tree Sapling",
+    "🌰": {
+        name: "Acorn",
         canBeWalkedOn: true,
         durability: 2,
         toolRequired: "👊",
-        loot: "˖"
+        loot: "🌰"
     },
     "↟": {
         name: "Evergreen Sapling",

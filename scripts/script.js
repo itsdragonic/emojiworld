@@ -8,7 +8,15 @@ let xHover,yHover,gridX,gridY,x,y;
 var gameData = {
     time: 0,
     day: 1,
-    entities: []
+    entities: {
+        '3': [],
+        '2': [],
+        '1': [],
+        '0': [],
+        '-1': [],
+        '-2': [],
+        '-3': [],
+    }
 }
 
 // Game loop
@@ -36,8 +44,9 @@ var hotbarText = "";
 var hotbarTextTime = 0;
 
 // Entities
-var entityId = 0
-gameData.entities.push(new Mob("🐓", 60, 100, entityId));
+var entityId = 0;
+gameData.entities['0'].push(new Mob("🐓", 60, 100, entityId));
+entityId++;
 
 // Custom fonts
 document.fonts.load("32px Apple Color Emoji").then(() => {
@@ -244,8 +253,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }
         }
 
-        // Draw entities (outside tile loop, only if within sight)
-        for (let entity of gameData.entities) {
+        // Draw entities
+        for (let entity of gameData.entities[String(player.level)]) {
             // Check if entity is within visible grid
             if (
                 entity.x >= startX && entity.x < startX + gridX &&

@@ -46,6 +46,22 @@ function gameLogic() {
     // Dragging items in inventory
     if (timeSinceDragging > 0) timeSinceDragging --;
 
+    // Mob spawning
+    let mobCap = gameData.entities[String(player.level)].length < 30;
+    if (gameData.time % 100 == 0 && mobCap) {
+        let mob;
+        if (player.level == 0) {
+            mob = overworldMobs[Math.floor(Math.random() * overworldMobs.length)];
+        } else {
+            return;
+        }
+        let spawnPos = spawningRegion(player.x,player.y).map(Math.round);
+        if (map[spawnPos[0]] && map[spawnPos[0]][spawnPos[1]]) {
+            gameData.entities['0'].push(new Mob(mob, spawnPos[0], spawnPos[1], entityId));
+            entityId++;
+        }
+    }
+
     // Default Emotion
     if (player.breath <= 0) {
         player.defaultEmotion = "🤢"
@@ -75,7 +91,7 @@ function gameLogic() {
     }
 
     // entity logic
-    for (let entity of gameData.entities) {
+    for (let entity of gameData.entities[String(player.level)]) {
         //entity.target(player.x,player.y,map);
         entity.update(map);
     }
@@ -137,6 +153,25 @@ function dim() {
             return hell_map;
             break;
     }
+}
+
+function spawningRegion(playerX, playerY) {
+    const outsideRadius = 50;
+    const insideRadius = 35;
+    
+    // 1. Generate random angle (0 to 2π radians)
+    const angle = Math.random() * Math.PI * 2;
+    
+    // 2. Calculate random distance between inner and outer radius
+    const distance = Math.sqrt(
+        Math.random() * (outsideRadius**2 - insideRadius**2) + insideRadius**2
+    );
+    
+    // 3. Convert polar to Cartesian coordinates
+    return [
+        playerX + Math.cos(angle) * distance,  // x (can be non-integer)
+        playerY + Math.sin(angle) * distance   // y (can be non-integer)
+    ];
 }
 
 function damage(amount = 1) {
@@ -416,6 +451,13 @@ function surroundings(dx,dy) {
     if (player.level == -1 && player.isJumping && water.includes(tile) && water.includes(overworld_map[Math.round(xStep)][Math.round(yStep)])) {
         changeLevel(0);
     }
+    let hasWings = player.armor[1] == "🪽" || player.accessories.flat().includes("🪽");
+    if (player.level == 0 && player.isJumping && hasWings) {
+        changeLevel(1);
+    }
+    if (player.level == 1 && (player.isShifting || !hasWings)) {
+        changeLevel(0);
+    }
 
     itemHeld = player.inventory[0][player.hotbarSelected];
 
@@ -440,7 +482,7 @@ function surroundings(dx,dy) {
     if (!player.inventoryOpen) {
         // Attacking mobs
         if (leftClick) {
-            for (let entity of gameData.entities) {
+            for (let entity of gameData.entities[String(player.level)]) {
                 if (
                     Math.round(Math.round(entity.x)) === Math.round(x) &&
                     Math.round(Math.round(entity.y)) === Math.round(y)

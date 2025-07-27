@@ -41,7 +41,7 @@ var bosses = {
         enraged: "😵‍💫",
         angry: "🤬",
         damage: 15,
-        level: -3,
+        level: -2,
     },
     "🪬": {
         name: "Hamsa",
@@ -52,7 +52,7 @@ var bosses = {
         enraged: "😰",
         angry: "🪬",
         damage: 20,
-        level: -3,
+        level: -2,
     },
     "🐲": {
         name: "Dragonic",
@@ -85,6 +85,6 @@ var bosses = {
         enraged: "👺",
         angry: "👺",
         damage: 45,
-        level: -2,
+        level: -3,
     },
 };

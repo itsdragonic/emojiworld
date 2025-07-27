@@ -47,6 +47,7 @@ function loadScreen() {
     ctx.fillStyle = "#333";
     ctx.fillRect(0, 0, width, height);
 
+
     // Title text
     ctx.fillStyle = "white";
     ctx.font = "bold 48px " + useFont + ", Arial";

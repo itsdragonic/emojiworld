@@ -39,6 +39,11 @@ var armorProperties = {
         protection: 7,
         slot: 1,
     },
+    "🪽": {
+        name: "Wings",
+        protection: 0,
+        slot: 1,
+    },
     "👞": {
         name: "Shoes",
         protection: 2,
