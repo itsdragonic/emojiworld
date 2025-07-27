@@ -109,6 +109,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.speed = player.defaultSpeed * 0.5;
         } else if (tree.includes(player.adjacent[4]) && !player.armor.includes("🥾")) {
             player.speed = player.defaultSpeed * 0.5;
+        } else if (player.adjacent[4] == "🕸️") {
+            player.speed = player.defaultSpeed * 0.2;
         } else {
             player.speed = player.defaultSpeed;
         }
@@ -160,8 +162,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         let offsetY = (player.y - startY - gridY / 2) * emojiSize;
 
         // Draw tiles and player inside the tile loop
-        for (let i = 0; i < gridX + 1; i++) {
-            for (let j = 0; j < gridY + 1; j++) {
+        for (let i = 0; i < gridX + 2; i++) {
+            for (let j = 0; j < gridY + 2; j++) {
                 let mapX = startX + i;
                 let mapY = startY + j;
 

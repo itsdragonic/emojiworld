@@ -16,11 +16,13 @@ function caveGen() {
             // terrain map
             else if (perlin_noise[i][j] > 175) {
                 row.push("");
-            } else if (perlin_noise[i][j] > 135) {
+            } else if (perlin_noise[i][j] > 134) {
                 row.push("🪨");
-            } else if (perlin_noise[i][j] > 125) {
+            } else if (perlin_noise[i][j] > 130) {
+                row.push("🕸️");
+            } else if (perlin_noise[i][j] > 123) {
                 row.push("");
-            } else if (perlin_noise[i][j] > 122) {
+            } else if (perlin_noise[i][j] > 120) {
                 row.push("🕸️");
             } else {
                 row.push("🪨");
@@ -63,11 +65,11 @@ function caveGen() {
                     row.push("🍄");
                 } else if (chance < 0.002) {
                     row.push("🍄‍🟫");
-                } else if (chance < 0.01) {
+                } else if (chance < 0.008) {
                     row.push("🔩");
-                } else if (chance < 0.04) {
+                } else if (chance < 0.02) {
                     row.push("🪜");
-                } else if (chance < 0.25) {
+                } else if (chance < 0.5) {
                     row.push("🕸️");
                 } else {
                     row.push("")
@@ -122,6 +124,9 @@ function caveGen() {
             }
         }
     }
+
+    // Fixed structures
+    fixedStructure(8,structure.abandoned,cave1_map);
 
     skyGen();
 }

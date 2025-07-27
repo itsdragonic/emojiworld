@@ -43,24 +43,12 @@ function gameLogic() {
         }
     }
 
-    // Dragging items in inventory
+    // Cooldowns
     if (timeSinceDragging > 0) timeSinceDragging --;
+    if (player.levelCooldown > 0) player.levelCooldown --;
 
     // Mob spawning
-    let mobCap = gameData.entities[String(player.level)].length < 30;
-    if (gameData.time % 100 == 0 && mobCap) {
-        let mob;
-        if (player.level == 0) {
-            mob = overworldMobs[Math.floor(Math.random() * overworldMobs.length)];
-        } else {
-            return;
-        }
-        let spawnPos = spawningRegion(player.x,player.y).map(Math.round);
-        if (map[spawnPos[0]] && map[spawnPos[0]][spawnPos[1]]) {
-            gameData.entities['0'].push(new Mob(mob, spawnPos[0], spawnPos[1], entityId));
-            entityId++;
-        }
-    }
+    mobSpawning();
 
     // Default Emotion
     if (player.breath <= 0) {
@@ -97,8 +85,63 @@ function gameLogic() {
     }
 }
 
+function mobSpawning() {
+    let mobCap = gameData.entities[String(player.level)].length < 30;
+    if (gameData.time % 100 == 0 && mobCap) {
+        let spawnPos = spawningRegion(player.x,player.y).map(Math.round);
+
+        if (map[spawnPos[0]] !== undefined &&
+            map[spawnPos[0]][spawnPos[1]] !== undefined) {
+            let mob = "";
+            let tile = map[spawnPos[0]][spawnPos[1]];
+            switch (player.level) {
+                // Sky
+                case 1:
+                    if (tile == "") {
+                        mob = skyMobs[Math.floor(Math.random() * skyMobs.length)];
+                    }
+                    break;
+                // Overworld
+                case 0:
+                    // Aquatic
+                    if (water.includes(tile)) {
+                        mob = "🐟";
+                    }
+                    // Land
+                    else if (tile == "" || overridables.includes(tile)) {
+                        mob = overworldMobs[Math.floor(Math.random() * overworldMobs.length)];
+                    }
+                    break;
+                // Caves
+                case -1:
+                    // Coral
+                    if (water.includes(tile) && temp_map[spawnPos[0]][spawnPos[1]] == "🏜️") {
+                        mob = coralMobs[Math.floor(Math.random() * coralMobs.length)];
+                    }
+                    // Ocean floor
+                    else if (water.includes(tile)) {
+                        mob = oceanMobs[Math.floor(Math.random() * oceanMobs.length)];
+                    }
+                    // Cave
+                    else if (tile == "🕸️") {
+                        mob = "🕷️";
+                    } else if (tile == "") {
+                        mob = "🦇";
+                    }
+                    break;
+            }
+            if (mob != "") {
+                //console.log(mob);
+                gameData.entities[String(player.level)].push(new Mob(mob, spawnPos[0], spawnPos[1], entityId));
+                entityId++;
+            }
+        }
+    }
+}
+
 // Map related events
 function changeLevel(lvl) {
+    if (player.levelCooldown > 0) return;
     player.level = lvl;
     switch (lvl) {
         case 0:
@@ -127,6 +170,7 @@ function changeLevel(lvl) {
             break;
     }
     updateAdjacent();
+    player.levelCooldown = 30;
 }
 
 function dim() {
@@ -439,6 +483,14 @@ function surroundings(dx,dy) {
     }
 
     // Map transitioning
+    let hasWings = player.armor[1] == "🪽" || player.accessories.flat().includes("🪽");
+    if (player.level == 0 && player.isJumping && hasWings) {
+        changeLevel(1);
+    }
+    if (player.level == 1 && (player.isShifting || !hasWings)) {
+        changeLevel(0);
+    }
+
     if (player.isShifting && player.level == 0 && cave1_map[Math.round(xStep)][Math.round(yStep)] == "🪜") {
         changeLevel(-1);
     }
@@ -449,13 +501,6 @@ function surroundings(dx,dy) {
         changeLevel(-1);
     }
     if (player.level == -1 && player.isJumping && water.includes(tile) && water.includes(overworld_map[Math.round(xStep)][Math.round(yStep)])) {
-        changeLevel(0);
-    }
-    let hasWings = player.armor[1] == "🪽" || player.accessories.flat().includes("🪽");
-    if (player.level == 0 && player.isJumping && hasWings) {
-        changeLevel(1);
-    }
-    if (player.level == 1 && (player.isShifting || !hasWings)) {
         changeLevel(0);
     }
 

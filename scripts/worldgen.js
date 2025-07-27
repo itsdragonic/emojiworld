@@ -165,6 +165,31 @@ function randomCoords(int, borderDistance = 1) {
     }
 }
 
+function fixedStructure(amount,structure,map) {
+    randomCoords(amount,structure.length + 1);
+    
+    for (let i = 0; i < coords.length; i++) {
+        let xPos = coords[i][0];
+        let yPos = coords[i][1];
+
+        // Place 3x3 merchant structure
+        for (let mx = 0; mx < structure.length; mx++) {
+            for (let my = 0; my < structure[0].length; my++) {
+                const worldX = xPos + mx;
+                const worldY = yPos + my;
+
+                // Check map bounds
+                if (map[worldX] !== undefined &&
+                    map[worldX][worldY] !== undefined) {
+
+                    const tile = structure[mx][my];
+                    map[worldX][worldY] = tile;
+                }
+            }
+        }
+    }
+}
+
 function generateWorld() {
     // base terrain map
     runPerlinAlgorithm('base');
@@ -596,34 +621,9 @@ function generateWorld() {
         }
     }
 
-    // Merchant
-    randomCoords(4);
-    const merchant = [
-        ["𓂃", "💰", "𓂃"],
-        ["⛺", "👳‍♂️", "𓂃"],
-        ["💰", "𓂃", "🪧"]
-    ];
-    for (let i = 0; i < coords.length; i++) {
-        let xPos = coords[i][0];
-        let yPos = coords[i][1];
-
-        // Place 3x3 merchant structure
-        for (let mx = 0; mx < 3; mx++) {
-            for (let my = 0; my < 3; my++) {
-                const worldX = xPos + mx;
-                const worldY = yPos + my;
-
-                // Check map bounds and water
-                if (overworld_map[worldX] !== undefined &&
-                    overworld_map[worldX][worldY] !== undefined) {
-
-                    const tile = merchant[mx][my];
-                    overworld_map[worldX][worldY] = tile;
-                }
-            }
-        }
-    }
-    
+    // Fixed structures
+    fixedStructure(4,structure.merchant,overworld_map);
+    fixedStructure(3,structure.village,overworld_map);
 
     caveGen();
 }

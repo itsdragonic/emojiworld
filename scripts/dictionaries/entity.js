@@ -1,7 +1,11 @@
 const pets = ["🐶", "🐕‍🦺", "🦮", "🐩", "🐱", "🐈", "🐈‍⬛", "🐤", "🐥"];
 const hostileMobs = ["🕷️", "🧟‍♀", "🧟‍♂", "🧛", "👻", "👿", "😈", "🛸"];
 
-const overworldMobs = ["🐖","🐄","🦆","🐓","🐝","🦃","🐿️","🐇"];
+const overworldMobs = ["🐖", "🐄", "🦆", "🐓", "🐝", "🦃", "🐿️", "🐇","🦔"];
+const coralMobs = ["🐟", "🐠", "🐡", "🦐"];
+const oceanMobs = ["🐟", "🦑", "🐙", "🐋", "🦈"];
+const skyMobs = ["🐦","🕊️","🦅","😇","👼","🦄","🧞","🧚"];
+const hellMobs = ["🐦‍🔥","😈","👿"];
 
 var entityProperties = {
     "🐖": {
@@ -117,6 +121,102 @@ var entityProperties = {
             { item: "", min: 1, max: 1, chance: 1 },
         ]
     },
+    "🦔": {
+        name: "Hedgehog",
+        health: 4,
+        speed: 1,
+        loot: [
+            { item: "", min: 1, max: 2, chance: 1 },
+        ]
+    },
+
+    // Aquatic
+    "🐟": {
+        name: "Fish",
+        health: 4,
+        speed: 1,
+        loot: [
+            { item: "🐟", min: 1, max: 1, chance: 1 }
+        ]
+    },
+    "🐠": {
+        name: "Tropical Fish",
+        health: 4,
+        speed: 1,
+        loot: [
+            { item: "🐠", min: 1, max: 1, chance: 1 }
+        ]
+    },
+    "🐡": {
+        name: "Pufferfish",
+        health: 5,
+        speed: 1,
+        loot: [
+            { item: "🐡", min: 1, max: 1, chance: 1 }
+        ]
+    },
+    "🦐": {
+        name: "Shrimp",
+        health: 3,
+        speed: 1,
+        loot: [
+            { item: "🦐", min: 1, max: 1, chance: 1 }
+        ]
+    },
+    "🦑": {
+        name: "Squid",
+        health: 10,
+        speed: 1,
+        loot: [
+            { item: "🦑", min: 1, max: 1, chance: 1 }
+        ]
+    },
+    "🐙": {
+        name: "Octopus",
+        health: 8,
+        speed: 1,
+        loot: [
+            { item: "🐙", min: 1, max: 1, chance: 1 }
+        ]
+    },
+    "🐋": {
+        name: "Whale",
+        health: 20,
+        speed: 1,
+        loot: [
+            { item: "🐋", min: 1, max: 1, chance: 1 }
+        ]
+    },
+    "🦈": {
+        name: "Shark",
+        health: 15,
+        speed: 1,
+        loot: [
+            { item: "🦈", min: 1, max: 1, chance: 1 }
+        ]
+    },
+
+    // Cave mobs
+    "🕷️": {
+        name: "Spider",
+        description: "Don't get bit!",
+        health: 3,
+        speed: 1,
+        loot: [
+            { item: "🕸️", min: 1, max: 2, chance: 1 },
+        ]
+    },
+    "🦇": {
+        name: "Bat",
+        description: "Don't get bit!",
+        health: 2,
+        speed: 1,
+        loot: [
+            { item: "", min: 1, max: 1, chance: 1 },
+        ]
+    },
+
+    // Hostile
     "🧟‍♂️": {
         name: "Zombie Man",
         description: "Brains...",
@@ -164,6 +264,8 @@ var entityProperties = {
             { item: "🦎", min: 1, max: 2, chance: 1 },
         ]
     },
+
+    // Sky mobs
     "🐦": {
         name: "Bird",
         description: "Tweet Tweet",
@@ -191,30 +293,12 @@ var entityProperties = {
             { item: "🪶", min: 1, max: 2, chance: 1 },
         ]
     },
-    "🦔": {
-        name: "Hedgehog",
-        health: 4,
-        speed: 1,
+    "🦅": {
+        name: "Eagle",
+        health: 10,
+        speed: 3,
         loot: [
             { item: "🪶", min: 1, max: 2, chance: 1 },
-        ]
-    },
-    "🕷️": {
-        name: "Spider",
-        description: "Don't get bit!",
-        health: 3,
-        speed: 1,
-        loot: [
-            { item: "🕸️", min: 1, max: 2, chance: 1 },
-        ]
-    },
-    "🦇": {
-        name: "Bat",
-        description: "Don't get bit!",
-        health: 2,
-        speed: 1,
-        loot: [
-            { item: "", min: 1, max: 1, chance: 1 },
         ]
     },
     "👼": {
@@ -260,6 +344,19 @@ var entityProperties = {
         speed: 1,
         loot: [
             { item: "✨", min: 0, max: 2, chance: 1 },
+        ]
+    },
+
+    // Hell mobs
+    "🐦‍🔥": {
+        name: "Phoenix",
+        description: "Rises from the ashes",
+        health: 3,
+        speed: 1,
+        loot: [
+            { item: "🪶", min: 1, max: 2, chance: 1 },
+            { item: "🔥", min: 0, max: 2, chance: 1 },
+            { item: "🌟", min: 1, max: 1, chance: 0.4 },
         ]
     },
     "👿": {

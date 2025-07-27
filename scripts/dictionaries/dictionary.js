@@ -240,7 +240,7 @@ var objectProperties = {
         loot: "𓇡"
     },
     ".": {
-        name: "Wheat Seed",
+        name: "Grain Seed",
         canBeWalkedOn: true,
         durability: 2,
         toolRequired: "👊",
@@ -357,14 +357,14 @@ var objectProperties = {
     },
     "🪨": {
         name: "Stone",
-        canBeWalkedOn: false,
+        canBeWalkedOn: true,
         durability: 4,
         toolRequired: "⛏️",
         loot: "🪨"
     },
     "🪨b": {
         name: "Boulder",
-        canBeWalkedOn: false,
+        canBeWalkedOn: true,
         durability: 6,
         toolRequired: "⛏️",
         loot: "🪨"
@@ -376,6 +376,13 @@ var objectProperties = {
         toolRequired: "⛏️",
         unbreakable: true,
         loot: "🪨"
+    },
+    "💀": {
+        name: "Skull",
+        canBeWalkedOn: false,
+        durability: 5,
+        toolRequired: "⛏️",
+        loot: "💀"
     },
     "🦴": {
         name: "Bone",
@@ -922,7 +929,7 @@ var objectProperties = {
         loot: "🥀"
     },
     "🌾": {
-        name: "Wheat",
+        name: "Grain",
         canBeWalkedOn: true,
         durability: 1,
         toolRequired: "👊",
@@ -1126,6 +1133,20 @@ var objectProperties = {
         toolRequired: "🪓",
         loot: "🪑"
     },
+    "┬┬": {
+        name: "Table",
+        canBeWalkedOn: false,
+        durability: 10,
+        toolRequired: "🪓",
+        loot: "┬┬"
+    },
+    "┬─┬": {
+        name: "Long Table",
+        canBeWalkedOn: false,
+        durability: 15,
+        toolRequired: "🪓",
+        loot: "┬─┬"
+    },
     "📺": {
         name: "TV",
         canBeWalkedOn: true,
@@ -1242,7 +1263,7 @@ var objectProperties = {
         name: "Web",
         canBeWalkedOn: true,
         durability: 4,
-        toolRequired: "👊",
+        toolRequired: "🗡️",
         loot: "🕸️"
     },
     "👳‍♂️": {

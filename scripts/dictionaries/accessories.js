@@ -3,6 +3,10 @@ var accessoriesProperties = {
         name: "Toolbox",
         description: "Use to craft more advanced items"
     },
+    "🍳": {
+        name: "Frying Pan",
+        description: "Use to cook more advanced recipes"
+    },
     "🍀": {
         name: "Four-Leaf Clover",
         description: "When in accessory bar, it gives the player\nbetter odds for RNG events (such as loot drops)"

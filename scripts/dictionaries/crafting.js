@@ -59,6 +59,18 @@ var craftingDictionary = {
         amountsNeeded: [3],
         required: "🧰",
     },
+    "┬┬": {
+        name: "Table",
+        itemsNeeded: ["🪵"],
+        amountsNeeded: [3],
+        required: "🧰",
+    },
+    "┬─┬": {
+        name: "Long Table",
+        itemsNeeded: ["🪵"],
+        amountsNeeded: [5],
+        required: "🧰",
+    },
     "🚪": {
         name: "Door",
         itemsNeeded: ["🪵"],
@@ -134,6 +146,12 @@ var craftingDictionary = {
     "🧀": {
         name: "Cheese",
         itemsNeeded: ["🥛"],
+        amountsNeeded: [1],
+        required: "🍳",
+    },
+    "🍤": {
+        name: "Fried Shrimp",
+        itemsNeeded: ["🦐"],
         amountsNeeded: [1],
         required: "🍳",
     },
