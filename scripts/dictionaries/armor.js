@@ -6,12 +6,12 @@ var armorProperties = {
     },
     "🪖": {
         name: "Military Helmet",
-        protection: 3,
+        protection: 4,
         slot: 0,
     },
     "🎩": {
         name: "Tophat",
-        protection: 4,
+        protection: 2,
         slot: 0,
     },
     "👑": {
@@ -21,22 +21,27 @@ var armorProperties = {
     },
     "⛑️": {
         name: "Medical Helmet",
-        protection: 4,
+        protection: 5,
+        slot: 0,
+    },
+    "🤿": {
+        name: "Diving Mask",
+        protection: 0,
         slot: 0,
     },
     "👕": {
-        name: "Chestplate",
+        name: "Shirt",
         protection: 3,
         slot: 1,
     },
     "🧥": {
         name: "Coat",
-        protection: 5,
+        protection: 3,
         slot: 1,
     },
     "🥼": {
         name: "White Coat",
-        protection: 7,
+        protection: 4,
         slot: 1,
     },
     "🪽": {
@@ -55,13 +60,14 @@ var armorProperties = {
         slot: 3,
     },
     "🥾": {
-        name: "Boots",
-        protection: 5,
+        name: "Hiking Boots",
+        description: "When worn, trees and terrain\nwon't slow you down",
+        protection: 4,
         slot: 3,
     },
     "👢": {
         name: "Tall Boots",
-        protection: 8,
+        protection: 5,
         slot: 3,
     },
     "🩲": {
@@ -71,7 +77,7 @@ var armorProperties = {
     },
     "🩳": {
         name: "Shorts",
-        protection: 4,
+        protection: 3,
         slot: 2,
     },
     "👖": {

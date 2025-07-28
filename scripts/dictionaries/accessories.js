@@ -19,6 +19,14 @@ var accessoriesProperties = {
         name: "Candle",
         description: "When in accessory bar or holding\nin mainhand, see better in the dark",
     },
+    "🤿": {
+        name: "Diving Mask",
+        description: "When in accessory bar or on head,\neffortlessly breathe underwater",
+    },
+    "🛶": {
+        name: "Canoe",
+        description: "When in accessory bar,\nmove across water faster",
+    },
     "🦽": {
         name: "Wheelchair",
         description: "When in accessory bar, the player\nloses 50% less hunger while moving"

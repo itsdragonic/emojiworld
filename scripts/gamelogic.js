@@ -30,7 +30,7 @@ function gameLogic() {
     }
 
     // Drowning logic
-    if (gameData.time % 200 == 0 && player.isDrowning) {
+    if (gameData.time % 200 == 0 && player.isDrowning && !(player.armor.includes("🤿") || player.accessories.flat().includes("🤿"))) {
         if (player.breath > 0) {
             player.breath --;
         } else {
@@ -541,7 +541,9 @@ function surroundings(dx,dy) {
             }
         }
         // Eating
+        player.isEating = false;
         if (rightClick && foodProperties[itemHeld]) {
+            player.isEating = true;
             player.progressType = "eating";
             player.progressBar += 1 / (foodProperties[itemHeld].nutrition * 0.1); // adjust eating speed (smaller = faster)
             if (player.progressBar >= 100) {

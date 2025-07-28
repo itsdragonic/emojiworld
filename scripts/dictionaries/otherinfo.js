@@ -9,6 +9,8 @@ var character = {
     kneelLeft: "🧎",
     kneelRight: "🧎‍➡️",
     swim: "🏊",
+    rowing: "🚣",
+    waterpolo: "🤽",
     meditate: "🧘",
     cartwheel: "🤸",
     flying: "🦸",
@@ -44,6 +46,7 @@ var player = {
     isSprinting: false,
     isShifting: false,
     isJumping: false,
+    isEating: false,
     x: MAP_WIDTH/2,
     y: MAP_HEIGHT/2,
     damageCooldown: 0,
@@ -54,7 +57,7 @@ var player = {
     hoverText: "",
     inventoryOpen: false,
     inventory: [
-        ["🪓", "⛏️", "🪽", "", "", "", "", "", "", ""],
+        ["🪓", "⛏️", "🥄", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],
@@ -72,7 +75,7 @@ var player = {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ],
     accessories: [
-        ["🧰", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""]
     ],
     armor: ["", "👕", "👖", "👞"],

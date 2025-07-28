@@ -3,7 +3,7 @@ const hostileMobs = ["🕷️", "🧟‍♀", "🧟‍♂", "🧛", "👻", "�
 
 const overworldMobs = ["🐖", "🐄", "🦆", "🐓", "🐝", "🦃", "🐿️", "🐇","🦔"];
 const coralMobs = ["🐟", "🐠", "🐡", "🦐"];
-const oceanMobs = ["🐟", "🦑", "🐙", "🐋", "🦈"];
+const oceanMobs = ["🐟", "🦑", "🐙", "🐋", "🦈","🧜‍♂️","🧜‍♀️"];
 const skyMobs = ["🐦","🕊️","🦅","😇","👼","🦄","🧞","🧚"];
 const hellMobs = ["🐦‍🔥","😈","👿"];
 
@@ -193,6 +193,23 @@ var entityProperties = {
         speed: 1,
         loot: [
             { item: "🦈", min: 1, max: 1, chance: 1 }
+        ]
+    },
+    "🧜‍♂️": {
+        name: "Merman",
+        health: 15,
+        speed: 1,
+        loot: [
+            { item: "🔱", min: 1, max: 1, chance: 1 },
+            { item: "🍖", min: 0, max: 2, chance: 1 }
+        ]
+    },
+    "🧜‍♀️": {
+        name: "Mermaid",
+        health: 15,
+        speed: 1,
+        loot: [
+            { item: "🍖", min: 0, max: 2, chance: 1 }
         ]
     },
 

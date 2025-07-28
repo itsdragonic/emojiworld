@@ -23,6 +23,7 @@ var itemNames = {
     "📕": { name: "Book" },
     "🪣": { name: "Bucket" },
     "🧺": { name: "Basket" },
+    "🔱": { name: "Trident" },
     "🌌": { name: "Magical Essence" },
     "🌠": { name: "Shooting Star" },
     "🌟": { name: "Glowing Star" },

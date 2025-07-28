@@ -105,11 +105,19 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
         // Speed conditions
         if (water.includes(player.adjacent[4])) {
-            player.characterEmote = character.swim;
-            player.speed = player.defaultSpeed * 0.5;
+            if (player.accessories.flat().includes("🛶")) {
+                player.characterEmote = character.rowing;
+                player.speed = player.defaultSpeed;
+            } else {
+                player.characterEmote = character.swim;
+                player.speed = player.defaultSpeed * 0.5;
+                if (player.isJumping) player.characterEmote = character.waterpolo;
+            }
         } else if (tree.includes(player.adjacent[4]) && !player.armor.includes("🥾")) {
             player.speed = player.defaultSpeed * 0.5;
         } else if (player.adjacent[4] == "🕸️") {
+            player.speed = player.defaultSpeed * 0.2;
+        } else if (player.isEating) {
             player.speed = player.defaultSpeed * 0.2;
         } else {
             player.speed = player.defaultSpeed;
@@ -161,6 +169,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         let offsetX = (player.x - startX - gridX / 2) * emojiSize;
         let offsetY = (player.y - startY - gridY / 2) * emojiSize;
 
+        let sunTile;
+
         // Draw tiles and player inside the tile loop
         for (let i = 0; i < gridX + 2; i++) {
             for (let j = 0; j < gridY + 2; j++) {
@@ -199,6 +209,11 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     // Ladders
                     if (player.level == 0 && cave1_map[mapX][mapY] == "🪜") {
                         emoji = "🕳️b";
+                    }
+
+                    // Sun/moon
+                    if (i == Math.round(gridX/2) && j == 1) {
+                        sunTile = emoji;
                     }
 
                     // Special size conditions
@@ -255,6 +270,22 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }
         }
 
+        // Sun/moon
+        if (player.level >= 0) {
+            /*if (water.includes(sunTile)) {
+                sunTile = "🌅";
+            } else if (mountain.includes(sunTile)) {
+                sunTile = "🌄";
+            } else {
+                sunTile = "☀️";
+            }*/
+            sunTile = "☀️";
+        } else {
+            sunTile = "";
+        }
+        ctx.font = emojiSize + "px " + useFont + ", Arial";
+        ctx.fillText(sunTile,width/2,emojiSize-5);
+
         // Draw entities
         for (let entity of gameData.entities[String(player.level)]) {
             // Check if entity is within visible grid
@@ -275,10 +306,14 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.visibility = 10;
 
             // Light souces (descending greatest to least)
+            if (water.includes(player.adjacent[4]) && (itemHeld == "🤿" || player.accessories.flat().includes("🤿"))) {
+                player.visibility += 10;
+            }
             if (itemHeld == "🔦" || player.accessories.flat().includes("🔦")) {
-                player.visibility = 35;
-            } else if (itemHeld == "🕯️" || player.accessories.flat().includes("🕯️")) {
-                player.visibility = 20;
+                player.visibility += 25;
+            }
+            if (itemHeld == "🕯️" || player.accessories.flat().includes("🕯️")) {
+                player.visibility += 20;
             }
         }
         drawVisibilityOverlay();

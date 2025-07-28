@@ -140,6 +140,12 @@ var foodProperties = {
     }, "🍤": {
         name: "Fried Shrimp",
         nutrition: 3,
+    }, "🍚": {
+        name: "Rice",
+        nutrition: 1,
+    }, "🍣": {
+        name: "Sushi",
+        nutrition: 5,
     }, "🦀": {
         name: "Crab",
         nutrition: 2,

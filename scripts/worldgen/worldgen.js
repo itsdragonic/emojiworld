@@ -145,6 +145,7 @@ const sand = ["𓂃","࿔*:","࿐","🏖️"];
 var sandColor = "#cabb9d";
 const tree = ["🌳","🌳b","🌳s","🌲","🌲b","🌴","🌴b","🎋"];
 const grass = ["🌱","෴"];
+const mountain = ["🏔️b","⛰️","🗻b","🗻g"];
 var grassColor = "#76a763";
 var coords = [];
 
