@@ -138,6 +138,7 @@ var tree_map = [];
 var biome_map = [];
 var overworld_map = [];
 
+var overridables = [""," ","🌱","🌾","෴","𓂃","࿔*:","࿐","🌊","💦","༄","ꕀ"];
 const water = ["🌊", "💦", "🧊","༄","ꕀ"];
 var waterColor = "#7aaae1";
 const sand = ["𓂃","࿔*:","࿐","🏖️"];
@@ -146,49 +147,6 @@ const tree = ["🌳","🌳b","🌳s","🌲","🌲b","🌴","🌴b","🎋"];
 const grass = ["🌱","෴"];
 var grassColor = "#76a763";
 var coords = [];
-
-function randomCoords(int, borderDistance = 1) {
-    // Clear existing coordinates
-    coords = [];
-    
-    // Calculate safe area boundaries
-    const minX = borderDistance;
-    const minY = borderDistance;
-    const maxX = MAP_WIDTH - borderDistance - 1;
-    const maxY = MAP_HEIGHT - borderDistance - 1;
-
-    // Generate new coordinates
-    for (let i = 0; i < int; i++) {
-        let x = Math.floor(minX + rng() * (maxX - minX));
-        let y = Math.floor(minY + rng() * (maxY - minY));
-        coords.push([x, y]);
-    }
-}
-
-function fixedStructure(amount,structure,map) {
-    randomCoords(amount,structure.length + 1);
-    
-    for (let i = 0; i < coords.length; i++) {
-        let xPos = coords[i][0];
-        let yPos = coords[i][1];
-
-        // Place 3x3 merchant structure
-        for (let mx = 0; mx < structure.length; mx++) {
-            for (let my = 0; my < structure[0].length; my++) {
-                const worldX = xPos + mx;
-                const worldY = yPos + my;
-
-                // Check map bounds
-                if (map[worldX] !== undefined &&
-                    map[worldX][worldY] !== undefined) {
-
-                    const tile = structure[mx][my];
-                    map[worldX][worldY] = tile;
-                }
-            }
-        }
-    }
-}
 
 function generateWorld() {
     // base terrain map
@@ -594,36 +552,6 @@ function generateWorld() {
         }
         overworld_map.push(row);
     }
-
-    // Structures
-
-    // Moai
-    randomCoords(3);
-    for (let i = 0; i < coords.length; i++) {
-        let xPos = coords[i][0];
-        let yPos = coords[i][1];
-        if (!water.includes(overworld_map[xPos][yPos])) {
-            overworld_map[xPos][yPos] = "🗿g";
-
-            for (let n = 0; n < 4; n++) {
-                let xRand = Math.round((rng() * 2 - 1) * 3);
-                let yRand = Math.round((rng() * 2 - 1) * 3);
-                let newX = xPos + xRand;
-                let newY = yPos + yRand;
-
-                if (
-                    overworld_map[newX] !== undefined &&
-                    overworld_map[newX][newY] !== undefined
-                ) {
-                    overworld_map[newX][newY] = "🗿b";
-                }
-            }
-        }
-    }
-
-    // Fixed structures
-    fixedStructure(4,structure.merchant,overworld_map);
-    fixedStructure(3,structure.village,overworld_map);
 
     caveGen();
 }

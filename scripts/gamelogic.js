@@ -568,7 +568,7 @@ function surroundings(dx,dy) {
                 let Tile = objectProperties[block];
 
                 // ---------------- Mining logic ----------------
-                if (leftClick && block !== "" && (!Tile || !Tile.unbreakable)) {
+                if (leftClick && block !== "" && block !== " " && (!Tile || !Tile.unbreakable)) {
                     player.isMining = true;
                     const targetKey = x + "," + y;
 

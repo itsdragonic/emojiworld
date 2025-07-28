@@ -357,14 +357,14 @@ var objectProperties = {
     },
     "🪨": {
         name: "Stone",
-        canBeWalkedOn: true,
+        canBeWalkedOn: false,
         durability: 4,
         toolRequired: "⛏️",
         loot: "🪨"
     },
     "🪨b": {
         name: "Boulder",
-        canBeWalkedOn: true,
+        canBeWalkedOn: false,
         durability: 6,
         toolRequired: "⛏️",
         loot: "🪨"
@@ -377,12 +377,34 @@ var objectProperties = {
         unbreakable: true,
         loot: "🪨"
     },
+    "⚰️": {
+        name: "Coffin",
+        description: "R.I.P.",
+        canBeWalkedOn: false,
+        durability: 15,
+        toolRequired: "🪓",
+        loot: "⚰️"
+    },
+    "🕯️": {
+        name: "Candle",
+        canBeWalkedOn: true,
+        durability: 5,
+        toolRequired: "👊",
+        loot: "🕯️"
+    },
     "💀": {
         name: "Skull",
         canBeWalkedOn: false,
         durability: 5,
         toolRequired: "⛏️",
         loot: "💀"
+    },
+    "🦴b": {
+        name: "Big Bone",
+        canBeWalkedOn: false,
+        durability: 5,
+        toolRequired: "⛏️",
+        loot: "🦴"
     },
     "🦴": {
         name: "Bone",
@@ -627,16 +649,16 @@ var objectProperties = {
         loot: "🏆"
     },
     "🧱": {
-        name: "Brick Wall",
+        name: "Bricks",
         canBeWalkedOn: false,
-        durability: 20,
+        durability: 9,
         toolRequired: "⛏️",
         loot: "🧱"
     },
     "🪟": {
         name: "Window",
         canBeWalkedOn: false,
-        durability: 10,
+        durability: 8,
         toolRequired: "⛏️",
         loot: "🪟"
     },

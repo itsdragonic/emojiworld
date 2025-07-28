@@ -273,8 +273,12 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.visibility = 100;
         } else if (map == cave1_map) {
             player.visibility = 10;
+
+            // Light souces (descending greatest to least)
             if (itemHeld == "🔦" || player.accessories.flat().includes("🔦")) {
-                player.visibility = 30;
+                player.visibility = 35;
+            } else if (itemHeld == "🕯️" || player.accessories.flat().includes("🕯️")) {
+                player.visibility = 20;
             }
         }
         drawVisibilityOverlay();

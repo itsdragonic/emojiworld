@@ -15,6 +15,10 @@ var accessoriesProperties = {
         name: "Flashlight",
         description: "When in accessory bar or holding\nin mainhand, see better in the dark",
     },
+    "🕯️": {
+        name: "Candle",
+        description: "When in accessory bar or holding\nin mainhand, see better in the dark",
+    },
     "🦽": {
         name: "Wheelchair",
         description: "When in accessory bar, the player\nloses 50% less hunger while moving"

@@ -99,34 +99,5 @@ function caveGen() {
         cave1_map.push(row);
     }
 
-    // Structures
-
-    // Fossils
-    randomCoords(30);
-    for (let i = 0; i < coords.length; i++) {
-        let xPos = coords[i][0];
-        let yPos = coords[i][1];
-        if (!water.includes(cave1_map[xPos][yPos])) {
-            cave1_map[xPos][yPos] = "🦴";
-
-            for (let n = 0; n < 4; n++) {
-                let xRand = Math.round((rng() * 2 - 1) * 3);
-                let yRand = Math.round((rng() * 2 - 1) * 3);
-                let newX = xPos + xRand;
-                let newY = yPos + yRand;
-
-                if (
-                    cave1_map[newX] !== undefined &&
-                    cave1_map[newX][newY] !== undefined
-                ) {
-                    cave1_map[newX][newY] = "🦴";
-                }
-            }
-        }
-    }
-
-    // Fixed structures
-    fixedStructure(8,structure.abandoned,cave1_map);
-
     skyGen();
 }

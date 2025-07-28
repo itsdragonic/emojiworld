@@ -60,4 +60,6 @@ function skyGen() {
         }
         sky_map.push(row);
     }
+
+    structureGen();
 }

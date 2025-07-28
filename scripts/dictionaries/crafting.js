@@ -11,6 +11,12 @@ var craftingDictionary = {
         amountsNeeded: [3, 1],
         required: "",
     },
+    "🕯️": {
+        name: "Candle",
+        itemsNeeded: ["🍯", "🕸️"],
+        amountsNeeded: [1, 1],
+        required: "",
+    },
     "🍳": {
         name: "Cooking Pan",
         itemsNeeded: ["🔩"],
@@ -75,6 +81,12 @@ var craftingDictionary = {
         name: "Door",
         itemsNeeded: ["🪵"],
         amountsNeeded: [4],
+        required: "🧰",
+    },
+    "⚰️": {
+        name: "Coffin",
+        itemsNeeded: ["🪵"],
+        amountsNeeded: [6],
         required: "🧰",
     },
     "🪧": {
