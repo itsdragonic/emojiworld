@@ -79,16 +79,43 @@ function gameLogic() {
     }
 
     // entity logic
-    for (let entity of gameData.entities[String(player.level)]) {
-        //entity.target(player.x,player.y,map);
+    updateNearbyEntities();
+}
+
+function updateNearbyEntities() {
+    const currentLevel = String(player.level);
+    const entities = gameData.entities[currentLevel];
+    if (!entities) return;
+
+    const radius = 25; // Radius around player that mobs will update their position
+    const radiusSquared = radius * radius;
+
+    for (let entity of entities) {
         entity.update(map);
+        entity.target(entity.targetX,entity.targetY,map);
+
+        if (gameData.time % 600 == 0) { // how fast mobs change target
+            const dx = entity.x - player.x;
+            const dy = entity.y - player.y;
+            const distanceSquared = dx * dx + dy * dy;
+
+            if (distanceSquared <= radiusSquared) {
+                // Entitiy moving logic
+                if (entity.hostile || entity.pet) {
+                    entity.setTarget(player.x,player.y);
+                } else {
+                    let target = donutRadius(entity.x,entity.y,5,2);
+                    entity.setTarget(target[0],target[1]);
+                }
+            }
+        }
     }
 }
 
 function mobSpawning() {
     let mobCap = gameData.entities[String(player.level)].length < 30;
     if (gameData.time % 100 == 0 && mobCap) {
-        let spawnPos = spawningRegion(player.x,player.y).map(Math.round);
+        let spawnPos = donutRadius(player.x,player.y,50,35).map(Math.round);
 
         if (map[spawnPos[0]] !== undefined &&
             map[spawnPos[0]][spawnPos[1]] !== undefined) {
@@ -203,7 +230,7 @@ function dim() {
     }
 }
 
-function spawningRegion(playerX, playerY) {
+function donutRadius(x, y, outside, inside) {
     const outsideRadius = 50;
     const insideRadius = 35;
     
@@ -212,13 +239,13 @@ function spawningRegion(playerX, playerY) {
     
     // 2. Calculate random distance between inner and outer radius
     const distance = Math.sqrt(
-        Math.random() * (outsideRadius**2 - insideRadius**2) + insideRadius**2
+        Math.random() * (outside**2 - inside**2) + inside**2
     );
     
     // 3. Convert polar to Cartesian coordinates
     return [
-        playerX + Math.cos(angle) * distance,  // x (can be non-integer)
-        playerY + Math.sin(angle) * distance   // y (can be non-integer)
+        x + Math.cos(angle) * distance,  // x (can be non-integer)
+        y + Math.sin(angle) * distance   // y (can be non-integer)
     ];
 }
 
@@ -577,24 +604,9 @@ function surroundings(dx,dy) {
 
     player.isMining = false;
     if (!player.inventoryOpen) {
-        // Attacking mobs
-        if (leftClick) {
-            for (let entity of gameData.entities[String(player.level)]) {
-                if (
-                    Math.round(Math.round(entity.x)) === Math.round(x) &&
-                    Math.round(Math.round(entity.y)) === Math.round(y)
-                ) {
-                    if (weaponProperties[itemHeld]) {
-                        entity.takeDamage(weaponProperties[itemHeld].damage);
-                    } else {
-                        entity.takeDamage(1);
-                    }
-                }
-            }
-        }
         // Eating
         player.isEating = false;
-        if (rightClick && foodProperties[itemHeld]) {
+        if (rightClick && foodProperties[itemHeld] && timeSinceDragging == 0) {
             player.isEating = true;
             player.progressType = "eating";
             let increment = 1 / (foodProperties[itemHeld].nutrition * 0.15); // adjust eating speed (smaller = faster)
@@ -612,6 +624,7 @@ function surroundings(dx,dy) {
 
                 removeInventory(itemHeld,1);
                 player.progressBar = 0;
+                timeSinceDragging = 20;
             }
         }
         // Breaking and mining blocks
@@ -624,6 +637,21 @@ function surroundings(dx,dy) {
                 let block = map[x][y];
                 let Tile = objectProperties[block];
 
+                // Attacking mobs
+                if (leftClick) {
+                    for (let entity of gameData.entities[String(player.level)]) {
+                        if (
+                            Math.round(Math.round(entity.x)) === Math.round(x) &&
+                            Math.round(Math.round(entity.y)) === Math.round(y)
+                        ) {
+                            if (weaponProperties[itemHeld]) {
+                                entity.takeDamage(weaponProperties[itemHeld].damage);
+                            } else {
+                                entity.takeDamage(1);
+                            }
+                        }
+                    }
+                }
                 // Special case for buckets
                 if (rightClick && itemHeld == "🪣") {
                     let item = "";

@@ -1,6 +1,3 @@
-const pets = ["🐶", "🐕‍🦺", "🦮", "🐩", "🐱", "🐈", "🐈‍⬛", "🐤", "🐥"];
-const hostileMobs = ["🕷️", "🧟‍♀", "🧟‍♂", "🧛", "👻", "👿", "😈", "🛸"];
-
 const overworldMobs = ["🐖", "🐄", "🦆", "🐓", "🐝", "🦃", "🐿️", "🐇","🦔"];
 const beachMobs = ["🦀","🦞"];
 const coralMobs = ["🐟", "🐠", "🐡", "🦐"];
@@ -130,6 +127,7 @@ var entityProperties = {
     // Beach
     "🦀": {
         name: "Crab",
+        beach: true,
         health: 7,
         speed: 1,
         loot: [
@@ -138,6 +136,7 @@ var entityProperties = {
     },
     "🦞": {
         name: "Lobster",
+        beach: true,
         health: 6,
         speed: 1,
         loot: [
@@ -148,6 +147,7 @@ var entityProperties = {
     // Aquatic
     "🐟": {
         name: "Fish",
+        aquatic: true,
         health: 4,
         speed: 1,
         loot: [
@@ -156,6 +156,7 @@ var entityProperties = {
     },
     "🐠": {
         name: "Tropical Fish",
+        aquatic: true,
         health: 4,
         speed: 1,
         loot: [
@@ -164,6 +165,7 @@ var entityProperties = {
     },
     "🐡": {
         name: "Pufferfish",
+        aquatic: true,
         health: 5,
         speed: 1,
         loot: [
@@ -172,6 +174,7 @@ var entityProperties = {
     },
     "🦐": {
         name: "Shrimp",
+        aquatic: true,
         health: 3,
         speed: 1,
         loot: [
@@ -180,6 +183,7 @@ var entityProperties = {
     },
     "🦑": {
         name: "Squid",
+        aquatic: true,
         health: 10,
         speed: 1,
         loot: [
@@ -188,6 +192,7 @@ var entityProperties = {
     },
     "🐙": {
         name: "Octopus",
+        aquatic: true,
         health: 8,
         speed: 1,
         loot: [
@@ -196,6 +201,7 @@ var entityProperties = {
     },
     "🐋": {
         name: "Whale",
+        aquatic: true,
         health: 20,
         speed: 1,
         loot: [
@@ -204,6 +210,8 @@ var entityProperties = {
     },
     "🦈": {
         name: "Shark",
+        aquatic: true,
+        hostile: true,
         health: 15,
         speed: 1,
         loot: [
@@ -212,6 +220,7 @@ var entityProperties = {
     },
     "🧜‍♂️": {
         name: "Merman",
+        aquatic: true,
         health: 15,
         speed: 1,
         loot: [
@@ -221,6 +230,7 @@ var entityProperties = {
     },
     "🧜‍♀️": {
         name: "Mermaid",
+        aquatic: true,
         health: 15,
         speed: 1,
         loot: [
@@ -232,6 +242,7 @@ var entityProperties = {
     "🕷️": {
         name: "Spider",
         description: "Don't get bit!",
+        hostile: true,
         health: 3,
         speed: 1,
         loot: [
@@ -252,6 +263,7 @@ var entityProperties = {
     "🧟‍♂️": {
         name: "Zombie Man",
         description: "Brains...",
+        hostile: true,
         health: 3,
         speed: 1,
         loot: [
@@ -262,6 +274,7 @@ var entityProperties = {
     "🧟‍♀️": {
         name: "Zombie Woman",
         description: "Brains...",
+        hostile: true,
         health: 3,
         speed: 1,
         loot: [
@@ -272,6 +285,7 @@ var entityProperties = {
     "🧛": {
         name: "Vampire",
         description: "I want to suck your blood...",
+        hostile: true,
         health: 3,
         speed: 1,
         loot: [
@@ -281,6 +295,7 @@ var entityProperties = {
     "👻": {
         name: "Ghost",
         description: "Boo!",
+        hostile: true,
         health: 3,
         speed: 1,
         loot: [
@@ -290,6 +305,7 @@ var entityProperties = {
     "🐍": {
         name: "Snake",
         description: "Ssss...",
+        hostile: true,
         health: 5,
         speed: 1,
         loot: [
@@ -394,6 +410,7 @@ var entityProperties = {
     "👿": {
         name: "Mad Demon",
         description: ">:(",
+        hostile: true,
         health: 10,
         speed: 1,
         loot: [
@@ -403,6 +420,7 @@ var entityProperties = {
     "😈": {
         name: "Evil Demon",
         description: ">:)",
+        hostile: true,
         health: 9,
         speed: 1,
         loot: [
