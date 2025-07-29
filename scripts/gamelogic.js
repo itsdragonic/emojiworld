@@ -94,6 +94,10 @@ function updateNearbyEntities() {
         entity.update(map);
         entity.target(entity.targetX,entity.targetY,map);
 
+        if (Math.floor(entity.x) == Math.floor(player.x) && Math.floor(entity.y) == Math.floor(player.y)) {
+            damage(1);
+        }
+
         if (gameData.time % 600 == 0) { // how fast mobs change target
             const dx = entity.x - player.x;
             const dy = entity.y - player.y;

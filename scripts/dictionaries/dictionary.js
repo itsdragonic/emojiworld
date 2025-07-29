@@ -510,6 +510,13 @@ var objectProperties = {
         toolRequired: "",
         loot: ""
     },
+    "🏮": {
+        name: "Red Paper Lantern",
+        canBeWalkedOn: false,
+        durability: 5,
+        toolRequired: "",
+        loot: "🏮"
+    },
     "🧰": {
         name: "Toolbox",
         description: "Use to craft stuff",

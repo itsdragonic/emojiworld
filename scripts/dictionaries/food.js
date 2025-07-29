@@ -174,6 +174,11 @@ var foodProperties = {
     }, "🍱": {
         name: "Bento Box",
         nutrition: 10,
+    }, "🧃": {
+        name: "Juice Box",
+        return: "🪣",
+        nutrition: 2,
+        thirst: 5,
     }, "🦀": {
         name: "Crab",
         nutrition: 2,
