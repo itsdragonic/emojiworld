@@ -2,6 +2,7 @@ const pets = ["🐶", "🐕‍🦺", "🦮", "🐩", "🐱", "🐈", "🐈‍⬛
 const hostileMobs = ["🕷️", "🧟‍♀", "🧟‍♂", "🧛", "👻", "👿", "😈", "🛸"];
 
 const overworldMobs = ["🐖", "🐄", "🦆", "🐓", "🐝", "🦃", "🐿️", "🐇","🦔"];
+const beachMobs = ["🦀","🦞"];
 const coralMobs = ["🐟", "🐠", "🐡", "🦐"];
 const oceanMobs = ["🐟", "🦑", "🐙", "🐋", "🦈","🧜‍♂️","🧜‍♀️"];
 const skyMobs = ["🐦","🕊️","🦅","😇","👼","🦄","🧞","🧚"];
@@ -84,7 +85,6 @@ var entityProperties = {
     "🐕": {
         name: "Dog",
         description: "Aww..",
-        canBeWalkedOn: true,
         health: 7,
         speed: 1,
         loot: [
@@ -94,7 +94,6 @@ var entityProperties = {
     "🐈": {
         name: "Cat",
         description: "Aww..",
-        canBeWalkedOn: true,
         health: 7,
         speed: 1,
         loot: [
@@ -104,7 +103,6 @@ var entityProperties = {
     "🐩": {
         name: "Poodle",
         description: "Aww..",
-        canBeWalkedOn: true,
         health: 7,
         speed: 1,
         loot: [
@@ -114,7 +112,6 @@ var entityProperties = {
     "🐈‍⬛": {
         name: "Black Cat",
         description: "Aww..",
-        canBeWalkedOn: true,
         health: 7,
         speed: 1,
         loot: [
@@ -127,6 +124,24 @@ var entityProperties = {
         speed: 1,
         loot: [
             { item: "", min: 1, max: 2, chance: 1 },
+        ]
+    },
+
+    // Beach
+    "🦀": {
+        name: "Crab",
+        health: 7,
+        speed: 1,
+        loot: [
+            { item: "🦀", min: 1, max: 1, chance: 1 },
+        ]
+    },
+    "🦞": {
+        name: "Lobster",
+        health: 6,
+        speed: 1,
+        loot: [
+            { item: "🦞", min: 1, max: 1, chance: 1 },
         ]
     },
 

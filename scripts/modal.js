@@ -546,6 +546,9 @@ ${craftingDictionary[mergedCrafts[i]].required
                     }
 
                     addInventory(mergedCrafts[i], 1);
+                    if (craftingDictionary[mergedCrafts[i]]?.return) {
+                        addInventory(craftingDictionary[mergedCrafts[i]].return,1);
+                    }
                 }
             }
         }

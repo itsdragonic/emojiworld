@@ -93,7 +93,8 @@ var objectProperties = {
         durability: 5,
         toolRequired: "🪓",
         loot: [
-            { item: "🪵", min: 1, max: 1, chance: 1 }
+            { item: "🪵", min: 1, max: 1, chance: 1 },
+            { item: "🥥", min: 1, max: 1, chance: 0.01 },
         ]
     },
     "🌴b": {
@@ -103,7 +104,8 @@ var objectProperties = {
         durability: 5,
         toolRequired: "🪓",
         loot: [
-            { item: "🪵", min: 1, max: 2, chance: 1 }
+            { item: "🪵", min: 1, max: 2, chance: 1 },
+            { item: "🥥", min: 1, max: 1, chance: 0.02 },
         ]
     },
     "🥥": {
@@ -112,6 +114,13 @@ var objectProperties = {
         durability: 2,
         toolRequired: "👊",
         loot: "🥥"
+    },
+    "🍍": {
+        name: "Pineapple",
+        canBeWalkedOn: true,
+        durability: 2,
+        toolRequired: "👊",
+        loot: "🍍"
     },
     "🪵": {
         name: "Wood",
@@ -132,7 +141,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 2,
         toolRequired: "🪓",
-        loot: "🎍"
+        loot: [
+            { item: "🎍", min: 1, max: 2, chance: 1 },
+        ]
     },
     "🎍": {
         name: "Bamboo",
@@ -240,7 +251,7 @@ var objectProperties = {
         loot: "𓇡"
     },
     ".": {
-        name: "Grain Seed",
+        name: "Wheat Seed",
         canBeWalkedOn: true,
         durability: 2,
         toolRequired: "👊",
@@ -412,6 +423,13 @@ var objectProperties = {
         durability: 3,
         toolRequired: "⛏️",
         loot: "🦴"
+    },
+    "🛢️": {
+        name: "Oil",
+        canBeWalkedOn: false,
+        durability: 9,
+        toolRequired: "⛏️",
+        loot: "🛢️"
     },
     "🏔️b": {
         name: "Snowy Mountain",
@@ -951,7 +969,7 @@ var objectProperties = {
         loot: "🥀"
     },
     "🌾": {
-        name: "Grain",
+        name: "Wheat",
         canBeWalkedOn: true,
         durability: 1,
         toolRequired: "👊",

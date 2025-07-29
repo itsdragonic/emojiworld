@@ -19,6 +19,10 @@ var accessoriesProperties = {
         name: "Candle",
         description: "When in accessory bar or holding\nin mainhand, see better in the dark",
     },
+    "🪔": {
+        name: "Oil Lamp",
+        description: "When in accessory bar or holding\nin mainhand, see better in the dark",
+    },
     "🤿": {
         name: "Diving Mask",
         description: "When in accessory bar or on head,\neffortlessly breathe underwater",

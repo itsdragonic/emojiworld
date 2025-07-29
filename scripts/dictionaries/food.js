@@ -11,15 +11,26 @@ var foodProperties = {
     }, "🍞": {
         name: "Bread",
         nutrition: 2,
+    }, "🫓": {
+        name: "Flatbread",
+        nutrition: 2,
+    }, "🥖": {
+        name: "Baguette",
+        nutrition: 2,
+    }, "🥐": {
+        name: "Croissant",
+        nutrition: 2,
     }, "🌭": {
         name: "Hot Dog",
         nutrition: 6,
     }, "🥘": {
         name: "Omelette",
+        return: "🥣",
         nutrition: 4,
     }, "🍨": {
         name: "Ice Cream",
-        nutrition: 4,
+        return: "🥣",
+        nutrition: 5,
     }, "🍰": {
         name: "Cake",
         nutrition: 5,
@@ -60,14 +71,20 @@ var foodProperties = {
         thirst: 2
     }, "🥥": {
         name: "Coconut",
-        nutrition: 3,
+        nutrition: 2,
         thirst: 2,
+    }, "🍍": {
+        name: "Pineapple",
+        nutrition: 3,
+        thirst: 1,
     }, "🥤": {
         name: "Water Cup",
+        return: "🪣",
         nutrition: 0,
         thirst: 4
     }, "🥛": {
         name: "Milk",
+        return: "🪣",
         nutrition: 3,
         thirst: 3
     }, "🧀": {
@@ -75,6 +92,7 @@ var foodProperties = {
         nutrition: 4,
     }, "🍺": {
         name: "Beer",
+        return: "🪣",
         nutrition: 2,
         thirst: 3
     }, "☕": {
@@ -83,10 +101,12 @@ var foodProperties = {
         thirst: 3
     }, "🍷": {
         name: "Wine",
+        return: "🪣",
         nutrition: 2,
         thirst: 4
     }, "🍹": {
         name: "Tropical Drink",
+        return: "🪣",
         nutrition: 3,
         thirst: 5
     }, "🍯": {
@@ -95,6 +115,7 @@ var foodProperties = {
         thirst: 2,
     }, "🍸": {
         name: "Cocktail",
+        return: "🪣",
         nutrition: 2,
         thirst: 5
     }, "🍔": {
@@ -104,13 +125,16 @@ var foodProperties = {
         name: "Cookie",
         nutrition: 5,
     }, "🍟": {
-        name: "Fries",
+        name: "French Fries",
+        return: "📜",
         nutrition: 5,
     }, "🍿": {
         name: "Popcorn",
+        return: "📜",
         nutrition: 4,
     }, "🥗": {
         name: "Salad",
+        return: "🥣",
         nutrition: 8,
         thirst: 1
     }, "🍕": {
@@ -142,10 +166,14 @@ var foodProperties = {
         nutrition: 3,
     }, "🍚": {
         name: "Rice",
+        return: "🥣",
         nutrition: 1,
     }, "🍣": {
         name: "Sushi",
         nutrition: 5,
+    }, "🍱": {
+        name: "Bento Box",
+        nutrition: 10,
     }, "🦀": {
         name: "Crab",
         nutrition: 2,
@@ -163,10 +191,18 @@ var foodProperties = {
         thirst: 1
     }, "🥧": {
         name: "Apple Pie",
-        nutrition: 9,
+        return: "🥣",
+        nutrition: 12,
     }, "🧇": {
         name: "Waffle",
         nutrition: 5,
+    }, "🌮": {
+        name: "Taco",
+        nutrition: 8,
+    },  "🌯": {
+        name: "Burrito",
+        return: "📜",
+        nutrition: 14,
     }, "🦞": {
         name: "Lobster",
         nutrition: 2,

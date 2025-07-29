@@ -397,8 +397,10 @@ function generateWorld() {
             // palm beach
             else if (biome_map[i][j] == "🌴") {
                 let chance = rng();
-                if (chance < 0.005) {
+                if (chance < 0.002) {
                     row.push("🥥");
+                } if (chance < 0.005) {
+                    row.push("🍍");
                 } else if (chance < 0.007) {
                     row.push("🪨");
                 } else if (chance < 0.02) {

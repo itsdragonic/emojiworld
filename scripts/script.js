@@ -244,7 +244,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                 }
 
                 // Highlight hovered tile with white outline box
-                if ((i - 1) === xHover && (j - 1) === yHover && !player.inventoryOpen) {
+                if ((i - 1) === xHover && (j - 1) === yHover && !player.inventoryOpen && !player.hotbarHover) {
                     let emoji = map[mapX] && map[mapX][mapY] ? map[mapX][mapY] : "";
                     let size = emojiSize;
                     let offset = 0;
@@ -312,8 +312,11 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             if (itemHeld == "🔦" || player.accessories.flat().includes("🔦")) {
                 player.visibility += 25;
             }
-            if (itemHeld == "🕯️" || player.accessories.flat().includes("🕯️")) {
+            if (itemHeld == "🪔" || player.accessories.flat().includes("🪔")) {
                 player.visibility += 20;
+            }
+            if (itemHeld == "🕯️" || player.accessories.flat().includes("🕯️")) {
+                player.visibility += 10;
             }
         }
         drawVisibilityOverlay();
@@ -340,6 +343,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         ctx.restore();
 
         // Items
+        player.hotbarHover = false;
         for (let i = 0; i < player.inventory[0].length; i++) {
             let item = player.inventory[0][i];
             let value = player.inventoryValue[0][i];
@@ -348,18 +352,42 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             let drawY = hotbarY + padding + itemSize / 2;
 
             // Highlight selected item
-            if (i === player.hotbarSelected) {
-                let extra = 6; // how much bigger the box should be
-                let rectX = hotbarX + padding + i * (itemSize + gap) - extra / 2;
-                let rectY = hotbarY + padding - extra / 2;
-                let size = itemSize + extra;
-                let radius = 8;
+            let extra = 6; // how much bigger the box should be
+            let rectX = hotbarX + padding + i * (itemSize + gap) - extra / 2;
+            let rectY = hotbarY + padding - extra / 2;
+            let size = itemSize + extra;
+            let radius = 8;
 
+            if (i === player.hotbarSelected) {
                 ctx.save();
                 ctx.globalAlpha = 0.2;
                 ctx.fillStyle = "#cccccc";
                 drawRoundedBox(ctx,rectX,rectY,size,size,radius);
                 ctx.restore();
+            }
+
+            // Detect mouse
+            if (mouseX >= rectX && mouseX <= rectX + size &&
+                mouseY >= rectY && mouseY <= rectY + size) {
+                player.hotbarHover = true;
+                // Dragging item logic
+                if ((leftClick || rightClick) && timeSinceDragging == 0) {
+                    let item = player.itemDrag.item;
+                    let value = player.itemDrag.value;
+
+                    if (item == player.inventory[0][i] && !unstackable.includes(item)) {
+                        player.inventoryValue[0][i] += value;
+                        player.itemDrag.item = "";
+                        player.itemDrag.value = 0;
+                    } else {
+                        player.itemDrag.item = player.inventory[0][i];
+                        player.itemDrag.value = player.inventoryValue[0][i];
+                        player.inventory[0][i] = item;
+                        player.inventoryValue[0][i] = value;
+                    }
+                    player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
+                    timeSinceDragging = 20;
+                }
             }
 
             // Draw item emoji
@@ -387,13 +415,15 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         let radius = 40;
         let centerX = width - radius - 5;
         let centerY = height - radius - 5;
-        ctx.save();
-        ctx.fillStyle = "#333";
-        ctx.globalAlpha = 0.8;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.restore();
+        if (useFont != font.serenity) {
+            ctx.save();
+            ctx.fillStyle = "#333";
+            ctx.globalAlpha = 0.8;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.restore();
+        }
         ctx.font = radius*1.5 + "px " + useFont + ", Arial";
 
         let emotionHUD = player.defaultEmotion;

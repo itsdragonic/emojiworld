@@ -35,7 +35,7 @@ function randomStructure(amount = 1,quantity = 4,radius = 3,center,emoji,map) {
                     map[newX] !== undefined &&
                     map[newX][newY] !== undefined
                 ) {
-                    map[newX][newY] = emoji;
+                    map[newX][newY] = emoji[Math.floor(rng() * emoji.length)];
                 }
             }
         }
@@ -51,10 +51,10 @@ function fixedStructure(amount,structure,map,rotate = true,waterGen = false,over
         let yPos = coords[i][1];
 
         // Place 3x3 merchant structure
-        for (let mx = 0; mx < structure.length; mx++) {
-            for (let my = 0; my < structure[0].length; my++) {
-                const worldX = xPos + mx;
-                const worldY = yPos + my;
+        for (let xs = 0; xs < structure.length; xs++) {
+            for (let ys = 0; ys < structure[0].length; ys++) {
+                const worldX = xPos + xs;
+                const worldY = yPos + ys;
 
                 // Check map bounds
                 if (map[worldX] !== undefined &&
@@ -64,7 +64,7 @@ function fixedStructure(amount,structure,map,rotate = true,waterGen = false,over
                         return;
                     }
 
-                    const tile = structure[mx][my];
+                    const tile = structure[xs][ys];
                     if (tile != "" || override) {
                         map[worldX][worldY] = tile;
                     }
@@ -230,12 +230,23 @@ function structureGen() {
     //overworld_map[Map.round(player.x)][Map.round(player.y)] = "𓂃";
 
     // Structures
-    randomStructure(3,4,3,"🗿g","🗿b",overworld_map);
-    randomStructure(30,4,5,"🦴b","🦴",cave1_map);
-    
     fixedStructure(4,structure.merchant,overworld_map,true,true);
     fixedStructure(3,structure.village,overworld_map,true,true);
     fixedStructure(8,structure.abandoned,cave1_map,true,false,true);
     fixedStructure(1,createDungeon(),cave1_map,false,true);
 
+    randomStructure(3,4,3,"🗿g",["🗿b","🗿"],overworld_map);
+    randomStructure(25,4,5,"🛢️",["🦴","🛢️"],cave1_map);
+    randomStructure(3,4,3,"🛢️",["🛢️"],cave1_map);
+
+    // World borders
+    for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
+        for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            // world border
+            if (i == 0 || i == MAP_WIDTH-1 || j == 0 || j == MAP_HEIGHT-1) {
+                overworld_map[i][j] = "🗻g";
+                cave1_map[i][j] = "🪨g";
+            }
+        }
+    }
 }

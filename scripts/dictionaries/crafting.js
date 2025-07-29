@@ -17,6 +17,12 @@ var craftingDictionary = {
         amountsNeeded: [1, 1],
         required: "",
     },
+    "🪔": {
+        name: "Oil Lamp",
+        itemsNeeded: ["🛢️", "🕯️"],
+        amountsNeeded: [1, 1],
+        required: "",
+    },
     "🍳": {
         name: "Cooking Pan",
         itemsNeeded: ["🔩"],
@@ -91,8 +97,8 @@ var craftingDictionary = {
     },
     "🪧": {
         name: "Sign",
-        itemsNeeded: ["🪵"],
-        amountsNeeded: [3],
+        itemsNeeded: ["🪵","📜"],
+        amountsNeeded: [3,1],
         required: "🧰",
     },
     "🛞": {
@@ -109,8 +115,8 @@ var craftingDictionary = {
     },
     "🥧": {
         name: "Apple Pie",
-        itemsNeeded: ["🍞", "🍎", "🍏"],
-        amountsNeeded: [1, 1, 1],
+        itemsNeeded: ["🥣", "🫓", "🍎", "🍏"],
+        amountsNeeded: [1, 2, 1, 1],
         required: "🍳",
     },
     "🧇": {
@@ -131,22 +137,58 @@ var craftingDictionary = {
         amountsNeeded: [2, 1, 1, 1, 1],
         required: "🍳",
     },
+    "🫓": {
+        name: "Flatbread",
+        itemsNeeded: ["🍞"],
+        amountsNeeded: [1],
+        required: "",
+    },
+    "🥖": {
+        name: "Baguette",
+        itemsNeeded: ["🍞"],
+        amountsNeeded: [1],
+        required: "",
+    },
+    "🥐": {
+        name: "Croissant",
+        itemsNeeded: ["🍞"],
+        amountsNeeded: [1],
+        required: "",
+    },
+    "🌮": {
+        name: "Taco",
+        itemsNeeded: ["🫓", "🥩", "🧀", "🍅", "🥬"],
+        amountsNeeded: [1, 1, 1, 1, 1],
+        required: "🍳",
+    },
+    "🌯": {
+        name: "Burrito",
+        itemsNeeded: ["📜", "🫓", "🥩", "🧀", "🍅", "🥬"],
+        amountsNeeded: [1, 2, 2, 1, 1, 1],
+        required: "🍳",
+    },
+    "🍱": {
+        name: "Bento Box",
+        itemsNeeded: ["🐟", "🍤", "🍙", "🥬"],
+        amountsNeeded: [1, 1, 1, 1],
+        required: "🍳",
+    },
     "🥘": {
         name: "Omelette",
-        itemsNeeded: ["🥚"],
-        amountsNeeded: [1],
+        itemsNeeded: ["🥣", "🥚"],
+        amountsNeeded: [1, 1],
         required: "🍳",
     },
     "🍟": {
-        name: "Fries",
-        itemsNeeded: ["🥔"],
-        amountsNeeded: [2],
+        name: "French Fries",
+        itemsNeeded: ["📜", "🥔"],
+        amountsNeeded: [1, 2],
         required: "🍳",
     },
     "🍿": {
         name: "Popcorn",
-        itemsNeeded: ["🌽"],
-        amountsNeeded: [2],
+        itemsNeeded: ["📜", "🌽"],
+        amountsNeeded: [1, 2],
         required: "🍳",
     },
     "🍕": {
@@ -158,6 +200,7 @@ var craftingDictionary = {
     "🧀": {
         name: "Cheese",
         itemsNeeded: ["🥛"],
+        return: "🪣",
         amountsNeeded: [1],
         required: "🍳",
     },
@@ -169,13 +212,25 @@ var craftingDictionary = {
     },
     "🥗": {
         name: "Salad",
-        itemsNeeded: ["🥬", "🍅", "🌽"],
-        amountsNeeded: [4, 1, 1],
+        itemsNeeded: ["🥣","🥬", "🍅", "🌽"],
+        amountsNeeded: [1, 4, 1, 1],
         required: "",
+    },
+    "🍨": {
+        name: "Ice Cream",
+        itemsNeeded: ["🥣","🥛", "🧊"],
+        amountsNeeded: [1, 1, 2],
+        required: "",
+    },
+    "🥣": {
+        name: "Bowl",
+        itemsNeeded: ["🧴", "🥄"],
+        amountsNeeded: [1, 1],
+        required: "🧰",
     },
     "🪣": {
         name: "Bucket",
-        itemsNeeded: ["🪨", "🔩"],
+        itemsNeeded: ["🧴", "🔩"],
         amountsNeeded: [2, 1],
         required: "🧰",
     },
@@ -190,6 +245,21 @@ var craftingDictionary = {
         itemsNeeded: ["👁️", "🫀", "🎭", "🌐", "🔥", "🥀"],
         amountsNeeded: [1, 1, 1, 1, 10, 5],
         required: "🧰",
+    },
+    "📜": {
+        name: "Paper",
+        description: "Used for crafting stuff",
+        itemsNeeded: ["🪵","🍂","🌾","🥤"],
+        return: "🪣",
+        amountsNeeded: [1, 2, 3, 1],
+        required: "⚗️",
+    },
+    "🧴": {
+        name: "Plastic",
+        description: "Used for crafting stuff",
+        itemsNeeded: ["🛢️"],
+        amountsNeeded: [1],
+        required: "⚗️",
     },
     "🍺": {
         name: "Beer",
@@ -229,14 +299,14 @@ var craftingDictionary = {
     },
     "⚗️": {
         name: "Brewery",
-        itemsNeeded: ["🪟"],
-        amountsNeeded: [3],
+        itemsNeeded: ["🪟","🔩"],
+        amountsNeeded: [3,1],
         required: "🧰",
     },
     "🪟": {
         name: "Glass",
         itemsNeeded: ["⏳"],
-        amountsNeeded: [1],
+        amountsNeeded: [5],
         required: "🧰",
     },
     "💊": {
@@ -313,8 +383,8 @@ var craftingDictionary = {
     },
     "📕": {
         name: "Book",
-        itemsNeeded: ["🪵", "🪶", "🌾"],
-        amountsNeeded: [1, 1, 4],
+        itemsNeeded: ["🪵", "🪶", "📜"],
+        amountsNeeded: [1, 1, 5],
         required: "🧰",
     },
     "🗡️": {
@@ -325,14 +395,20 @@ var craftingDictionary = {
     },
     "⛏️": {
         name: "Pickaxe",
-        itemsNeeded: ["🪵", "🪨"],
-        amountsNeeded: [1, 4],
+        itemsNeeded: ["🪵", "🔩"],
+        amountsNeeded: [1, 3],
         required: "🧰",
     },
     "🪓": {
         name: "Axe",
-        itemsNeeded: ["🪵", "🪨"],
-        amountsNeeded: [1, 4],
+        itemsNeeded: ["🪵", "🔩"],
+        amountsNeeded: [1, 3],
+        required: "🧰",
+    },
+    "🥄": {
+        name: "Spoon",
+        itemsNeeded: ["🪵", "🔩"],
+        amountsNeeded: [1, 1],
         required: "🧰",
     },
     "🔪": {
@@ -373,8 +449,8 @@ var craftingDictionary = {
     },
     "⛑️": {
         name: "Medical Helmet",
-        itemsNeeded: ["🪖", "🔩", "💊", "🩹"],
-        amountsNeeded: [1, 2, 1, 1],
+        itemsNeeded: ["🪖", "🧴", "💊", "🩹"],
+        amountsNeeded: [1, 1, 1, 1],
         required: "🧰",
     },
     "👕": {
@@ -421,8 +497,8 @@ var craftingDictionary = {
     },
     "👟": {
         name: "Running Shoes",
-        itemsNeeded: ["👞", "🪶"],
-        amountsNeeded: [1, 3],
+        itemsNeeded: ["👞", "🧴"],
+        amountsNeeded: [1, 2],
         required: "🧰",
     },
     "🥾": {
@@ -463,14 +539,14 @@ var craftingDictionary = {
     },
     "🤿": {
         name: "Diving Mask",
-        itemsNeeded: ["🪟", "🔩"],
+        itemsNeeded: ["🪟", "🧴"],
         amountsNeeded: [2, 3],
         required: "🧰",
     },
     "🛶": {
         name: "Canoe",
-        itemsNeeded: ["🪵"],
-        amountsNeeded: [15],
+        itemsNeeded: ["🪵", "🧴"],
+        amountsNeeded: [5, 8],
         required: "🧰",
     },
     "🔦": {
@@ -481,8 +557,8 @@ var craftingDictionary = {
     },
     "🕹️": {
         name: "Teleporter",
-        itemsNeeded: ["💠", "🔩", "⚡", "🌠", "🌌"],
-        amountsNeeded: [1, 3, 3, 3, 1],
+        itemsNeeded: ["💠", "🔩", "🧴", "⚡", "🌠", "🌌"],
+        amountsNeeded: [1, 3, 5, 3, 3, 1],
         required: "🧰",
     },
     "⁍​": {
@@ -499,40 +575,52 @@ var craftingDictionary = {
     },
 
     // Trading
+    "🪙": {
+        name: "Coin",
+        itemsNeeded: ["🔩"],
+        amountsNeeded: [10],
+        required: "👳‍♂️",
+    },
     "🔮": {
         name: "Crystal Ball",
         itemsNeeded: ["🪙","💎"],
         amountsNeeded: [8,2],
         required: "👳‍♂️",
     },
+    "🛢️": {
+        name: "Plastic",
+        itemsNeeded: ["🪙"],
+        amountsNeeded: [2],
+        required: "👳‍♂️",
+    },
     "𓇠": {
         name: "Tomato Seed",
         itemsNeeded: ["🪙"],
         amountsNeeded: [2],
-        required: "👳‍♂️",
+        required: "🧑‍🌾",
     },
     "𓇢": {
         name: "Corn Seed",
         itemsNeeded: ["🪙"],
         amountsNeeded: [2],
-        required: "👳‍♂️",
+        required: "🧑‍🌾",
     },
     "𓄺": {
         name: "Potato Seed",
         itemsNeeded: ["🪙"],
         amountsNeeded: [2],
-        required: "👳‍♂️",
+        required: "🧑‍🌾",
     },
     "⌁": {
         name: "Lettuce Seed",
         itemsNeeded: ["🪙"],
         amountsNeeded: [2],
-        required: "👳‍♂️",
+        required: "🧑‍🌾",
     },
     "❦": {
         name: "Grape Seed",
         itemsNeeded: ["🪙"],
         amountsNeeded: [2],
-        required: "👳‍♂️",
+        required: "🧑‍🌾",
     },
 };

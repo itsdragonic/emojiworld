@@ -55,10 +55,10 @@ function gameLogic() {
         player.defaultEmotion = "🤢"
     } else if (player.hunger < 4 || player.thirst < 4 || player.breath < 4) {
         player.defaultEmotion = "😵‍💫";
-    } else if (player.level == 0) {
-        player.defaultEmotion = "😊";
-    } else if (player.level == -1) {
+    } else if (player.visibility <= 10) {
         player.defaultEmotion = "😓";
+    } else {
+        player.defaultEmotion = "😊";
     }
 
     // burning logic
@@ -106,6 +106,10 @@ function mobSpawning() {
                     // Aquatic
                     if (water.includes(tile)) {
                         mob = "🐟";
+                    }
+                    // Beach
+                    else if (terrain_map[spawnPos[0]][spawnPos[1]] == "🏖️") {
+                        mob = beachMobs[Math.floor(Math.random() * beachMobs.length)];
                     }
                     // Land
                     else if (tile == "" || overridables.includes(tile)) {
@@ -249,7 +253,7 @@ function testFor(item,amount) {
     return false;
 }
 
-function addInventory(slot,amount) {
+function addInventory(slot,amount = 1) {
     let success = false;
     for (let i = 0; i < player.inventory.length; i++) {
         for (let j = 0; j < player.inventory[i].length; j++) {
@@ -276,7 +280,7 @@ function addInventory(slot,amount) {
     }
 }
 
-function removeInventory(slot, amount) {
+function removeInventory(slot, amount = 1) {
     if (testFor(slot, amount)) {
         for (let i = 0; i < player.inventory.length; i++) {
             for (let j = 0; j < player.inventory[i].length; j++) {
@@ -372,20 +376,18 @@ function updateCraftingPossibilities() {
             // Check if player has at least one of this ingredient
             for (let i = 0; i < player.inventory.length; i++) {
                 for (let j = 0; j < player.inventory[i].length; j++) {
-                    if (
-                        player.inventory[i][j] === ingredient &&
-                        (required === "" ||
-                        player.adjacent.includes(required) ||
-                        player.accessories.flat().includes(required))
-                    ) {
+                    if (player.inventory[i][j] === ingredient) {
                         hasAtLeastOneIngredient = true;
                     }
                 }
             }
         }
 
-        if (requirementsMet === itemsNeeded.length) {
-            player.canCraft.push(itemName);
+        if (requirementsMet === itemsNeeded.length &&
+            (required === "" ||
+            player.adjacent.includes(required) ||
+            player.accessories.flat().includes(required))) {
+                player.canCraft.push(itemName);
         } else if (hasAtLeastOneIngredient) {
             player.possiblyCraft.push(itemName);
         }
@@ -545,7 +547,8 @@ function surroundings(dx,dy) {
         if (rightClick && foodProperties[itemHeld]) {
             player.isEating = true;
             player.progressType = "eating";
-            player.progressBar += 1 / (foodProperties[itemHeld].nutrition * 0.1); // adjust eating speed (smaller = faster)
+            let increment = 1 / (foodProperties[itemHeld].nutrition * 0.15); // adjust eating speed (smaller = faster)
+            player.progressBar += Math.min(increment, 4);
             if (player.progressBar >= 100) {
                 hunger(foodProperties[itemHeld].nutrition);
                 if (foodProperties[itemHeld]?.thirst) thirst(foodProperties[itemHeld].thirst);
@@ -554,6 +557,8 @@ function surroundings(dx,dy) {
                 if (["🍺","🍸"].includes(itemHeld)) {
                     player.emotion = "🥴";
                 }
+
+                if (foodProperties[itemHeld]?.return) addInventory(foodProperties[itemHeld]?.return,1);
 
                 removeInventory(itemHeld,1);
                 player.progressBar = 0;
@@ -569,8 +574,19 @@ function surroundings(dx,dy) {
                 let block = map[x][y];
                 let Tile = objectProperties[block];
 
+                // Special case for buckets
+                if (rightClick && itemHeld == "🪣") {
+                    let item = "";
+                    if (water.includes(block)) {
+                        item = "🥤";
+                    }
+                    if (item == "🥤") {
+                        removeInventory("🪣",1);
+                        addInventory("🥤",1);
+                    }
+                }
                 // ---------------- Mining logic ----------------
-                if (leftClick && block !== "" && block !== " " && (!Tile || !Tile.unbreakable)) {
+                else if (leftClick && block !== "" && block !== " " && (!Tile || !Tile.unbreakable)) {
                     player.isMining = true;
                     const targetKey = x + "," + y;
 
@@ -587,18 +603,25 @@ function surroundings(dx,dy) {
 
                     let speed = Tile?.durability || 3;
 
+                    player.correctTool = false;
                     if (Tile?.toolRequired === "👊") {
-                        // Same speed
+                        player.correctTool = true;
                     } else if (Tile?.toolRequired === "🪓") {
-                        if (itemHeld !== "🪓") player.correctTool = false;
-                        if (itemHeld === "🪓") speed /= 3; // Twice as fast
+                        if (itemHeld == "🪓" || player.itemDrag.item == "🪓") {
+                            player.correctTool = true;
+                            speed /= 3;
+                        }
                         else speed *= 4;
                     } else if (Tile?.toolRequired === "🥄") {
-                        if (itemHeld !== "🥄") player.correctTool = false;
-                        if (itemHeld === "🥄") speed /= 4;
+                        if (itemHeld == "🥄" || player.itemDrag.item == "🥄") {
+                            player.correctTool = true;
+                            speed /= 4;
+                        }
                     } else if (Tile?.toolRequired === "⛏️") {
-                        if (itemHeld !== "⛏️") player.correctTool = false;
-                        if (itemHeld === "⛏️") speed /= 1.5;
+                        if (itemHeld == "⛏️" || player.itemDrag.item == "⛏️") {
+                            player.correctTool = true;
+                            speed /= 1.5;
+                        }
                         else speed *= 6;
                     }
 

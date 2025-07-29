@@ -3,6 +3,7 @@ var itemNames = {
     "🎍": { name: "Bamboo" },
     "⏳": { name: "Sand" },
     "🪶": { name: "Feather" },
+    "📃": { name: "White Paper" },
     "⚡": { name: "Electricity" },
     "🎖️": { name: "Military Medal" },
     "🏅": { name: "Winning Medal" },
