@@ -251,7 +251,7 @@ var craftingDictionary = {
         description: "Used for crafting stuff",
         itemsNeeded: ["🪵","🍂","🌾","🥤"],
         return: "🪣",
-        amountsNeeded: [1, 2, 3, 1],
+        amountsNeeded: [1, 3, 2, 1],
         required: "⚗️",
     },
     "🧴": {
@@ -569,8 +569,8 @@ var craftingDictionary = {
     },
     "📦": {
         name: "Box",
-        itemsNeeded: ["🪵"],
-        amountsNeeded: [6],
+        itemsNeeded: ["📜", "🪵"],
+        amountsNeeded: [6, 2],
         required: "🧰",
     },
 

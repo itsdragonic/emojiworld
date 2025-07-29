@@ -8,6 +8,14 @@ let xHover,yHover,gridX,gridY,x,y;
 var gameData = {
     time: 0,
     day: 1,
+    boxData: {
+        /* Format /
+        box_level_x_y: {
+            item: [[],[]],
+            value: [[],[]],
+        }
+        */
+    },
     entities: {
         '3': [],
         '2': [],
@@ -244,7 +252,10 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                 }
 
                 // Highlight hovered tile with white outline box
-                if ((i - 1) === xHover && (j - 1) === yHover && !player.inventoryOpen && !player.hotbarHover) {
+                if (
+                    (i - 1) === xHover && (j - 1) === yHover &&
+                    !player.inventoryOpen && !player.hotbarHover && !player.boxOpen) {
+
                     let emoji = map[mapX] && map[mapX][mapY] ? map[mapX][mapY] : "";
                     let size = emojiSize;
                     let offset = 0;
@@ -370,24 +381,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             if (mouseX >= rectX && mouseX <= rectX + size &&
                 mouseY >= rectY && mouseY <= rectY + size) {
                 player.hotbarHover = true;
-                // Dragging item logic
-                if ((leftClick || rightClick) && timeSinceDragging == 0) {
-                    let item = player.itemDrag.item;
-                    let value = player.itemDrag.value;
-
-                    if (item == player.inventory[0][i] && !unstackable.includes(item)) {
-                        player.inventoryValue[0][i] += value;
-                        player.itemDrag.item = "";
-                        player.itemDrag.value = 0;
-                    } else {
-                        player.itemDrag.item = player.inventory[0][i];
-                        player.itemDrag.value = player.inventoryValue[0][i];
-                        player.inventory[0][i] = item;
-                        player.inventoryValue[0][i] = value;
-                    }
-                    player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
-                    timeSinceDragging = 20;
-                }
+                
+                dragItem(player.inventory,player.inventoryValue,0,i);
             }
 
             // Draw item emoji
@@ -473,10 +468,22 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             ctx.restore();
         }
 
-        // Inventory
-        if (player.inventoryOpen) {
-            updateCraftingPossibilities();
-            drawInventory();
+        // Inventory & Boxes
+        hovering = false;
+        if (player.inventoryPriority) {
+            drawBox();
+            if (player.inventoryOpen) {
+                updateCraftingPossibilities();
+                drawInventory();
+            }
+        } else {
+            if (player.inventoryOpen) {
+                updateCraftingPossibilities();
+                drawInventory();
+            }
+            if (player.boxOpen) {
+                drawBox(player.boxClick.level,player.boxClick.x,player.boxClick.y);
+            }
         }
 
         // Text above hotbar
@@ -529,8 +536,12 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
         // Hover text
         if (player.hoverText && player.hoverText !== "0") {
-            if ((player.inventoryOpen && hovering) || (player.inventoryOpen && player.itemDrag.value > 0) || (!player.inventoryOpen && player.itemDrag.value > 0)) {
-                drawFormattedText(mouseX, mouseY, player.hoverText);
+            if (
+                (player.inventoryOpen && hovering) ||
+                (player.boxOpen && hovering) ||
+                (player.inventoryOpen && player.itemDrag.value > 0) ||
+                (!player.inventoryOpen && player.itemDrag.value > 0)) {
+                    drawFormattedText(mouseX, mouseY, player.hoverText);
             }
         }
 

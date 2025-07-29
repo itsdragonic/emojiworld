@@ -55,7 +55,10 @@ var player = {
     burning: 0,
     hotbarSelected: 0,
     hoverText: "",
+    boxClick: {},
+    boxOpen: false,
     inventoryOpen: false,
+    inventoryPriority: false,
     inventory: [
         ["🪓", "⛏️", "🥄", "", "", "", "", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""],

@@ -450,6 +450,56 @@ function hunger(value) {
     }
 }
 
+function dragItem(inventory,inventoryValue,i,j) {
+    // Dragging item logic
+    if ((leftClick || rightClick) && timeSinceDragging == 0) {
+        let item = player.itemDrag.item;
+        let value = player.itemDrag.value;
+        if (item == inventory[i][j] && !unstackable.includes(item)) {
+            inventoryValue[i][j] += value;
+            player.itemDrag.item = "";
+            player.itemDrag.value = 0;
+        } else {
+            player.itemDrag.item = inventory[i][j];
+            player.itemDrag.value = inventoryValue[i][j];
+            inventory[i][j] = item;
+            inventoryValue[i][j] = value;
+        }
+        player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
+        timeSinceDragging = 20;
+    }
+}
+
+function createBox(level,x,y) {
+    gameData.boxData[`box_${level}_${x}_${y}`] = {
+        item: Array(5).fill().map(() => Array(10).fill("")),
+        value: Array(5).fill().map(() => Array(10).fill(0))
+    }
+    //console.log(gameData.boxData)
+}
+
+function deleteBox(level, x, y) {
+    const boxKey = `box_${level}_${x}_${y}`;
+    const box = gameData.boxData[boxKey];
+    
+    if (box) {
+        // Transfer all items to player inventory
+        for (let row = 0; row < 5; row++) {
+            for (let col = 0; col < 10; col++) {
+                const item = box.item[row][col];
+                const value = box.value[row][col];
+                
+                if (item && item !== "" && value > 0) {
+                    addInventory(item, value);
+                }
+            }
+        }
+        
+        // Delete the box
+        delete gameData.boxData[boxKey];
+    }
+}
+
 // Generally for events near the player
 function surroundings(dx,dy) {
     let xStep = player.x + dx;
@@ -585,6 +635,15 @@ function surroundings(dx,dy) {
                         addInventory("🥤",1);
                     }
                 }
+                // Box logic
+                else if (rightClick && block == "📦") {
+                    player.boxClick = {
+                        level: player.level,
+                        x: x,
+                        y: y
+                    }
+                    player.boxOpen = true;
+                }
                 // ---------------- Mining logic ----------------
                 else if (leftClick && block !== "" && block !== " " && (!Tile || !Tile.unbreakable)) {
                     player.isMining = true;
@@ -632,6 +691,13 @@ function surroundings(dx,dy) {
                         player.progressBar = 0;
                         player.miningTarget = null;
 
+                        // Destroy box
+                        if (map[x][y] == "📦") {
+                            player.boxOpen = false;
+                            player.boxClick = {};
+                            deleteBox(player.level,x,y);
+                        }
+
                         // Break block
                         if (Tile && Tile.loot) {
                             // Check for correct tool if required
@@ -667,6 +733,9 @@ function surroundings(dx,dy) {
 
                     if (sand.includes(block)) {
                         addInventory("⏳", 1);
+                    }
+                    if (itemHeld == "📦") {
+                        createBox(player.level,x,y);
                     }
 
                     map[x][y] = itemToPlace;

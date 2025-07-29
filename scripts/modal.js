@@ -140,6 +140,7 @@ canvas.addEventListener("click", function (e) {
                 return;
             } else if (key === 'e') {
                 player.inventoryOpen = !player.inventoryOpen;
+                if (!player.inventoryOpen) player.boxOpen = false;
             }
             
             // Keys 0-9
@@ -215,6 +216,24 @@ function drawRoundedBox(ctx, x, y, width, height, radius = 10, nw = true, ne = t
     ctx.fill();
 }
 
+function itemDescription(item) {
+    if (item != "" && player.itemDrag.value == 0) {
+        if (armorProperties[item]) {
+            player.hoverText = `\\e${item}\\r\\a${findName(item)}
+${findDesc(item)}
+Protection: ${armorProperties[item].protection}`;
+        } else if (accessoriesProperties[item]) {
+            player.hoverText = `\\e${item}\\r\\a${findName(item)}
+⊹ Accessory ⊹
+${findDesc(item)}`;
+        } else {
+            player.hoverText = `\\e${item}\\r\\a${findName(item)}
+${findDesc(item)}`;
+        }
+        return true;
+    }
+}
+
 function drawInventory() {
     const slotSize = emojiSize * 1.75;
     const gapSize = 5;
@@ -281,26 +300,6 @@ function drawInventory() {
     ctx.textAlign = 'left';
     ctx.fillText('Crafting', craftingX + 15, craftingY + 25);
 
-    // Descriptions
-    hovering = false;
-    function itemDescription(item) {
-        if (item != "" && player.itemDrag.value == 0) {
-            if (armorProperties[item]) {
-                player.hoverText = `\\e${item}\\r\\a${findName(item)}
-${findDesc(item)}
-Protection: ${armorProperties[item].protection}`;
-            } else if (accessoriesProperties[item]) {
-                player.hoverText = `\\e${item}\\r\\a${findName(item)}
-⊹ Accessory ⊹
-${findDesc(item)}`;
-            } else {
-                player.hoverText = `\\e${item}\\r\\a${findName(item)}
-${findDesc(item)}`;
-            }
-            return true;
-        }
-    }
-
     // Inventory items
     let xinvStart = x + sideBarWidth + 20;
     let yinvStart = y + 50;
@@ -325,23 +324,7 @@ ${findDesc(item)}`;
 
                 if (itemDescription(player.inventory[i][j])) hovering = true;
 
-                // Dragging item logic
-                if ((leftClick || rightClick) && timeSinceDragging == 0) {
-                    let item = player.itemDrag.item;
-                    let value = player.itemDrag.value;
-                    if (item == player.inventory[i][j] && !unstackable.includes(item)) {
-                        player.inventoryValue[i][j] += value;
-                        player.itemDrag.item = "";
-                        player.itemDrag.value = 0;
-                    } else {
-                        player.itemDrag.item = player.inventory[i][j];
-                        player.itemDrag.value = player.inventoryValue[i][j];
-                        player.inventory[i][j] = item;
-                        player.inventoryValue[i][j] = value;
-                    }
-                    player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
-                    timeSinceDragging = 20;
-                }
+                dragItem(player.inventory,player.inventoryValue,i,j);
             }
 
             // Draw item
@@ -519,7 +502,8 @@ ${findDesc(item)}`;
 
         // Crafting logic
         if (mx >= xPos && mx <= xPos + slotSize &&
-            my >= yPos && my <= yPos + slotSize) {
+            my >= yPos && my <= yPos + slotSize &&
+            !player.boxOpen) { // Temporary
 
             // Description Text
             player.hoverText = `${mergedCrafts[i]} ${findName(mergedCrafts[i])}
@@ -557,6 +541,101 @@ ${craftingDictionary[mergedCrafts[i]].required
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
         ctx.fillText(mergedCrafts[i], xPos + 6, yPos + slotSize / 2);
+    }
+
+    ctx.restore();
+}
+
+function drawBox(level,boxX,boxY) {
+    const slotSize = emojiSize * 1.75;
+    const gapSize = 5;
+    const radius = 6;
+    const topBarWidth = 35;
+    const boxWidth = 10;
+    const boxHeight = 5;
+    const offset = 300; // temporary
+
+    const iwidth = (slotSize + gapSize) * (boxWidth) + 15;
+    const iheight = topBarWidth + (slotSize + gapSize) * (boxHeight) + 15;
+    const x = (width - iwidth) / 2 + offset;
+    const y = (height - iheight) / 2;
+    
+    // Main inventory background
+    ctx.save();
+    ctx.fillStyle = 'rgba(128, 128, 128, 0.5)';
+    drawRoundedBox(ctx,x,y,iwidth,iheight,radius);
+
+    // Top horizontal bar
+    ctx.fillStyle = 'rgba(160, 160, 160, 0.4)';
+    drawRoundedBox(ctx,x,y,iwidth,topBarWidth,radius,true,true,false,false);
+
+    // Mac-style dots
+    const dotRadius = 6;
+    const dotY = y + 15;
+    const dotXStart = x + 15;
+    const dotSpacing = 18;
+    const colors = ['#ff5f56', '#ffbd2e', '#27c93f'];
+
+    colors.forEach((color, i) => {
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.arc(dotXStart + i * dotSpacing, dotY, dotRadius, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    // Inventory-related labels
+    ctx.fillStyle = '#fff';
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText('Box', x + 70, y + 20);
+
+    // Inventory items
+    let xinvStart = x + 10;
+    let yinvStart = y + 45;
+
+    let mx = mouseX;
+    let my = mouseY;
+
+    let box = gameData.boxData[`box_${level}_${boxX}_${boxY}`];
+
+    ctx.font = '18px ' + useFont + ', Arial';
+    for (let i = 0; i < box.item.length; i++) {
+        for (let j = 0; j < box.item[i].length; j++) {
+            // Compute per-slot position
+            const slotX = xinvStart + j * (slotSize + gapSize);
+            const slotY = yinvStart + i * (slotSize + gapSize);
+
+            // Draw slot background
+            ctx.fillStyle = 'rgba(160, 160, 160, 0.3)';
+            drawRoundedBox(ctx, slotX, slotY, slotSize, slotSize, radius);
+
+            // Detect hover
+            if (mx >= slotX && mx <= slotX + slotSize &&
+                my >= slotY && my <= slotY + slotSize) {
+
+                if (itemDescription(box.item[i][j])) hovering = true;
+
+                dragItem(box.item,box.value,i,j);
+            }
+
+            // Draw item
+            const item = box.item[i][j];
+            ctx.font = '18px ' + useFont + ', Arial';
+            if (item) {
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(item, slotX + 6, slotY + slotSize / 2);
+
+                // Draw amount if more than 1
+                const value = box.value[i][j];
+                if (value && value > 1) {
+                    ctx.font = '14px Arial';
+                    ctx.fillStyle = 'white';
+                    ctx.fillText(value, slotX + slotSize - 12, slotY + slotSize - 8);
+                }
+            }
+        }
     }
 
     ctx.restore();
