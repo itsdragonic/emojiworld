@@ -4,29 +4,6 @@ var itemHeld;
 let pressedKeys = new Set();
 let xHover,yHover,gridX,gridY,x,y;
 
-// Time
-var gameData = {
-    time: 0,
-    day: 1,
-    boxData: {
-        /* Format /
-        box_level_x_y: {
-            item: [[],[]],
-            value: [[],[]],
-        }
-        */
-    },
-    entities: {
-        '3': [],
-        '2': [],
-        '1': [],
-        '0': [],
-        '-1': [],
-        '-2': [],
-        '-3': [],
-    }
-}
-
 // Game loop
 let gameSpeed = 150; // times per second
 let lastPlayerUpdate = Date.now();
@@ -448,24 +425,34 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             const barX = hotbarX;
             const barY = hotbarY - totalHeight + 30;
 
-            // Background bar (full width, black)
-            ctx.save();
-            ctx.globalAlpha = 0.5;
-            ctx.fillStyle = "black";
-            ctx.beginPath();
-            ctx.roundRect(barX, barY, totalWidth, barHeight, barRadius);
-            ctx.fill();
-            ctx.restore();
+            progressBar(barX,barY,totalWidth,barHeight,barRadius,fillColor,progress);
+        }
 
-            // Filled portion
-            const filledWidth = (progress / 100) * totalWidth;
+        // Bossbar
+        if (gameData.bossbar > 0) {
+            const barHeight = 8;
+            const barRadius = 6;
+            const progress = Math.min(gameData.bossbar, 100);
 
-            ctx.save();
-            ctx.fillStyle = fillColor;
-            ctx.beginPath();
-            ctx.roundRect(barX, barY, filledWidth, barHeight, barRadius);
-            ctx.fill();
-            ctx.restore();
+            // Progress fill color
+            let fillColor;
+            switch (gameData.bossbarType) {
+                case "Mr. Poop":
+                    fillColor = "brown";
+                    break;
+                case "Roboto":
+                    fillColor = "#8a8a8aff";
+                    break;
+                default:
+                    fillColor = "#cccccc";
+                    break;
+            }
+
+            const barX = hotbarX;
+            const barY = 30;
+            const extend = 60;
+
+            progressBar(barX - extend,barY,totalWidth + 2*extend,barHeight,barRadius,fillColor,progress);
         }
 
         // Inventory & Boxes

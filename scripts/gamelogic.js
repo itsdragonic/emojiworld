@@ -284,30 +284,37 @@ function testFor(item,amount) {
     return false;
 }
 
-function addInventory(slot,amount = 1) {
-    let success = false;
-    for (let i = 0; i < player.inventory.length; i++) {
-        for (let j = 0; j < player.inventory[i].length; j++) {
-            if (player.inventory[i][j] === slot && !(slot in unstackable)) {
-                player.inventoryValue[i][j] += amount;
-                success = true;
-                return;
+function addInventory(item, amount = 1) {
+    const stackLimit = 99;
+    let remaining = amount;
+    
+    // First pass: Try stacking in existing slots
+    for (let i = 0; i < player.inventory.length && remaining > 0; i++) {
+        for (let j = 0; j < player.inventory[i].length && remaining > 0; j++) {
+            if (player.inventory[i][j] === item && !(item in unstackable)) {
+                const availableSpace = stackLimit - player.inventoryValue[i][j];
+                const addAmount = Math.min(availableSpace, remaining);
+                player.inventoryValue[i][j] += addAmount;
+                remaining -= addAmount;
             }
         }
     }
-    if (!success) {
-        for (let i = 0; i < player.inventory.length; i++) {
-            for (let j = 0; j < player.inventory[i].length; j++) {
-                if (player.inventory[i][j] == 0) {
-                    player.inventory[i][j] = slot;
-                    player.inventoryValue[i][j] = amount;
-                    /*if (showInv != "") {
-                        openInventory();
-                    }*/
-                    return;
-                }
+    
+    // Second pass: Find empty slots for remaining items
+    for (let i = 0; i < player.inventory.length && remaining > 0; i++) {
+        for (let j = 0; j < player.inventory[i].length && remaining > 0; j++) {
+            if (player.inventory[i][j] === 0 || player.inventory[i][j] === "") {
+                const addAmount = Math.min(stackLimit, remaining);
+                player.inventory[i][j] = item;
+                player.inventoryValue[i][j] = addAmount;
+                remaining -= addAmount;
             }
         }
+    }
+    
+    // Handle overflow if any items remain
+    if (remaining > 0) {
+        //inventoryOverflow(item, remaining);
     }
 }
 
@@ -529,6 +536,27 @@ function deleteBox(level, x, y) {
         // Delete the box
         delete gameData.boxData[boxKey];
     }
+}
+
+function progressBar(barX,barY,totalWidth,barHeight,barRadius,fillColor,progress) {
+    // Background bar (full width, black)
+    ctx.save();
+    ctx.globalAlpha = 0.5;
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.roundRect(barX, barY, totalWidth, barHeight, barRadius);
+    ctx.fill();
+    ctx.restore();
+
+    // Filled portion
+    const filledWidth = (progress / 100) * totalWidth;
+
+    ctx.save();
+    ctx.fillStyle = fillColor;
+    ctx.beginPath();
+    ctx.roundRect(barX, barY, filledWidth, barHeight, barRadius);
+    ctx.fill();
+    ctx.restore();
 }
 
 // Generally for events near the player

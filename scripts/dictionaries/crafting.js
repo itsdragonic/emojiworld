@@ -668,9 +668,9 @@ var craftingDictionary = {
         required: "🧑‍🌾",
     },
     "🤖": {
-        name: "Mr. Robot",
-        itemsNeeded: ["🪙"],
-        amountsNeeded: [10],
+        name: "Roboto",
+        itemsNeeded: ["🪙", "🔩"],
+        amountsNeeded: [10, 20],
         required: "🧑‍🔧",
     },
 };
