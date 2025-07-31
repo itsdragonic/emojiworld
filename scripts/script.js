@@ -1,4 +1,4 @@
-var map = overworld_map;
+var map = dim(player.level);
 
 var itemHeld;
 let pressedKeys = new Set();

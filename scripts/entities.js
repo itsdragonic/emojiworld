@@ -1,11 +1,15 @@
 class Mob {
     constructor(type, x, y, id) {
         this.type = type;
+
+        // Specific properties
         this.health = entityProperties[this.type].health;
         this.aquatic = entityProperties[this.type].aquatic;
         this.beach = entityProperties[this.type].beach;
         this.hostile = entityProperties[this.type].hostile;
         this.pet = entityProperties[this.type].pet;
+
+        // Universal properties
         this.x = x;
         this.y = y;
         this.id = id;

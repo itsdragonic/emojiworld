@@ -55,6 +55,8 @@ function gameLogic() {
         player.defaultEmotion = "🤢"
     } else if (player.hunger < 4 || player.thirst < 4 || player.breath < 4) {
         player.defaultEmotion = "😵‍💫";
+    } else if (player.level > 1 && player.isDrowning) {
+        player.defaultEmotion = "🥶";
     } else if (player.visibility <= 10) {
         player.defaultEmotion = "😓";
     } else {
@@ -620,6 +622,8 @@ function surroundings(dx,dy) {
 
     // Drowning
     if (player.level == -1 && water.includes(tile)) {
+        player.isDrowning = true;
+    } else if (player.level > 1) {
         player.isDrowning = true;
     } else {
         player.isDrowning = false;

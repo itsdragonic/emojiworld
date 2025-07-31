@@ -1401,9 +1401,31 @@ var objectProperties = {
         toolRequired: "",
         loot: ""
     },*/
+    // Space
+    "🌎g": {
+        name: "Earth",
+        canBeWalkedOn: true,
+        unbreakable: true
+    },
+    "🌍g": {
+        name: "Earth",
+        canBeWalkedOn: true,
+        unbreakable: true
+    },
+    "🌏g": {
+        name: "Earth",
+        canBeWalkedOn: true,
+        unbreakable: true
+    },
+    "🌌b": {
+        name: "Space Wall",
+        canBeWalkedOn: false,
+        unbreakable: true
+    },
+
+    // NPCs
     "🧙": {
         name: "Witch NPC",
-        description: "I'm in quite the mood for some milk and cookies! Tell you what, if you can get me some, I'll give you something in return :)",
         canBeWalkedOn: false,
         durability: 99,
         toolRequired: "",
@@ -1411,7 +1433,6 @@ var objectProperties = {
     },
     "🧙‍♂️": {
         name: "Wizard NPC",
-        description: "If you can get me 5 glowing stars, I'll teach you the art of wizardry (hint: they're in the sky). The witch might be able to help you get there.",
         canBeWalkedOn: false,
         durability: 99,
         toolRequired: "",
@@ -1419,7 +1440,6 @@ var objectProperties = {
     },
     "🧝‍♂️": {
         name: "Archer NPC",
-        description: "If you make a bow, I'll help make it twice as strong.",
         canBeWalkedOn: false,
         durability: 99,
         toolRequired: "",
@@ -1427,7 +1447,6 @@ var objectProperties = {
     },
     "🥷": {
         name: "Ninja NPC",
-        description: "I can help you upgrade your sword.",
         canBeWalkedOn: false,
         durability: 99,
         toolRequired: "",
@@ -1435,7 +1454,6 @@ var objectProperties = {
     },
     "🧑‍🌾": {
         name: "Farmer NPC",
-        description: "If you can get me 5 of each crop, I'll give you something special...",
         canBeWalkedOn: false,
         durability: 99,
         toolRequired: "",
@@ -1443,7 +1461,6 @@ var objectProperties = {
     },
     "🧑‍🔧": {
         name: "Mechanic NPC",
-        description: "If you can get me a hamburger, I'll show you something I've been trying to build..",
         canBeWalkedOn: false,
         durability: 99,
         toolRequired: "",
@@ -1451,7 +1468,6 @@ var objectProperties = {
     },
     "👷‍♂️": {
         name: "Miner NPC",
-        description: "If you can get me a pizza, I'll show you something...",
         canBeWalkedOn: false,
         durability: 99,
         toolRequired: "",

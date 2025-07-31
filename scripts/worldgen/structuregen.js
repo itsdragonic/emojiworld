@@ -227,7 +227,7 @@ function isDirectionMarker(tile) {
 
 function structureGen() {
     // Spawn
-    //overworld_map[Map.round(player.x)][Map.round(player.y)] = "𓂃";
+    overworld_map[Math.round(player.x)][Math.round(player.y)] = "𓂃";
 
     // Structures
     fixedStructure(4,structure.merchant,overworld_map,true,true);
@@ -246,6 +246,7 @@ function structureGen() {
             if (i == 0 || i == MAP_WIDTH-1 || j == 0 || j == MAP_HEIGHT-1) {
                 overworld_map[i][j] = "🗻g";
                 cave1_map[i][j] = "🪨g";
+                space_map[i][j] = "🌌b";
             }
         }
     }

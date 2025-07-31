@@ -1,4 +1,5 @@
 var sky_map = [];
+var space_map = [];
 
 function skyGen() {
     // sky map features
@@ -59,6 +60,42 @@ function skyGen() {
             row.push(pushTile);
         }
         sky_map.push(row);
+    }
+
+    // space map
+    runPerlinAlgorithm('space');
+    for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
+        let row = [];
+        for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            // terrain map
+            let tile = "";
+            if (perlin_noise[i][j] > 130) {
+                tile = "";
+            } else if (perlin_noise[i][j] > 123) {
+                tile = "🌌";
+            }
+
+            // stars
+            if (tile == "") {
+                let chance = rng();
+                if (chance < 0.001) {
+                    tile = "🪐";
+                } else if (chance < 0.005) {
+                    tile = "✦";
+                } else if (chance < 0.008) {
+                    tile = "★";
+                } else if (chance < 0.01) {
+                    tile = "⋆";
+                }
+            }
+
+            // moon and earth
+            if (i == MAP_WIDTH/2 && j == MAP_HEIGHT/2) {
+                tile = "🌎g"; // add spin later
+            }
+            row.push(tile);
+        }
+        space_map.push(row);
     }
 
     structureGen();
