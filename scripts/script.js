@@ -88,6 +88,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.isJumping = false;
         }
 
+        if (player.timeSinceDeath > 0) player.characterEmote = "👻";
+
         // Speed conditions
         if (water.includes(player.adjacent[4])) {
             if (player.accessories.flat().includes("🛶")) {
@@ -288,7 +290,9 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         }
 
         // Visibility
-        if (map == overworld_map) {
+        if (player.timeSinceDeath > 0) {
+            player.visibility = 5;
+        } else if (map == overworld_map) {
             player.visibility = 100;
         } else if (map == cave1_map) {
             player.visibility = 10;
@@ -476,8 +480,9 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         // Text above hotbar
         if (hotbarTextTime > 0) {
             ctx.font = emojiSize + "px Arial";
+            ctx.fillStyle = "white";
 
-            let opacity = hotbarTextTime > 20 ? 1.0 : (hotbarTextTime * 0.05);
+            let opacity = hotbarTextTime >= 20 ? 1.0 : (hotbarTextTime * 0.05);
             opacity = Math.max(0, opacity);
 
             ctx.globalAlpha = opacity;

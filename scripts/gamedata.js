@@ -9,6 +9,11 @@ var gameData = {
         }
         */
     },
+    cropData: {
+        /* Format /
+        crop_level_x_y: { type: "", x = 0, y = 0 }, ...
+        */
+    },
     entities: {
         '3': [],
         '2': [],

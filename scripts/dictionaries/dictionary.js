@@ -36,7 +36,7 @@ var objectProperties = {
         loot: [
             { item: "🪵", min: 1, max: 2, chance: 1 },
             { item: "🍂", min: 1, max: 2, chance: 0.2 },
-            { item: "🌰", min: 1, max: 3, chance: 0.1 },
+            { item: "🌰", min: 1, max: 2, chance: 0.1 },
             { item: "🍎", min: 1, max: 1, chance: 0.03 },
             { item: "🍏", min: 1, max: 1, chance: 0.03 }
         ]
@@ -50,7 +50,7 @@ var objectProperties = {
         loot: [
             { item: "🪵", min: 1, max: 1, chance: 1 },
             { item: "🍂", min: 1, max: 3, chance: 0.1 },
-            { item: "🌰", min: 1, max: 2, chance: 0.1 },
+            { item: "🌰", min: 1, max: 1, chance: 0.1 },
             { item: "🍎", min: 1, max: 1, chance: 0.03 },
             { item: "🍏", min: 1, max: 1, chance: 0.03 }
         ]
@@ -64,7 +64,7 @@ var objectProperties = {
         loot: [
             { item: "🪵", min: 1, max: 3, chance: 1 },
             { item: "🍂", min: 1, max: 4, chance: 0.1 },
-            { item: "🌰", min: 1, max: 5, chance: 0.1 },
+            { item: "🌰", min: 1, max: 3, chance: 0.1 },
             { item: "🍎", min: 1, max: 1, chance: 0.03 },
             { item: "🍏", min: 1, max: 1, chance: 0.03 }
         ]
@@ -214,6 +214,8 @@ var objectProperties = {
     "𓇠": {
         name: "Tomato Seed",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🍅",
         durability: 2,
         toolRequired: "👊",
         loot: "𓇠"
@@ -221,6 +223,8 @@ var objectProperties = {
     "𓇢": {
         name: "Corn Seed",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🌽",
         durability: 2,
         toolRequired: "👊",
         loot: "𓇢"
@@ -228,6 +232,8 @@ var objectProperties = {
     "𓄺": {
         name: "Potato Seed",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🥔",
         durability: 2,
         toolRequired: "👊",
         loot: "𓄺"
@@ -235,6 +241,8 @@ var objectProperties = {
     "⌁": {
         name: "Lettuce Seed",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🥬",
         durability: 2,
         toolRequired: "👊",
         loot: "⌁"
@@ -242,6 +250,8 @@ var objectProperties = {
     "❦": {
         name: "Grape Seed",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🍇",
         durability: 2,
         toolRequired: "👊",
         loot: "❦"
@@ -249,6 +259,8 @@ var objectProperties = {
     "𓇡": {
         name: "Bean Seed",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🫘",
         durability: 2,
         toolRequired: "👊",
         loot: "𓇡"
@@ -256,6 +268,8 @@ var objectProperties = {
     ".": {
         name: "Wheat Seed",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🌾",
         durability: 2,
         toolRequired: "👊",
         loot: "."
@@ -263,6 +277,8 @@ var objectProperties = {
     ":･": {
         name: "Melon Seed",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🍈",
         durability: 2,
         toolRequired: "👊",
         loot: ":･"
@@ -270,6 +286,8 @@ var objectProperties = {
     "🌰": {
         name: "Acorn",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🌳",
         durability: 2,
         toolRequired: "👊",
         loot: "🌰"
@@ -277,6 +295,8 @@ var objectProperties = {
     "↟": {
         name: "Evergreen Sapling",
         canBeWalkedOn: true,
+        seed: true,
+        grown: "🌲",
         durability: 2,
         toolRequired: "👊",
         loot: "↟"

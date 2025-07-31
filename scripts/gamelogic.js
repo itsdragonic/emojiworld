@@ -78,8 +78,10 @@ function gameLogic() {
         healthEmoji = hearts.default;
     }
 
-    // entity logic
+    // other logic
     updateNearbyEntities();
+    death();
+    crops();
 }
 
 function updateNearbyEntities() {
@@ -94,7 +96,11 @@ function updateNearbyEntities() {
         entity.update(map);
         entity.target(entity.targetX,entity.targetY,map);
 
-        if (Math.floor(entity.x) == Math.floor(player.x) && Math.floor(entity.y) == Math.floor(player.y)) {
+        if (
+            entity.hostile &&
+            Math.abs(entity.x - player.x) < 1 &&
+            Math.abs(entity.y - player.y) < 1
+        ) {
             damage(1);
         }
 
@@ -174,6 +180,18 @@ function mobSpawning() {
     }
 }
 
+function crops() {
+    if (gameData.time % 500 == 0 && Object.keys(gameData.cropData).length > 0) {
+        const crops = Object.values(gameData.cropData);
+
+        let randomCrop = crops[Math.floor(Math.random() * crops.length)];
+
+        if (Math.random() < farmCrops[randomCrop.type].chance) {
+            dim(randomCrop.level)[randomCrop.x][randomCrop.y] = randomCrop.type;
+        }
+    }    
+}
+
 // Map related events
 function changeLevel(lvl) {
     if (player.levelCooldown > 0) return;
@@ -208,8 +226,8 @@ function changeLevel(lvl) {
     player.levelCooldown = 30;
 }
 
-function dim() {
-    switch (player.level) {
+function dim(level) {
+    switch (level) {
         case 3:
             return moon_map;
             break;
@@ -263,14 +281,29 @@ function damage(amount = 1) {
 
         if (player.health <= 0) {
             player.health = 0;
-            console.log("Player died.");
+            player.timeSinceDeath = 500;
         }
     }
 }
 
-function displayHotbarText(txt) {
+function death() {
+    if (player.timeSinceDeath > 0) {
+        player.timeSinceDeath --;
+        displayHotbarText("Respawning...",20);
+    }
+    if (player.timeSinceDeath == 1) {
+        player.health = player.maxHealth;
+        player.hunger = Math.max(player.hunger,5);
+        player.thirst = Math.max(player.thirst,5);
+        changeLevel(0);
+        player.x = MAP_WIDTH/2;
+        player.y = MAP_HEIGHT/2;
+    }
+}
+
+function displayHotbarText(txt,time = 150) {
     hotbarText = txt;
-    hotbarTextTime = 150;
+    hotbarTextTime = time;
 }
 
 function testFor(item,amount) {
@@ -513,7 +546,6 @@ function createBox(level,x,y) {
         item: Array(5).fill().map(() => Array(10).fill("")),
         value: Array(5).fill().map(() => Array(10).fill(0))
     }
-    //console.log(gameData.boxData)
 }
 
 function deleteBox(level, x, y) {
@@ -750,12 +782,22 @@ function surroundings(dx,dy) {
                     if (player.progressBar >= 100) {
                         player.progressBar = 0;
                         player.miningTarget = null;
+                        let replace = "";
 
                         // Destroy box
-                        if (map[x][y] == "📦") {
+                        if (block == "📦") {
                             player.boxOpen = false;
                             player.boxClick = {};
                             deleteBox(player.level,x,y);
+                        }
+
+                        // Crops
+                        if (farmCrops[block] && gameData.cropData[`crop_${player.level}_${x}_${y}`]) {
+                            replace = farmCrops[block].seed;
+                        }
+                        if (objectProperties[block]?.seed) {
+                            const cropKey = `crop_${player.level}_${x}_${y}`;
+                            delete gameData.cropData[cropKey];
                         }
 
                         // Break block
@@ -783,10 +825,12 @@ function surroundings(dx,dy) {
                             }
                         }
 
-                        map[x][y] = "";
+                        map[x][y] = replace;
                     }
 
-                } else if (
+                }
+                // Block placing
+                else if (
                     rightClick && overridables.includes(block) &&
                     (objectProperties[itemHeld] || objectProperties[player.itemDrag.item])) {
                     const itemToPlace = objectProperties[itemHeld] ? itemHeld : player.itemDrag.item;
@@ -796,6 +840,14 @@ function surroundings(dx,dy) {
                     }
                     if (itemHeld == "📦") {
                         createBox(player.level,x,y);
+                    }
+                    if (objectProperties[itemHeld]?.seed) {
+                        gameData.cropData[`crop_${player.level}_${x}_${y}`] = {
+                            type: objectProperties[itemHeld].grown,
+                            level: player.level,
+                            x: x,
+                            y: y
+                        }
                     }
 
                     map[x][y] = itemToPlace;
