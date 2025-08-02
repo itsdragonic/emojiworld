@@ -104,5 +104,56 @@ function skyGen() {
         space_map.push(row);
     }
 
+    // moon map
+    runPerlinAlgorithm('moon');
+    for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
+        let row = [];
+        for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            // terrain map
+            let tile = "";
+            if (perlin_noise[i][j] > 130) {
+                tile = "";
+            } else if (perlin_noise[i][j] > 120) {
+                tile = "🌕";
+            }
+
+            // elements
+            if (tile == "") {
+                let chance = rng();
+                if (chance < 0.0001) {
+                    tile = "📡";
+                }
+            }
+
+            // moon lighting
+            if (tile == "🌕") {
+                if (i < MAP_WIDTH/4) {
+                    tile = "🌕";
+                } else if (i < 2 * MAP_WIDTH/4) {
+                    tile = "🌖";
+                } else if (i < 3 * MAP_WIDTH/4) {
+                    tile = "🌘";
+                } else if (i < MAP_WIDTH) {
+                    tile = "🌑";
+                }
+            }
+            if (i == Math.round(MAP_WIDTH/2)) {
+                tile = "🌗";
+            }
+
+            // World border
+            if (i == 0 || i == MAP_WIDTH-1 || j == 0 || j == MAP_HEIGHT-1) {
+                if (i < MAP_WIDTH/2) {
+                    tile = "🌕g";
+                } else {
+                    tile = "🌑g";
+                }
+            }
+
+            row.push(tile);
+        }
+        moon_map.push(row);
+    }
+
     structureGen();
 }
