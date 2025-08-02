@@ -30,8 +30,8 @@ var hotbarTextTime = 0;
 
 // Entities
 var entityId = 0;
-gameData.entities['0'].push(new Mob("🐓", 60, 100, entityId));
-entityId++;
+//gameData.entities['0'].push(new Mob("➵", 60, 100, entityId, {angle:0, velocity:0}));
+//entityId++;
 
 // Custom fonts
 document.fonts.load("32px Apple Color Emoji").then(() => {
@@ -113,6 +113,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         // Other conditions
         if (player.level == 1) {
             player.characterEmote = character.flying;
+        } else if (player.level == 2) {
+            player.characterEmote = character.astronaut;
         }
 
         // Normalize diagonal movement

@@ -1,5 +1,6 @@
 var sky_map = [];
 var space_map = [];
+var moon_map = [];
 
 function skyGen() {
     // sky map features
@@ -78,7 +79,9 @@ function skyGen() {
             // stars
             if (tile == "") {
                 let chance = rng();
-                if (chance < 0.001) {
+                if (chance < 0.0001) {
+                    tile = "🛰️";
+                } else if (chance < 0.001) {
                     tile = "🪐";
                 } else if (chance < 0.005) {
                     tile = "✦";
@@ -92,6 +95,9 @@ function skyGen() {
             // moon and earth
             if (i == MAP_WIDTH/2 && j == MAP_HEIGHT/2) {
                 tile = "🌎g"; // add spin later
+            }
+            if (i == MAP_WIDTH/2 && j == 3) {
+                tile = `${moonPhases[moonIndex]}b`;
             }
             row.push(tile);
         }

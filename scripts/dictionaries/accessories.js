@@ -39,6 +39,14 @@ var accessoriesProperties = {
         name: "Wings",
         description: "When in accessory bar or chest,\npress jump [Space] to fly"
     },
+    "🚀": {
+        name: "Rocket",
+        description: "When in accessory bar,\npress jump to go upwards to space"
+    },
+    "📡": {
+        name: "Satellite Antenna",
+        description: "When in accessory bar,\nhelps you find the moon while in space"
+    },
     "🛡️": {
         name: "Shield",
         protection: 3,

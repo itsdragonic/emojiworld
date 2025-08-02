@@ -39,6 +39,7 @@ function saveWorld() {
     window.localStorage.setItem("cave1Data", JSON.stringify(cave1_map));
     window.localStorage.setItem("skyData", JSON.stringify(sky_map));
     window.localStorage.setItem("spaceData", JSON.stringify(space_map));
+    window.localStorage.setItem("moonData", JSON.stringify(moon_map));
 }
 
 function parse(str, amount) {
@@ -60,4 +61,5 @@ function loadWorld(Parse) {
     cave1_map = parse("cave1Data", Parse);
     sky_map = parse("skyData", Parse);
     space_map = parse("spaceData", Parse);
+    moon_map = parse("moonData", Parse);
 }

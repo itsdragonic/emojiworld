@@ -917,7 +917,8 @@ var objectProperties = {
         durability: 15,
         toolRequired: "⛏️",
         loot: [
-            { item: "🔩", min: 1, max: 3, chance: 1 }
+            { item: "🔩", min: 0, max: 3, chance: 1 },
+            { item: "📡", min: 1, max: 1, chance: 0.25 },
         ]
     },
     "📡": {
@@ -925,7 +926,7 @@ var objectProperties = {
         canBeWalkedOn: false,
         durability: 15,
         toolRequired: "⛏️",
-        loot: "🔩"
+        loot: "📡"
     },
     "🏗️": {
         name: "Building Construction",
@@ -933,7 +934,7 @@ var objectProperties = {
         durability: 18,
         toolRequired: "⛏️",
         loot: [
-            { item: "🔩", min: 1, max: 2, chance: 1 }
+            { item: "🔩", min: 1, max: 3, chance: 1 }
         ]
     },
     "🚧": {

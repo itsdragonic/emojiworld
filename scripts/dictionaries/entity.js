@@ -427,4 +427,28 @@ var entityProperties = {
             { item: "🔥", min: 0, max: 2, chance: 1 },
         ]
     },
+
+    // Bosses
+    "💩": {
+        name: "Mr. Poop",
+        hostile: true,
+        health: 80,
+        speed: 2,
+        loot: [
+            { item: "🎖️", min: 1, max: 1, chance: 1 },
+            { item: "🪖", min: 1, max: 1, chance: 1 },
+        ]
+    },
+    "🤖": {
+        name: "Roboto",
+        hostile: true,
+        health: 150,
+        speed: 2,
+        loot: [
+            { item: "🦾", min: 1, max: 1, chance: 1 },
+            { item: "🦿", min: 1, max: 1, chance: 1 },
+            { item: "🔩", min: 1, max: 5, chance: 1 },
+            { item: "⚙️", min: 1, max: 5, chance: 1 },
+        ]
+    },
 }

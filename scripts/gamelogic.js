@@ -106,7 +106,7 @@ function updateNearbyEntities() {
             damage(1);
         }
 
-        if (gameData.time % 600 == 0) { // how fast mobs change target
+        if (gameData.time % 100 == 0) { // how fast mobs change target
             const dx = entity.x - player.x;
             const dy = entity.y - player.y;
             const distanceSquared = dx * dx + dy * dy;
@@ -198,32 +198,13 @@ function crops() {
 function changeLevel(lvl) {
     if (player.levelCooldown > 0) return;
     player.level = lvl;
-    switch (lvl) {
-        case 0:
-            map = overworld_map;
-            break;
-        case 1:
-            map = sky_map;
-            break;
-        case 2:
-            map = space_map;
-            break;
-        case -1:
-            map = cave1_map;
-            break;
-        case -2:
-            map = hell_map;
-            break;
-        case -3:
-            map = dungeon_map;
-            break;
-        case 3:
-            map = house_map;
-            break;
-        case 4:
-            map = moon_map;
-            break;
+    map = dim(lvl);
+
+    if (lvl >= 2) {
+        player.x = MAP_WIDTH/2 + 0.5;
+        player.y = MAP_HEIGHT/2 + 0.5;
     }
+
     updateAdjacent();
     player.levelCooldown = 30;
 }
@@ -630,11 +611,20 @@ function surroundings(dx,dy) {
     }
 
     // Map transitioning
-    let hasWings = player.armor[1] == "🪽" || player.accessories.flat().includes("🪽");
-    if (player.level == 0 && player.isJumping && hasWings) {
+    let canFly = (player.armor[1] == "🪽" || player.accessories.flat().includes("🪽")) || player.accessories.flat().includes("🚀");
+    let earth = ["🌎g","🌍g","🌏g"];
+    let overlap = earth.some(element => player.adjacent.includes(element))
+
+    if (player.level == 1 && player.isJumping && player.accessories.flat().includes("🚀")) {
+        changeLevel(2);
+    }
+    if (player.level == 2 && player.isShifting && overlap && player.accessories.flat().includes("🚀")) {
         changeLevel(1);
     }
-    if (player.level == 1 && (player.isShifting || !hasWings)) {
+    if (player.level == 0 && player.isJumping && canFly) {
+        changeLevel(1);
+    }
+    if (player.level == 1 && (player.isShifting || !canFly)) {
         changeLevel(0);
     }
 
@@ -837,7 +827,7 @@ function surroundings(dx,dy) {
                 else if (
                     rightClick && overridables.includes(block) &&
                     (objectProperties[itemHeld] || objectProperties[player.itemDrag.item])) {
-                    const itemToPlace = objectProperties[itemHeld] ? itemHeld : player.itemDrag.item;
+                    let itemToPlace = objectProperties[itemHeld] ? itemHeld : player.itemDrag.item;
 
                     if (sand.includes(block)) {
                         addInventory("⏳", 1);
@@ -852,6 +842,11 @@ function surroundings(dx,dy) {
                             x: x,
                             y: y
                         }
+                    }
+                    if (bosses[itemHeld]) {
+                        gameData.entities[String(player.level)].push(new Mob(itemHeld, x, y, entityId));
+                        entityId ++;
+                        itemToPlace = "";
                     }
 
                     map[x][y] = itemToPlace;

@@ -611,6 +611,12 @@ var craftingDictionary = {
         amountsNeeded: [10, 25, 4, 1],
         required: "🦾",
     },
+    "📡": {
+        name: "Satellite Antenna",
+        itemsNeeded: ["🪨", "🔩", "🔋"],
+        amountsNeeded: [50, 10, 1],
+        required: "🦾",
+    },
     "🔦": {
         name: "Flashlight",
         itemsNeeded: ["🪟", "💡", "🔋", "🔩"],
