@@ -195,14 +195,14 @@ function crops() {
 }
 
 // Map related events
-function changeLevel(lvl) {
+function changeLevel(lvl,location) {
     if (player.levelCooldown > 0) return;
     player.level = lvl;
     map = dim(lvl);
 
-    if (lvl >= 2) {
-        player.x = MAP_WIDTH/2 + 0.5;
-        player.y = MAP_HEIGHT/2 + 0.5;
+    if (location) {
+        player.x = location.x;
+        player.y = location.y;
     }
 
     updateAdjacent();
@@ -604,7 +604,7 @@ function surroundings(dx,dy) {
     // Drowning
     if (player.level == -1 && water.includes(tile)) {
         player.isDrowning = true;
-    } else if (player.level > 1) {
+    } else if (player.level > 1 && !(player.armor.includes("🧑‍🚀") || player.accessories.flat().includes("🧑‍🚀"))) {
         player.isDrowning = true;
     } else {
         player.isDrowning = false;
@@ -613,10 +613,16 @@ function surroundings(dx,dy) {
     // Map transitioning
     let canFly = (player.armor[1] == "🪽" || player.accessories.flat().includes("🪽")) || player.accessories.flat().includes("🚀");
     let earth = ["🌎g","🌍g","🌏g"];
-    let overlap = earth.some(element => player.adjacent.includes(element))
+    let overlap = earth.some(element => player.adjacent.includes(element));
 
+    if (player.level == 2 && player.isShifting && player.adjacent.includes(`${moonPhases[moonIndex]}b`) && player.accessories.flat().includes("🚀")) {
+        changeLevel(3, { x: MAP_WIDTH/2, y: MAP_HEIGHT/2 });
+    }
+    if (player.level == 3 && player.isJumping && player.accessories.flat().includes("🚀")) {
+        changeLevel(2, { x: MAP_WIDTH/2, y: 4 });
+    }
     if (player.level == 1 && player.isJumping && player.accessories.flat().includes("🚀")) {
-        changeLevel(2);
+        changeLevel(2, { x: MAP_WIDTH/2 + 0.5, y: MAP_HEIGHT/2 + 0.5 });
     }
     if (player.level == 2 && player.isShifting && overlap && player.accessories.flat().includes("🚀")) {
         changeLevel(1);

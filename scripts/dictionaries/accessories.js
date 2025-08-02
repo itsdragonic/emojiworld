@@ -43,6 +43,10 @@ var accessoriesProperties = {
         name: "Rocket",
         description: "When in accessory bar,\npress jump to go upwards to space"
     },
+    "🧑‍🚀": {
+        name: "Astronaut Suit",
+        description: "When in accessory or armor,\nbe able to breathe in space"
+    },
     "📡": {
         name: "Satellite Antenna",
         description: "When in accessory bar,\nhelps you find the moon while in space"

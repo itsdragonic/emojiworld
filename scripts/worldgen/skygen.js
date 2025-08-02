@@ -122,6 +122,14 @@ function skyGen() {
                 let chance = rng();
                 if (chance < 0.0001) {
                     tile = "📡";
+                } else if (chance < 0.0003) {
+                    tile = "🕳️g";
+                } else if (chance < 0.0005) {
+                    tile = "🕳️b";
+                } else if (chance < 0.001) {
+                    tile = "🕳️";
+                } else if (chance < 0.05) {
+                    tile = "🌕";
                 }
             }
 

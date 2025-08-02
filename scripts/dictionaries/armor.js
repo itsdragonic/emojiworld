@@ -29,6 +29,11 @@ var armorProperties = {
         protection: 0,
         slot: 0,
     },
+     "🧑‍🚀": {
+        name: "Astronaut Suit",
+        protection: 2,
+        slot: 0,
+    },
     "👕": {
         name: "Shirt",
         protection: 3,

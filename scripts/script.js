@@ -113,7 +113,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         // Other conditions
         if (player.level == 1) {
             player.characterEmote = character.flying;
-        } else if (player.level == 2) {
+        } else if (player.level > 1 && (player.armor.includes("🧑‍🚀") || player.accessories.flat().includes("🧑‍🚀"))) {
             player.characterEmote = character.astronaut;
         }
 
