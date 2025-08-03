@@ -50,7 +50,6 @@ function fixedStructure(amount,structure,map,rotate = true,waterGen = false,over
         let xPos = coords[i][0];
         let yPos = coords[i][1];
 
-        // Place 3x3 merchant structure
         for (let xs = 0; xs < structure.length; xs++) {
             for (let ys = 0; ys < structure[0].length; ys++) {
                 const worldX = xPos + xs;
@@ -102,7 +101,7 @@ function randomRotate(matrix) {
 let availableDirections = {};
 function createDungeon() {
     const dungeonSize = 150;
-    const spawn = 50; // Number of structures to spawn
+    const spawn = 5; // Number of structures to spawn
     const dungeon = Array(dungeonSize).fill().map(() => Array(dungeonSize).fill(""));
     
     // 1. Place main structure in center
@@ -111,7 +110,7 @@ function createDungeon() {
     const centerY = Math.floor(dungeonSize/2) - Math.floor(mainStructure.length/2);
     //console.log(`${centerX},${centerY}`)
     
-    availableDirections = {}; 
+    availableDirections = {};
     
     // Place main structure and scan for directions
     placeStructure(dungeon, mainStructure, centerX, centerY);
@@ -233,11 +232,24 @@ function structureGen() {
     fixedStructure(4,structure.merchant,overworld_map,true,true);
     fixedStructure(3,structure.village,overworld_map,true,true);
     fixedStructure(8,structure.abandoned,cave1_map,true,false,true);
-    fixedStructure(1,createDungeon(),cave1_map,false,true);
+    //fixedStructure(1,createDungeon(),overworld_map,false,true);
 
     randomStructure(3,4,3,"🗿g",["🗿b","🗿"],overworld_map);
     randomStructure(25,4,5,"🛢️",["🦴","🛢️"],cave1_map);
     randomStructure(3,4,3,"🛢️",["🛢️"],cave1_map);
+
+    // Dungeon
+    let Catacomb = createDungeon();
+    for (let i = 0; i < Catacomb.length; i ++) {
+        for (let j = 0; j < Catacomb[i].length; j ++) {
+            let xPos = i;
+            let yPos = j;
+            if ( overworld_map[xPos][yPos] !== undefined &&
+                Catacomb[i][j] !== "" ) {
+                    overworld_map[xPos][yPos] = Catacomb[i][j];
+            }
+        }
+    }
 
     // World borders
     for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
