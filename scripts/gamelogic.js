@@ -634,17 +634,20 @@ function surroundings(dx,dy) {
         changeLevel(0);
     }
 
+    if (player.isJumping && tile == "🪜") {
+        changeLevel(player.level+1);
+    }
     if (player.isShifting && player.level == 0 && cave1_map[Math.round(xStep)][Math.round(yStep)] == "🪜") {
         changeLevel(-1);
-    }
-    if (player.isJumping && tile == "🪜") {
-        changeLevel(0);
     }
     if (player.level == 0 && player.isShifting && water.includes(tile) && water.includes(cave1_map[Math.round(xStep)][Math.round(yStep)])) {
         changeLevel(-1);
     }
     if (player.level == -1 && player.isJumping && water.includes(tile) && water.includes(overworld_map[Math.round(xStep)][Math.round(yStep)])) {
         changeLevel(0);
+    }
+    if (player.isShifting && player.level == -1 && cave2_map[Math.round(xStep)][Math.round(yStep)] == "🪜") {
+        changeLevel(-2);
     }
 
     itemHeld = player.inventory[0][player.hotbarSelected];

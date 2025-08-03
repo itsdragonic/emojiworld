@@ -99,13 +99,13 @@ function randomRotate(matrix) {
 }
 
 let availableDirections = {};
-function createDungeon() {
+function createDungeon(building) {
     const dungeonSize = 150;
-    const spawn = 5; // Number of structures to spawn
+    const spawn = 35; // Number of structures to spawn
     const dungeon = Array(dungeonSize).fill().map(() => Array(dungeonSize).fill(""));
     
     // 1. Place main structure in center
-    const mainStructure = randomRotate(structure.catacomb["main"]);
+    const mainStructure = randomRotate(building["main"]);
     const centerX = Math.floor(dungeonSize/2) - Math.floor(mainStructure[0].length/2);
     const centerY = Math.floor(dungeonSize/2) - Math.floor(mainStructure.length/2);
     //console.log(`${centerX},${centerY}`)
@@ -126,7 +126,7 @@ function createDungeon() {
         
         // Find matching structure with opposite direction
         const oppositeDir = getOppositeDirection(connectDir);
-        const structure = findStructureWithDirection(oppositeDir);
+        const structure = findStructureWithDirection(oppositeDir, building);
         
         if (structure) {
             const rotated = randomRotate(structure);
@@ -186,14 +186,14 @@ function getOppositeDirection(dir) {
     return opposites[dir] || dir;
 }
 
-function findStructureWithDirection(dir) {
+function findStructureWithDirection(dir, building) {
     let candidates = [];
     
-    for (const key in structure.catacomb) {
+    for (const key in building) {
         // Skip the "main" structure (already placed)
         if (key === "main") continue;
         
-        const struct = structure.catacomb[key];
+        const struct = building[key];
         if (hasDirection(struct, dir)) {
             candidates.push(struct);
         }
@@ -238,15 +238,32 @@ function structureGen() {
     randomStructure(25,4,5,"🛢️",["🦴","🛢️"],cave1_map);
     randomStructure(3,4,3,"🛢️",["🛢️"],cave1_map);
 
-    // Dungeon
-    let Catacomb = createDungeon();
+    // Dungeons
+    let Catacomb = createDungeon(structure.catacomb);
     for (let i = 0; i < Catacomb.length; i ++) {
         for (let j = 0; j < Catacomb[i].length; j ++) {
             let xPos = i;
             let yPos = j;
-            if ( overworld_map[xPos][yPos] !== undefined &&
+            if ( cave1_map[xPos][yPos] !== undefined &&
                 Catacomb[i][j] !== "" ) {
-                    overworld_map[xPos][yPos] = Catacomb[i][j];
+                    cave1_map[xPos][yPos] = Catacomb[i][j];
+            }
+        }
+    }
+    let Dungeon = createDungeon(structure.dungeon);
+    for (let i = 0; i < Dungeon.length; i ++) {
+        for (let j = 0; j < Dungeon[i].length; j ++) {
+            let xPos = i;
+            let yPos = j;
+            if ( cave2_map[xPos][yPos] !== undefined &&
+                Dungeon[i][j] !== "" ) {
+                    if (Dungeon[i][j] == "🟪") {
+                        let chance = rng();
+                        if (chance < 0.05) {
+                            Dungeon[i][j] = "♒";
+                        }
+                    }
+                    cave2_map[xPos][yPos] = Dungeon[i][j];
             }
         }
     }

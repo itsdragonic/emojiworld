@@ -176,6 +176,15 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     
                     continue;
                 }
+                else if (player.level == -1 && cave2_map[mapX] && cave2_map[mapX][mapY] == "🪜") {
+                    let drawX = i * emojiSize - offsetX;
+                    let drawY = j * emojiSize - offsetY;
+                    ctx.font = (emojiSize * 1.5) + "px " + useFont + ", Arial";
+                    ctx.fillStyle = "#fff";
+                    ctx.fillText("🕳️", drawX, drawY);
+                    
+                    continue;
+                }
 
                 if (map[mapX] && map[mapX][mapY]) {
                     let emoji = map[mapX][mapY];
@@ -195,10 +204,10 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                         ctx.fillStyle = "#fff";
                     }
 
-                    // Ladders
+                    /*// Ladders
                     if (player.level == 0 && cave1_map[mapX][mapY] == "🪜") {
                         emoji = "🕳️b";
-                    }
+                    }*/
 
                     // Sun/moon
                     if (i == Math.round(gridX/2) && j == 1) {

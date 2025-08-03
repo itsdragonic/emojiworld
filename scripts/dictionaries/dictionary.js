@@ -759,7 +759,7 @@ var objectProperties = {
     },
     "♒": {
         name: "Chiseled Dungeon Brick",
-        canBeWalkeedOn: false,
+        canBeWalkedOn: false,
         durability: 40,
         toolRequired: "",
         loot: "♒"

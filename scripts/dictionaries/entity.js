@@ -451,4 +451,27 @@ var entityProperties = {
             { item: "⚙️", min: 1, max: 5, chance: 1 },
         ]
     },
+    "🪬": {
+        name: "Hamsa",
+        hostile: true,
+        health: 180,
+        speed: 2,
+        loot: [
+            { item: "🏆", min: 1, max: 1, chance: 1 },
+            { item: "👁️", min: 1, max: 1, chance: 1 },
+            { item: "🫀", min: 1, max: 1, chance: 1 },
+            { item: "🫁", min: 1, max: 1, chance: 1 },
+        ]
+    },
+    "🤡": {
+        name: "The Joker",
+        hostile: true,
+        health: 180,
+        speed: 2,
+        loot: [
+            { item: "🏆", min: 1, max: 1, chance: 1 },
+            { item: "🎭", min: 1, max: 1, chance: 1 },
+            { item: "🃏", min: 1, max: 1, chance: 1 },
+        ]
+    },
 }
