@@ -134,6 +134,12 @@ function mobSpawning() {
             let mob = "";
             let tile = map[spawnPos[0]][spawnPos[1]];
             switch (player.level) {
+                // Space
+                case 2:
+                    if (tile == "") {
+                        mob = spaceMobs[Math.floor(Math.random() * spaceMobs.length)];
+                    }
+                    break;
                 // Sky
                 case 1:
                     if (tile == "") {
@@ -157,6 +163,7 @@ function mobSpawning() {
                     break;
                 // Caves
                 case -1:
+                case -2:
                     // Coral
                     if (water.includes(tile) && temp_map[spawnPos[0]][spawnPos[1]] == "🏜️") {
                         mob = coralMobs[Math.floor(Math.random() * coralMobs.length)];
@@ -170,6 +177,12 @@ function mobSpawning() {
                         mob = "🕷️";
                     } else if (tile == "") {
                         mob = "🦇";
+                    }
+                    break;
+                // Hell
+                case -3:
+                    if (tile == "" || tile == "🥀") {
+                        mob = hellMobs[Math.floor(Math.random() * hellMobs.length)];
                     }
                     break;
             }
@@ -648,6 +661,12 @@ function surroundings(dx,dy) {
     }
     if (player.isShifting && player.level == -1 && cave2_map[Math.round(xStep)][Math.round(yStep)] == "🪜") {
         changeLevel(-2);
+    }
+    if (player.isJumping && player.adjacent.includes("⛩️")) {
+        changeLevel(-2);
+    }
+    if (player.isShifting && player.adjacent.includes("⛩️")) {
+        changeLevel(-3);
     }
 
     itemHeld = player.inventory[0][player.hotbarSelected];

@@ -38,6 +38,7 @@ function saveWorld() {
     window.localStorage.setItem("overworldData", JSON.stringify(overworld_map));
     window.localStorage.setItem("cave1Data", JSON.stringify(cave1_map));
     window.localStorage.setItem("cave2Data", JSON.stringify(cave2_map));
+    window.localStorage.setItem("hellData", JSON.stringify(hell_map));
     window.localStorage.setItem("skyData", JSON.stringify(sky_map));
     window.localStorage.setItem("spaceData", JSON.stringify(space_map));
     window.localStorage.setItem("moonData", JSON.stringify(moon_map));
@@ -61,6 +62,7 @@ function loadWorld(Parse) {
     overworld_map = parse("overworldData", Parse);
     cave1_map = parse("cave1Data", Parse);
     cave2_map = parse("cave2Data", Parse);
+    hell_map = parse("hellData", Parse);
     sky_map = parse("skyData", Parse);
     space_map = parse("spaceData", Parse);
     moon_map = parse("moonData", Parse);

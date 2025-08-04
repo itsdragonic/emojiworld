@@ -25,7 +25,7 @@ var itemNames = {
     "🪣": { name: "Bucket" },
     "🧺": { name: "Basket" },
     "🔱": { name: "Trident" },
-    "🌌": { name: "Magical Essence" },
+    "🌌": { name: "Space Dust" },
     "🌠": { name: "Shooting Star" },
     "🌟": { name: "Glowing Star" },
     "🌈": { name: "Rainbow" },
@@ -43,6 +43,5 @@ var itemNames = {
     "👁️": { name: "Eye" },
     "🫀": { name: "Heart" },
     "🌐": { name: "World" },
-    "❤‍🔥": { name: "Burning Heart" },
     "🐉": { name: "Dragon" },
 };

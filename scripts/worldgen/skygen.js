@@ -82,7 +82,11 @@ function skyGen() {
                 if (chance < 0.0001) {
                     tile = "🛰️";
                 } else if (chance < 0.001) {
+                    tile = "🌠";
+                } else if (chance < 0.002) {
                     tile = "🪐";
+                } else if (chance < 0.003) {
+                    tile = "☄️";
                 } else if (chance < 0.005) {
                     tile = "✦";
                 } else if (chance < 0.008) {

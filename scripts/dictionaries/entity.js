@@ -3,6 +3,7 @@ const beachMobs = ["🦀","🦞"];
 const coralMobs = ["🐟", "🐠", "🐡", "🦐"];
 const oceanMobs = ["🐟", "🦑", "🐙", "🐋", "🦈","🧜‍♂️","🧜‍♀️"];
 const skyMobs = ["🐦","🕊️","🦅","😇","👼","🦄","🧞","🧚"];
+const spaceMobs = ["👾","🛸"];
 const hellMobs = ["🐦‍🔥","😈","👿"];
 
 var entityProperties = {
@@ -428,6 +429,26 @@ var entityProperties = {
         ]
     },
 
+    // Space
+    "👾": {
+        name: "Space Monster",
+        hostile: true,
+        health: 5,
+        speed: 2,
+        loot: [
+            { item: "🌌", min: 0, max: 1, chance: 1 },
+        ]
+    },
+    "🛸": {
+        name: "UFO",
+        hostile: false,
+        health: 20,
+        speed: 3,
+        loot: [
+            { item: "👽", min: 1, max: 1, chance: 0.4 },
+        ]
+    },
+
     // Bosses
     "💩": {
         name: "Mr. Poop",
@@ -472,6 +493,28 @@ var entityProperties = {
             { item: "🏆", min: 1, max: 1, chance: 1 },
             { item: "🎭", min: 1, max: 1, chance: 1 },
             { item: "🃏", min: 1, max: 1, chance: 1 },
+        ]
+    },
+    "👽": {
+        name: "Alien",
+        hostile: true,
+        health: 200,
+        speed: 2,
+        loot: [
+            { item: "🏆", min: 1, max: 1, chance: 1 },
+            { item: "💫", min: 0, max: 1, chance: 1 },
+            { item: "🌐", min: 1, max: 1, chance: 1 },
+        ]
+    },
+    "👹": {
+        name: "Lucifer",
+        hostile: true,
+        health: 200,
+        speed: 2,
+        loot: [
+            { item: "🏆", min: 1, max: 1, chance: 1 },
+            { item: "🥇", min: 1, max: 1, chance: 1 },
+            { item: "❤‍🔥", min: 1, max: 1, chance: 1 },
         ]
     },
 }

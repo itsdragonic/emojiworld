@@ -260,8 +260,8 @@ var craftingDictionary = {
     },
     "👹": {
         name: "Lucifer",
-        itemsNeeded: ["👁️", "🫀", "🎭", "🌐", "🔥", "🥀"],
-        amountsNeeded: [1, 1, 1, 1, 10, 5],
+        itemsNeeded: ["👁️", "🫀", "🎭", "🦾", "🦿", "🔥", "🥀"],
+        amountsNeeded: [1, 1, 1, 2, 2, 10, 50],
         required: "🧰",
     },
     "📜": {

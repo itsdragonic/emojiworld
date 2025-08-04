@@ -1,101 +1,90 @@
-var cave_map = [];
 var cave1_map = [];
 var cave2_map = [];
+var hell_map = [];
 
 function caveGen() {
-    // base cave map
+    // cave 1 map
     runPerlinAlgorithm('cave');
     for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
         let row = [];
         for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            let tile = "";
             // terrain map features
             if (terrain_map[i][j] == "🌊") {
-                row.push("🌊");
+                tile = "🌊";
             } else if (terrain_map[i][j] == "🏖️") {
-                row.push("🪨");
+                tile = "🪨";
             }
             // terrain map
             else if (perlin_noise[i][j] > 175) {
-                row.push("");
+                tile = "";
             } else if (perlin_noise[i][j] > 134) {
-                row.push("🪨");
+                tile = "🪨";
             } else if (perlin_noise[i][j] > 130) {
-                row.push("🕸️");
+                tile = "🕸️";
             } else if (perlin_noise[i][j] > 123) {
-                row.push("");
+                tile = "";
             } else if (perlin_noise[i][j] > 120) {
-                row.push("🕸️");
+                tile = "🕸️";
             } else {
-                row.push("🪨");
+                tile = "🪨";
             }
-        }
-        cave_map.push(row);
-    }
 
-    // cave 1 map
-    for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
-        let row = [];
-        for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
-            // border
-            if (i == 0 || i == MAP_WIDTH-1 || j == 0 || j == MAP_HEIGHT-1) {
-                row.push("🪨g");
-            }
-            // ocean floor features
-            else if (cave_map[i][j] == "🌊") {
+            // features
+            if (tile == "🌊") {
                 let chance = rng();
                 if (chance < 0.00001) {
-                    row.push("⚓");
-                } if (chance < 0.0001) {
-                    row.push("💠");
+                    tile = "⚓";
+                } else if (chance < 0.0001) {
+                    tile = "💠";
                 } else if (chance < 0.0005) {
-                    row.push("💎");
+                    tile = "💎";
                 } else if (chance < 0.002) {
-                    row.push("🪙");
+                    tile = "🪙";
                 } else if (chance < 0.004) {
-                    row.push("🔩");
+                    tile = "🔩";
                 } else if (chance < 0.1 && temp_map[i][j] == "🏜️") {
-                    row.push("🪸");
+                    tile = "🪸";
                 } else {
-                    row.push("ꕀ")
+                    tile = "ꕀ";
                 }
             }
             // cave features
-            else if (cave_map[i][j] == "🕸️") {
+            else if (tile == "🕸️") {
                 let chance = rng();
                 if (chance < 0.001) {
-                    row.push("🍄");
+                    tile = "🍄";
                 } else if (chance < 0.002) {
-                    row.push("🍄‍🟫");
+                    tile = "🍄‍🟫";
                 } else if (chance < 0.008) {
-                    row.push("🔩");
+                    tile = "🔩";
                 } else if (chance < 0.02) {
-                    row.push("🪜");
+                    tile = "🪜";
                 } else if (chance < 0.5) {
-                    row.push("🕸️");
+                    tile = "🕸️";
                 } else {
-                    row.push("")
+                    tile = "";
                 }
             }
             // ores
-            else if (cave_map[i][j] == "🪨") {
+            else if (tile == "🪨") {
                 let chance = rng();
                 if (chance < 0.0001) {
-                    row.push("💠");
+                    tile = "💠";
                 } else if (chance < 0.0005) {
-                    row.push("💎");
+                    tile = "💎";
                 } else if (chance < 0.005) {
-                    row.push("🪙");
+                    tile = "🪙";
                 } else if (chance < 0.02) {
-                    row.push("🔩");
+                    tile = "🔩";
                 } else if (chance < 0.4) {
-                    row.push("🪨b");
+                    tile = "🪨b";
                 } else {
-                    row.push("🪨")
+                    tile = "🪨";
                 }
             }
-            else if (cave_map[i][j] == "") {
-                row.push("");
-            }
+
+            row.push(tile);
         }
         cave1_map.push(row);
     }
@@ -131,16 +120,59 @@ function caveGen() {
             }
             else if (tile == "🪨") {
                 const chance = rng();
-                tile = chance < 0.0001 ? "💠" :
-                    chance < 0.0005 ? "💎" :
-                    chance < 0.005 ? "🪙" :
-                    chance < 0.02 ? "🔩" :
-                    chance < 0.4 ? "🪨b" : "🪨";
+                tile = chance < 0.001 ? "💠" :
+                    chance < 0.005 ? "💎" :
+                    chance < 0.006 ? "🪙" :
+                    chance < 0.015 ? "🔩" :
+                    chance < 0.5 ? "🪨b" : "🪨";
             }
 
             row.push(tile);
         }
         cave2_map.push(row);
+    }
+
+    // hell map
+    runPerlinAlgorithm('hell');
+    for (let i = 0; i < MAP_WIDTH; i += pixel_size) {
+        let row = [];
+        for (let j = 0; j < MAP_HEIGHT; j += pixel_size) {
+            // terrain map
+            let tile = "";
+            if (perlin_noise[i][j] > 175) {
+                tile = "";
+            } else if (perlin_noise[i][j] > 134) {
+                tile = "🔥";
+            } else if (perlin_noise[i][j] > 130) {
+                tile = "🥀";
+            } else if (perlin_noise[i][j] > 125) {
+                tile = "";
+            } else if (perlin_noise[i][j] > 118) {
+                tile = "🥀";
+            } else {
+                tile = "🔥";
+            }
+
+            if (tile == "🥀") {
+                const chance = rng();
+                tile = chance < 0.01 ? "𖤐" :
+                    chance < 0.02 ? "⛧" :
+                    chance < 0.03 ? "𐕣" :
+                    chance < 0.04 ? "⚰️" :
+                    chance < 0.25 ? "🥀" : "";
+            }
+            else if (tile == "🔥") {
+                const chance = rng();
+                tile = chance < 0.0003 ? "♨️" :
+                    chance < 0.0004 ? "🩸" :
+                    chance < 0.005 ? "💥" :
+                    chance < 0.01 ? "🪨b" :
+                    chance < 0.4 ? "🔥b" : "🔥";
+            }
+
+            row.push(tile);
+        }
+        hell_map.push(row);
     }
 
     skyGen();

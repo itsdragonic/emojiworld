@@ -275,7 +275,18 @@ function structureGen() {
             if (i == 0 || i == MAP_WIDTH-1 || j == 0 || j == MAP_HEIGHT-1) {
                 overworld_map[i][j] = "🗻g";
                 cave1_map[i][j] = "🪨g";
+                cave2_map[i][j] = "🪨g";
+                hell_map[i][j] = "🪨g";
                 space_map[i][j] = "🌌b";
+            }
+
+            // special structures
+            if (cave2_map[i][j] == "⛩️") {
+                hell_map[i][j] = "⛩️";
+                hell_map[i+1][j] = "";
+                hell_map[i-1][j] = "";
+                hell_map[i][j+1] = "";
+                hell_map[i][j-1] = "";
             }
         }
     }

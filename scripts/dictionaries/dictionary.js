@@ -523,12 +523,10 @@ var objectProperties = {
         loot: ""
     },
     "⛩️": {
-        name: "Gateway to Hell",
+        name: "Hell Gateway",
         description: "Beware the fiery realm",
         canBeWalkedOn: true,
-        durability: 15,
-        toolRequired: "",
-        loot: ""
+        unbreakable: true
     },
     "🏮": {
         name: "Red Paper Lantern",
@@ -895,14 +893,6 @@ var objectProperties = {
         toolRequired: "⛏️",
         loot: "☄️"
     },
-    "🛸": {
-        name: "UFO",
-        description: "Unidentified Flying Object",
-        canBeWalkedOn: false,
-        durability: 7,
-        toolRequired: "🗡️",
-        loot: "🌠"
-    },
     "👽": {
         name: "Alien",
         description: "'We come in peace...'",
@@ -992,12 +982,28 @@ var objectProperties = {
         toolRequired: "",
         loot: ""
     },
+    "🔥b": {
+        name: "Big Fire",
+        description: "Warning: HOT",
+        canBeWalkedOn: true,
+        durability: 4,
+        toolRequired: "",
+        loot: ""
+    },
     "🥀": {
         name: "Wilted Flower",
+        description: '"sybau"',
         canBeWalkedOn: true,
         durability: 3,
         toolRequired: "👊",
         loot: "🥀"
+    },
+    "⛧": {
+        name: "Pentagram",
+        canBeWalkedOn: true,
+        durability: 10,
+        toolRequired: "",
+        loot: ""
     },
     "🌾": {
         name: "Wheat",
