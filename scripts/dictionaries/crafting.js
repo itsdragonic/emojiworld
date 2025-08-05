@@ -655,7 +655,7 @@ var craftingDictionary = {
         amountsNeeded: [2],
         required: "👳‍♂️",
     },
-    "𓇠": {
+    /*"𓇠": {
         name: "Tomato Seed",
         itemsNeeded: ["🪙"],
         amountsNeeded: [2],
@@ -714,7 +714,7 @@ var craftingDictionary = {
         itemsNeeded: ["🪙"],
         amountsNeeded: [2],
         required: "🧑‍🌾",
-    },
+    },*/
     "💩": {
         name: "Mr. Poop",
         description: "A mysterious creature the farmer found...",

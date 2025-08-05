@@ -105,6 +105,35 @@ html {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+.button {
+    width: 200px;
+    height: 60px;
+    background-color: #444;
+    border: 4px solid #888;
+    color: white;
+    font: bold 24px sans-serif;
+    text-align: center;
+    line-height: 60px;
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    position: absolute;
+}
+
+#button1 {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+#button2 {
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+}
+
 canvas {
     display: block;
     top: 0;

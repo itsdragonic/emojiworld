@@ -296,7 +296,11 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             ) {
                 const drawX = (entity.x - startX) * emojiSize - offsetX;
                 const drawY = (entity.y - startY) * emojiSize - offsetY;
-                entity.draw(ctx, drawX, drawY);
+                try {
+                    entity.draw(ctx, drawX, drawY);
+                } catch (error) { 
+                    console.log(error);
+                }
             }
         }
 

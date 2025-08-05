@@ -35,6 +35,7 @@ function saveWorld() {
 
     window.localStorage.setItem("terrainData", JSON.stringify(terrain_map));
     window.localStorage.setItem("biomeData", JSON.stringify(biome_map));
+    window.localStorage.setItem("tempData", JSON.stringify(temp_map));
     window.localStorage.setItem("overworldData", JSON.stringify(overworld_map));
     window.localStorage.setItem("cave1Data", JSON.stringify(cave1_map));
     window.localStorage.setItem("cave2Data", JSON.stringify(cave2_map));
@@ -52,13 +53,14 @@ function parse(str, amount) {
     }
 }
 
-function loadWorld(Parse) {
+function loadWorld(Parse = 1) {
     // Load World
     player = parse("playerData", Parse);
     gameData = parse("gameData", Parse);
 
     terrain_map = parse("terrainData", Parse);
     biome_map = parse("biomeData", Parse);
+    temp_map = parse("tempData", Parse);
     overworld_map = parse("overworldData", Parse);
     cave1_map = parse("cave1Data", Parse);
     cave2_map = parse("cave2Data", Parse);
@@ -66,4 +68,6 @@ function loadWorld(Parse) {
     sky_map = parse("skyData", Parse);
     space_map = parse("spaceData", Parse);
     moon_map = parse("moonData", Parse);
+
+    generateTerrain = false;
 }

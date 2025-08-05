@@ -4,8 +4,9 @@ function gameLogic() {
     if (gameData.time >= maxTime) {
         gameData.time = 0;
         gameData.day ++;
+    } else {
+        gameData.time++;
     }
-    else gameData.time++;
     
     // Regeneration
     if (gameData.time % 200 == 0 && player.health < player.maxHealth && player.hunger > 0) {
@@ -187,7 +188,6 @@ function mobSpawning() {
                     break;
             }
             if (mob != "") {
-                //console.log(mob);
                 gameData.entities[String(player.level)].push(new Mob(mob, spawnPos[0], spawnPos[1], entityId));
                 entityId++;
             }
