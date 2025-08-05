@@ -88,8 +88,6 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.isJumping = false;
         }
 
-        if (player.timeSinceDeath > 0) player.characterEmote = "👻";
-
         // Speed conditions
         if (water.includes(player.adjacent[4])) {
             if (player.accessories.flat().includes("🛶")) {
@@ -116,6 +114,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         } else if (player.level > 1 && (player.armor.includes("🧑‍🚀") || player.accessories.flat().includes("🧑‍🚀"))) {
             player.characterEmote = character.astronaut;
         }
+        if (player.timeSinceDeath > 0) player.characterEmote = "👻";
 
         // Normalize diagonal movement
         if (dx !== 0 && dy !== 0) {
@@ -477,11 +476,11 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         // Inventory & Boxes
         hovering = false;
         if (player.inventoryPriority) {
-            drawBox();
+            /*drawBox();
             if (player.inventoryOpen) {
                 updateCraftingPossibilities();
                 drawInventory();
-            }
+            }*/
         } else {
             if (player.inventoryOpen) {
                 updateCraftingPossibilities();

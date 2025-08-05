@@ -45,14 +45,6 @@ function saveWorld() {
     window.localStorage.setItem("moonData", JSON.stringify(moon_map));
 }
 
-function parse(str, amount) {
-    if (amount == 1) {
-        return JSON.parse(localStorage.getItem(str));
-    } else if (amount == 2) {
-        return JSON.parse(JSON.parse(localStorage.getItem(str)));
-    }
-}
-
 function loadWorld(Parse = 1) {
     // Load World
     player = parse("playerData", Parse);

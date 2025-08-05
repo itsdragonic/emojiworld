@@ -33,6 +33,7 @@ var player = {
     thirst: 10,
     maxBreath: 10,
     breath: 10,
+    totalProtection: 0,
 
     characterEmote: character.default,
     walkTime: 0,

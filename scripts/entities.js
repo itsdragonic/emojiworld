@@ -8,6 +8,7 @@ class Mob {
         this.beach = entityProperties[this.type].beach;
         this.hostile = entityProperties[this.type].hostile;
         this.pet = entityProperties[this.type].pet;
+        this.damage = entityProperties[this.type].damage ?? 1;
 
         // Universal properties
         this.x = x;

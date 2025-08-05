@@ -7,7 +7,7 @@ function gameLogic() {
     } else {
         gameData.time++;
     }
-    
+
     // Regeneration
     if (gameData.time % 200 == 0 && player.health < player.maxHealth && player.hunger > 0) {
         player.health ++;
@@ -15,7 +15,7 @@ function gameLogic() {
     }
 
     // Hunger and Thirst logic
-    if (gameData.time % 400 == 0 && (player.hunger == 0 || player.thirst == 0)) damage(1);
+    if (gameData.time % 400 == 0 && (player.hunger == 0 || player.thirst == 0)) damage(1,true);
 
     if (player.walkTime == 1100) {
         if (player.thirst > 0) {
@@ -31,11 +31,11 @@ function gameLogic() {
     }
 
     // Drowning logic
-    if (gameData.time % 200 == 0 && player.isDrowning && !(player.armor.includes("🤿") || player.accessories.flat().includes("🤿"))) {
+    if (gameData.time % 133 == 0 && player.isDrowning && !(player.armor.includes("🤿") || player.accessories.flat().includes("🤿"))) {
         if (player.breath > 0) {
             player.breath --;
         } else {
-            damage(1);
+            damage(1,true);
         }
     }
     if (gameData.time % 50 == 0) {
@@ -104,7 +104,7 @@ function updateNearbyEntities() {
             Math.abs(entity.x - player.x) < 1 &&
             Math.abs(entity.y - player.y) < 1
         ) {
-            damage(1);
+            damage(entity.damage);
         }
 
         if (gameData.time % 100 == 0) { // how fast mobs change target
@@ -267,13 +267,47 @@ function donutRadius(x, y, outside, inside) {
     ];
 }
 
-function damage(amount = 1) {
+function damage(amount = 1,trueDamage = false) {
     if (player.damageCooldown <= 0) {
-        player.health -= amount;
+        let actualDamage;
+
+        // Sum up armor values
+        player.totalProtection = 0;
+        player.armor.forEach(armor => {
+            if (armorProperties[armor]) {
+                player.totalProtection += armorProperties[armor].protection;
+            }
+        });
+
+        if (trueDamage) {
+            actualDamage = amount;
+        } else {
+            // logarithmic scaling
+            const damageReduction = Math.min(
+                0.9 * amount, // Cap reduction
+                Math.log1p(player.totalProtection * 0.5)
+            );
+            
+            actualDamage = Math.max(1, Math.round(amount - damageReduction));
+            
+            // minimum damage chance
+            if (actualDamage <= 1 && player.totalProtection > 0) {
+                const blockChance = player.totalProtection / (player.totalProtection + 10);
+                if (Math.random() < blockChance) {
+                    actualDamage = 0;
+                } else {
+                    actualDamage = 1;
+                }
+            } else if (!actualDamage) {
+                actualDamage = 0;
+            }
+        }
+
+        player.health -= actualDamage;
         player.damageTicks += 20;
         player.damageCooldown = 100;
-        player.emotion = "🤕";
-        player.emotionTime = 500;
+        player.emotion = actualDamage == 0 ? "🛡️" : "🤕";
+        player.emotionTime = actualDamage == 0 ? 100 : 500;
 
         if (player.health <= 0) {
             player.health = 0;
@@ -747,6 +781,7 @@ function surroundings(dx,dy) {
                     if (item == "🥤") {
                         removeInventory("🪣",1);
                         addInventory("🥤",1);
+                        map[x][y] = "";
                     }
                 }
                 // Box logic

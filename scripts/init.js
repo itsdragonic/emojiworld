@@ -15,6 +15,15 @@ var MAP_HEIGHT = 200;
 var seed = "a";
 
 let emojiSize = 20;
+
+function parse(str, amount) {
+    if (amount == 1) {
+        return JSON.parse(localStorage.getItem(str));
+    } else if (amount == 2) {
+        return JSON.parse(JSON.parse(localStorage.getItem(str)));
+    }
+}
+
 const font = Object.freeze({
     default: "Roboto Bold",
     apple: "Apple Color Emoji",
@@ -33,14 +42,19 @@ const specialFontConditions = {
     [font.serenity]: { walkRight: "🚶", sprintRight: "🏃" }
 };
 
-let useFont = font.default;
+let parsedFont = parse("fontData", 1);
+if (parsedFont) document.getElementById("fontSelect").value = parsedFont;
+let useFont = font[parsedFont] || font.default;
 let isFontLoading = false;
+
+if (useFont != font.default) setFontAndDraw(useFont);
 
 document.getElementById("fontSelect").addEventListener("change", async (e) => {
     if (isFontLoading) return;
     isFontLoading = true;
     
     const selectedKey = e.target.value;
+    window.localStorage.setItem("fontData", JSON.stringify(selectedKey));
     useFont = font[selectedKey] || font.default;
 
     try {

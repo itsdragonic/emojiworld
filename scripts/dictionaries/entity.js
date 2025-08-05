@@ -213,6 +213,7 @@ var entityProperties = {
         name: "Shark",
         aquatic: true,
         hostile: true,
+        damage: 2,
         health: 15,
         speed: 1,
         loot: [
@@ -265,6 +266,7 @@ var entityProperties = {
         name: "Zombie Man",
         description: "Brains...",
         hostile: true,
+        damage: 2,
         health: 3,
         speed: 1,
         loot: [
@@ -276,6 +278,7 @@ var entityProperties = {
         name: "Zombie Woman",
         description: "Brains...",
         hostile: true,
+        damage: 2,
         health: 3,
         speed: 1,
         loot: [
@@ -412,6 +415,7 @@ var entityProperties = {
         name: "Mad Demon",
         description: ">:(",
         hostile: true,
+        damage: 8,
         health: 10,
         speed: 1,
         loot: [
@@ -422,6 +426,7 @@ var entityProperties = {
         name: "Evil Demon",
         description: ">:)",
         hostile: true,
+        damage: 8,
         health: 9,
         speed: 1,
         loot: [
@@ -433,6 +438,7 @@ var entityProperties = {
     "👾": {
         name: "Space Monster",
         hostile: true,
+        damage: 5,
         health: 5,
         speed: 2,
         loot: [
@@ -453,6 +459,7 @@ var entityProperties = {
     "💩": {
         name: "Mr. Poop",
         hostile: true,
+        damage: 2,
         health: 80,
         speed: 2,
         loot: [
@@ -463,6 +470,7 @@ var entityProperties = {
     "🤖": {
         name: "Roboto",
         hostile: true,
+        damage: 5,
         health: 150,
         speed: 2,
         loot: [
@@ -475,6 +483,7 @@ var entityProperties = {
     "🪬": {
         name: "Hamsa",
         hostile: true,
+        damage: 10,
         health: 180,
         speed: 2,
         loot: [
@@ -487,6 +496,7 @@ var entityProperties = {
     "🤡": {
         name: "The Joker",
         hostile: true,
+        damage: 5,
         health: 180,
         speed: 2,
         loot: [
@@ -498,6 +508,7 @@ var entityProperties = {
     "👽": {
         name: "Alien",
         hostile: true,
+        damage: 15,
         health: 200,
         speed: 2,
         loot: [
@@ -509,6 +520,7 @@ var entityProperties = {
     "👹": {
         name: "Lucifer",
         hostile: true,
+        damage: 20,
         health: 200,
         speed: 2,
         loot: [
