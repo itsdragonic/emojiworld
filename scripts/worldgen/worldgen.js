@@ -488,7 +488,7 @@ function generateWorld() {
                 } else if (chance < 0.4) {
                     row.push("❆");
                 } else if (chance < 0.6) {
-                    row.push("❅𓏳");
+                    row.push("❅");
                 } else {
                     row.push("");
                 }

@@ -1373,6 +1373,13 @@ var objectProperties = {
         toolRequired: "🥄",
         loot: "⏳"
     },
+    "⏳": {
+        name: "Sand",
+        canBeWalkedOn: true,
+        durability: 3,
+        toolRequired: "🥄",
+        loot: "⏳"
+    },
     "𓂃": {
         name: "Sand",
         canBeWalkedOn: true,

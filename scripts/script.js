@@ -485,6 +485,15 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }*/
         } else {
             if (player.inventoryOpen) {
+                
+                // Sum up armor values
+                player.totalProtection = 0;
+                player.armor.forEach(armor => {
+                    if (armorProperties[armor]) {
+                        player.totalProtection += armorProperties[armor].protection;
+                    }
+                });
+
                 updateCraftingPossibilities();
                 drawInventory();
             }

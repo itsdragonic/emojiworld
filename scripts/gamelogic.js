@@ -271,14 +271,6 @@ function damage(amount = 1,trueDamage = false) {
     if (player.damageCooldown <= 0) {
         let actualDamage;
 
-        // Sum up armor values
-        player.totalProtection = 0;
-        player.armor.forEach(armor => {
-            if (armorProperties[armor]) {
-                player.totalProtection += armorProperties[armor].protection;
-            }
-        });
-
         if (trueDamage) {
             actualDamage = amount;
         } else {
@@ -895,9 +887,12 @@ function surroundings(dx,dy) {
                     if (sand.includes(block)) {
                         addInventory("⏳", 1);
                     }
-                    if (itemHeld == "📦") {
+                    if (itemHeld == "⏳") {
+                        itemToPlace = "𓂃";
+                    } else if (itemHeld == "📦") {
                         createBox(player.level,x,y);
                     }
+
                     if (objectProperties[itemHeld]?.seed) {
                         gameData.cropData[`crop_${player.level}_${x}_${y}`] = {
                             type: objectProperties[itemHeld].grown,
@@ -912,6 +907,7 @@ function surroundings(dx,dy) {
                         itemToPlace = "";
                     }
 
+                    // Place block
                     map[x][y] = itemToPlace;
 
                     if (objectProperties[itemHeld]) {

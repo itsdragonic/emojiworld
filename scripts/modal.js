@@ -97,8 +97,13 @@ function startWorld() {
     });
 
     document.addEventListener('keydown', (e) => {
-        const key = e.key.toLowerCase();
+
+        if (e.key === 'F11') {
+            return;
+        }
+
         e.preventDefault();
+        const key = e.key.toLowerCase();
 
         if (key === 'tab') {
             player.isSprinting = !player.isSprinting;
@@ -239,6 +244,10 @@ Protection: ${armorProperties[item].protection}`;
             player.hoverText = `\\e${item}\\r\\a${findName(item)}
 ⊹ Accessory ⊹
 ${findDesc(item)}`;
+        } else if (weaponProperties[item]) {
+            player.hoverText = `\\e${item}\\r\\a${findName(item)}
+${findDesc(item)}
+Attack Damage: ${weaponProperties[item].damage}`;
         } else {
             player.hoverText = `\\e${item}\\r\\a${findName(item)}
 ${findDesc(item)}`;
@@ -292,10 +301,17 @@ function drawInventory() {
     ctx.font = '20px Arial';
     ctx.textAlign = 'left';
     ctx.fillText('Armor', x + 10, y + 50);
-    ctx.fillText('Stats', x + 10, y + 300);
 
     ctx.fillText('Inventory', x + sideBarWidth + 20, y + 20);
     ctx.fillText('Accessories', x + sideBarWidth + 20, y + 7*(slotSize+gapSize) + 90);
+
+    // Stats
+    ctx.fillText('Stats', x + 10, y + 300);
+    ctx.font = '15px Arial';
+    ctx.fillText(`Pos: ${player.x.toFixed()}, ${player.y.toFixed()}`, x + 10, y + 330);
+    ctx.fillText(`Total Prot: ${player.totalProtection}`, x + 10, y + 350);
+    ctx.fillText(`Saturation: ${player.hunger + player.saturation}`, x + 10, y + 370);
+    ctx.fillText(`Moon Phase: ${moonPhases[moonIndex]}`, x + 10, y + 390);
 
     // Crafting box
     const craftingX = x + iwidth * 0.6;

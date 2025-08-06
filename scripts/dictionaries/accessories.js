@@ -11,6 +11,10 @@ var accessoriesProperties = {
         name: "Four-Leaf Clover",
         description: "When in accessory bar, it gives the player\nbetter odds for RNG events (such as loot drops)"
     },
+    "🧭": {
+        name: "Compass",
+        description: "When in accessory bar,\nsee your position in [STATS]"
+    },
     "🔦": {
         name: "Flashlight",
         description: "When in accessory bar or holding\nin mainhand, see better in the dark",

@@ -232,11 +232,14 @@ function structureGen() {
     fixedStructure(4,structure.merchant,overworld_map,true,true);
     fixedStructure(3,structure.village,overworld_map,true,true);
     fixedStructure(8,structure.abandoned,cave1_map,true,false,true);
+    fixedStructure(3,structure.abandoned,cave2_map,true,false,true);
     //fixedStructure(1,createDungeon(),overworld_map,false,true);
 
     randomStructure(3,4,3,"🗿g",["🗿b","🗿"],overworld_map);
     randomStructure(25,4,5,"🛢️",["🦴","🛢️"],cave1_map);
     randomStructure(3,4,3,"🛢️",["🛢️"],cave1_map);
+    randomStructure(8,4,5,"🛢️",["🦴","🛢️"],cave2_map);
+    randomStructure(15,4,3,"🛢️",["🛢️"],cave2_map);
 
     // Dungeons
     let Catacomb = createDungeon(structure.catacomb);
