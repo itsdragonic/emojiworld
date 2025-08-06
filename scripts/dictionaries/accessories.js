@@ -45,7 +45,7 @@ var accessoriesProperties = {
     },
     "🧑‍🚀": {
         name: "Astronaut Suit",
-        description: "When in accessory or armor,\nbe able to breathe in space"
+        description: "When in accessory or armor slots,\nbe able to breathe in space"
     },
     "📡": {
         name: "Satellite Antenna",
@@ -53,7 +53,7 @@ var accessoriesProperties = {
     },
     "🛡️": {
         name: "Shield",
-        protection: 3,
+        description: "When equipped, have higher\nchances of deflecting low damage attacks",
     },
     "💍": {
         name: "Diamond Ring",

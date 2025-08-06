@@ -178,7 +178,7 @@ async function startGeneration() {
             }, 0);
         });
     }
-    
+
     document.body.style.cursor = "default";
     gameLoop();
 }
@@ -542,9 +542,13 @@ ${craftingDictionary[mergedCrafts[i]].required
                         removeInventory(recipe.itemsNeeded[i], recipe.amountsNeeded[i]);
                     }
 
-                    addInventory(mergedCrafts[i], 1);
-                    if (craftingDictionary[mergedCrafts[i]]?.return) {
-                        addInventory(craftingDictionary[mergedCrafts[i]].return,1);
+                    if (mergedCrafts[i].endsWith("Ⓜ")) {
+                        addInventory(mergedCrafts[i].slice(0, -1), 1);
+                    } else {
+                        addInventory(mergedCrafts[i], 1);
+                        if (craftingDictionary[mergedCrafts[i]]?.return) {
+                            addInventory(craftingDictionary[mergedCrafts[i]].return,1);
+                        }
                     }
                 }
             }

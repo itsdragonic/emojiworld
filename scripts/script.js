@@ -414,7 +414,9 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             ctx.fill();
             ctx.restore();
         }
-        ctx.font = radius*1.5 + "px " + useFont + ", Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = `${radius * 1.5}px ${useFont}, Arial`;
 
         let emotionHUD = player.defaultEmotion;
         if (player.emotion != "" && player.emotionTime > 0) {
@@ -422,7 +424,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.emotionTime --;
         };
 
-        ctx.fillText(emotionHUD,centerX, centerY + 3);
+        ctx.fillText(emotionHUD, centerX, centerY + 3);
 
         // Progress bar
         if (player.progressBar > 0) {
