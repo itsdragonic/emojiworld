@@ -100,6 +100,18 @@ function startWorld() {
 
         if (e.key === 'F11') {
             return;
+        } else if (e.altKey && e.shiftKey && e.key === 'S') {
+            // Retrieve contents from localStorage
+            saveWorld();
+            const localStorageData = JSON.stringify(localStorage);
+            const blob = new Blob([localStorageData], { type: "application/json" });
+
+            // Download file
+            const filename = "myWorld";
+            const downloadLink = document.createElement("a");
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = filename + ".emojiworld";
+            downloadLink.click();
         }
 
         e.preventDefault();

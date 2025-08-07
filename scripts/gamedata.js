@@ -62,4 +62,40 @@ function loadWorld(Parse = 1) {
     moon_map = parse("moonData", Parse);
 
     generateTerrain = false;
+
+    startWorld();
+}
+
+function importWorld() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.emojiworld';
+
+    fileInput.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            const text = await file.text();
+            const data = JSON.parse(text);
+
+            window.localStorage.clear();
+
+            for (const [key, value] of Object.entries(data)) {
+                if (typeof value === 'object') {
+                    window.localStorage.setItem(key, JSON.stringify(value));
+                } else {
+                    // In case of non-object values
+                    window.localStorage.setItem(key, value);
+                }
+            }
+
+            alert('World imported successfully!');
+            loadWorld();
+        } catch (error) {
+            alert('Import failed: ' + error.message);
+        }
+    };
+
+    fileInput.click();
 }
