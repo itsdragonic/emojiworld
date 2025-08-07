@@ -446,10 +446,13 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
             // Progress fill color
             let fillColor = "#cccccc"; // default fallback
+            if (player.isAttacking) player.progressType == "health";
             if (player.progressType == "mining") {
-                fillColor = player.correctTool ? "#00ce4bff" : "#ba3737ff";
+                fillColor = player.correctTool ? "#27c93f" : "#ba3737ff";
             } else if (player.progressType == "eating") {
                 fillColor = "#4d00ddff";
+            } else if (player.progressType == "health") {
+                fillColor = "#851111ff";
             } 
 
             const barX = hotbarX;

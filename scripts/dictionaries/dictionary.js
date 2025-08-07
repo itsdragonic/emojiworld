@@ -818,7 +818,7 @@ var objectProperties = {
         toolRequired: "",
         loot: "⬛"
     },
-    "🌋": {
+    "🌋g": {
         name: "Volcano",
         description: "Keep a safe distance!",
         canBeWalkedOn: false,
@@ -826,7 +826,8 @@ var objectProperties = {
         toolRequired: "⛏️",
         loot: [
             { item: "🪨", min: 4, max: 7, chance: 1 },
-            { item: "🔩", min: 1, max: 2, chance: 0.25 }
+            { item: "🔩", min: 1, max: 2, chance: 0.25 },
+            { item: "🔥", min: 1, max: 2, chance: 0.3 }
         ]
     },
     "💩": {

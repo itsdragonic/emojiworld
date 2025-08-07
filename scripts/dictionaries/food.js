@@ -158,6 +158,9 @@ var foodProperties = {
     }, "🦈": {
         name: "Shark",
         nutrition: 3,
+    }, "🐋": {
+        name: "Whale",
+        nutrition: 3,
     }, "🦐": {
         name: "Shrimp",
         nutrition: 1,

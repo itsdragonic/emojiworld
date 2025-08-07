@@ -152,15 +152,7 @@ function startWorld() {
 
     // Final preparations
     map = dim(player.level);
-    /*gameData.entities = {
-        '3': [],
-        '2': [],
-        '1': [],
-        '0': [],
-        '-1': [],
-        '-2': [],
-        '-3': [],
-    }*/
+    
     Object.entries(gameData.entities).forEach(([level, entities]) => {
         // Create new array for Mob instances
         const mobInstances = [];
@@ -592,7 +584,6 @@ ${craftingDictionary[mergedCrafts[i]].required
                     }
 
                     let amount = craftingDictionary[mergedCrafts[i]].amount || 1;
-                    console.log(craftingDictionary[mergedCrafts[i]].amount)
 
                     if (mergedCrafts[i].endsWith("Ⓜ")) {
                         addInventory(mergedCrafts[i].slice(0, -1), amount);

@@ -12,6 +12,12 @@ var weaponProperties = {
         itemType: "🗡️",
         sub: 0,
     },
+    "🔱": {
+        name: "Trident",
+        damage: 5,
+        itemType: "🗡️",
+        sub: 0,
+    },
     "⛏️": {
         name: "Pickaxe",
         damage: 1,

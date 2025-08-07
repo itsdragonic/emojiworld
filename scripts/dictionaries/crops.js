@@ -5,7 +5,7 @@ var farmCrops = {
     "🥬": { name: "Lettuce", seed: "⌁", chance: 0.1 },
     "🍇": { name: "Grapes", seed: "❦", chance: 0.1 },
     "🫘": { name: "Beans", seed: "𓇡", chance: 0.1 },
-    "🌾": { name: "Wheat", seed: ".", chance: 0.2 },
+    "🌾": { name: "Wheat", seed: ".", chance: 0.3 },
     "🍈": { name: "Melon", seed: ":･", "loot": "🍉", chance: 0.1 },
     "🌳": { name: "Tree", seed: "🌰", "loot": "🪵", chance: 0.1 },
     "🌲": { name: "Pine Tree", seed: "↟", "loot": "🪵", chance: 0.1 },

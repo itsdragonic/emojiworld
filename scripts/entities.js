@@ -3,6 +3,7 @@ class Mob {
         this.type = type;
 
         // Specific properties
+        this.maxHealth = entityProperties[this.type].health;
         this.health = entityProperties[this.type].health;
         this.aquatic = entityProperties[this.type].aquatic;
         this.firey = entityProperties[this.type].firey;
@@ -25,10 +26,18 @@ class Mob {
     }
 
     takeDamage(amount) {
+        // show in progress bar
+        player.isAttacking = true;
+        player.progressBar = this.health / this.maxHealth * 100;
+        player.progressType = "health";
+        
         if (this.attackCooldown > 0) return;
         this.health -= amount;
         this.attackCooldown = 20; // frames until can be hit again
+
         if (this.health <= 0) {
+            player.isAttacking = false;
+            player.progressBar = 0;
             this.die();
         }
     }
@@ -171,6 +180,7 @@ class Mob {
     }
 
     update(map) {
+        player.isAttacking = false;
         try {
             // Decrease attack cooldown
             if (this.attackCooldown > 0) this.attackCooldown--;
@@ -201,25 +211,19 @@ class Mob {
                     if (newX < 0 || newY < 0) {
                         // No movement
                     } else {
-                        let tile = map[Math.round(newX)] && map[Math.round(newX)][Math.round(newY)];
+                        if (testForTile(map,Math.round(newX),Math.round(newY))) {
+                            let tile = map[Math.round(newX)][Math.round(newY)];
 
-                        if (this.aquatic) {
-                            if (
-                                map[Math.round(newX)] &&
-                                map[Math.round(newX)][Math.round(newY)] &&
-                                water.includes(tile)
-                            ) {
-                                this.x = Math.max(0, newX);
-                                this.y = Math.max(0, newY);
-                            }
-                        } else {
-                            if (
-                                map[Math.round(newX)] &&
-                                map[Math.round(newX)][Math.round(newY)] &&
-                                !water.includes(tile)
-                            ) {
-                                this.x = Math.max(0, newX);
-                                this.y = Math.max(0, newY);
+                            if (this.aquatic) {
+                                if (water.includes(tile)) {
+                                    this.x = Math.max(0, newX);
+                                    this.y = Math.max(0, newY);
+                                }
+                            } else {
+                                if (!water.includes(tile)) {
+                                    this.x = Math.max(0, newX);
+                                    this.y = Math.max(0, newY);
+                                }
                             }
                         }
                     }

@@ -10,7 +10,7 @@ var entityProperties = {
     "🐖": {
         name: "Pig",
         description: "Oink Oink",
-        health: 3,
+        health: 6,
         speed: 1,
         loot: [
             { item: "🥓", min: 1, max: 2, chance: 1 },
@@ -19,7 +19,7 @@ var entityProperties = {
     "🐄": {
         name: "Cow",
         description: "Moo Moo",
-        health: 3,
+        health: 6,
         speed: 1,
         loot: [
             { item: "🥩", min: 1, max: 2, chance: 1 },
@@ -83,7 +83,7 @@ var entityProperties = {
     "🐕": {
         name: "Dog",
         description: "Aww..",
-        health: 7,
+        health: 10,
         speed: 1,
         loot: [
             { item: "", min: 1, max: 1, chance: 1 },
@@ -92,7 +92,7 @@ var entityProperties = {
     "🐈": {
         name: "Cat",
         description: "Aww..",
-        health: 7,
+        health: 10,
         speed: 1,
         loot: [
             { item: "", min: 1, max: 1, chance: 1 },
@@ -101,7 +101,7 @@ var entityProperties = {
     "🐩": {
         name: "Poodle",
         description: "Aww..",
-        health: 7,
+        health: 10,
         speed: 1,
         loot: [
             { item: "", min: 1, max: 1, chance: 1 },
@@ -110,7 +110,7 @@ var entityProperties = {
     "🐈‍⬛": {
         name: "Black Cat",
         description: "Aww..",
-        health: 7,
+        health: 10,
         speed: 1,
         loot: [
             { item: "", min: 1, max: 1, chance: 1 },
@@ -185,7 +185,7 @@ var entityProperties = {
     "🦑": {
         name: "Squid",
         aquatic: true,
-        health: 10,
+        health: 15,
         speed: 1,
         loot: [
             { item: "🦑", min: 1, max: 1, chance: 1 }
@@ -194,7 +194,7 @@ var entityProperties = {
     "🐙": {
         name: "Octopus",
         aquatic: true,
-        health: 8,
+        health: 12,
         speed: 1,
         loot: [
             { item: "🐙", min: 1, max: 1, chance: 1 }
@@ -203,7 +203,7 @@ var entityProperties = {
     "🐋": {
         name: "Whale",
         aquatic: true,
-        health: 20,
+        health: 25,
         speed: 1,
         loot: [
             { item: "🐋", min: 1, max: 1, chance: 1 }
@@ -214,7 +214,7 @@ var entityProperties = {
         aquatic: true,
         hostile: true,
         damage: 2,
-        health: 15,
+        health: 20,
         speed: 1,
         loot: [
             { item: "🦈", min: 1, max: 1, chance: 1 }
@@ -223,20 +223,20 @@ var entityProperties = {
     "🧜‍♂️": {
         name: "Merman",
         aquatic: true,
-        health: 15,
+        health: 25,
         speed: 1,
         loot: [
-            { item: "🔱", min: 1, max: 1, chance: 1 },
-            { item: "🍖", min: 0, max: 2, chance: 1 }
+            { item: "🔱", min: 1, max: 1, chance: 0.1 },
+            { item: "🍖", min: 0, max: 2, chance: 0.8 }
         ]
     },
     "🧜‍♀️": {
         name: "Mermaid",
         aquatic: true,
-        health: 15,
+        health: 25,
         speed: 1,
         loot: [
-            { item: "🍖", min: 0, max: 2, chance: 1 }
+            { item: "🍖", min: 0, max: 2, chance: 0.8 }
         ]
     },
 
@@ -245,7 +245,7 @@ var entityProperties = {
         name: "Spider",
         description: "Don't get bit!",
         hostile: true,
-        health: 3,
+        health: 5,
         speed: 1,
         loot: [
             { item: "🕸️", min: 1, max: 2, chance: 1 },
@@ -254,7 +254,7 @@ var entityProperties = {
     "🦇": {
         name: "Bat",
         description: "Don't get bit!",
-        health: 2,
+        health: 8,
         speed: 1,
         loot: [
             { item: "", min: 1, max: 1, chance: 1 },
@@ -267,7 +267,7 @@ var entityProperties = {
         description: "Brains...",
         hostile: true,
         damage: 2,
-        health: 3,
+        health: 10,
         speed: 1,
         loot: [
             { item: "🍖", min: 1, max: 2, chance: 1 },
@@ -279,7 +279,7 @@ var entityProperties = {
         description: "Brains...",
         hostile: true,
         damage: 2,
-        health: 3,
+        health: 10,
         speed: 1,
         loot: [
             { item: "🍖", min: 1, max: 2, chance: 1 },
@@ -290,7 +290,7 @@ var entityProperties = {
         name: "Vampire",
         description: "I want to suck your blood...",
         hostile: true,
-        health: 3,
+        health: 12,
         speed: 1,
         loot: [
             { item: "🩸", min: 1, max: 2, chance: 1 },
@@ -300,7 +300,7 @@ var entityProperties = {
         name: "Ghost",
         description: "Boo!",
         hostile: true,
-        health: 3,
+        health: 20,
         speed: 1,
         loot: [
             { item: "🔑", min: 1, max: 1, chance: 0.75 },
@@ -310,7 +310,7 @@ var entityProperties = {
         name: "Snake",
         description: "Ssss...",
         hostile: true,
-        health: 5,
+        health: 15,
         speed: 1,
         loot: [
             { item: "🦎", min: 1, max: 2, chance: 1 },
@@ -330,7 +330,7 @@ var entityProperties = {
     "🕊️": {
         name: "Dove",
         description: "Coo-oo",
-        health: 3,
+        health: 4,
         speed: 1,
         loot: [
             { item: "🪶", min: 1, max: 2, chance: 1 },
@@ -339,7 +339,7 @@ var entityProperties = {
     "🦉": {
         name: "Owl",
         description: "Hoot-hoot",
-        health: 4,
+        health: 5,
         speed: 1,
         loot: [
             { item: "🪶", min: 1, max: 2, chance: 1 },
@@ -347,7 +347,7 @@ var entityProperties = {
     },
     "🦅": {
         name: "Eagle",
-        health: 10,
+        health: 15,
         speed: 3,
         loot: [
             { item: "🪶", min: 1, max: 2, chance: 1 },
@@ -356,7 +356,7 @@ var entityProperties = {
     "👼": {
         name: "Baby Angel",
         description: "Holy little fella",
-        health: 5,
+        health: 25,
         speed: 1,
         loot: [
             { item: "🌟", min: 0, max: 2, chance: 1 },
@@ -365,7 +365,7 @@ var entityProperties = {
     "😇": {
         name: "Angel",
         description: "Holy art thou",
-        health: 5,
+        health: 25,
         speed: 1,
         loot: [
             { item: "🌟", min: 0, max: 2, chance: 1 },
@@ -374,7 +374,7 @@ var entityProperties = {
     "🦄": {
         name: "Unicorn",
         description: "So pretty",
-        health: 7,
+        health: 27,
         speed: 1,
         loot: [
             { item: "🌈", min: 0, max: 2, chance: 1 },
@@ -383,7 +383,7 @@ var entityProperties = {
     "🧞": {
         name: "Genie",
         description: "I'll grant you 3 wishes...",
-        health: 7,
+        health: 27,
         speed: 1,
         loot: [
             { item: "🫖", min: 1, max: 1, chance: 1 },
@@ -392,7 +392,7 @@ var entityProperties = {
     "🧚": {
         name: "Fairy",
         description: ":3",
-        health: 6,
+        health: 26,
         speed: 1,
         loot: [
             { item: "✨", min: 0, max: 2, chance: 1 },
@@ -404,7 +404,7 @@ var entityProperties = {
         name: "Phoenix",
         description: "Rises from the ashes",
         firey: true,
-        health: 3,
+        health: 35,
         speed: 1,
         loot: [
             { item: "🪶", min: 1, max: 2, chance: 1 },
@@ -418,7 +418,7 @@ var entityProperties = {
         firey: true,
         hostile: true,
         damage: 8,
-        health: 10,
+        health: 30,
         speed: 1,
         loot: [
             { item: "🔥", min: 0, max: 2, chance: 1 },
@@ -430,7 +430,7 @@ var entityProperties = {
         firey: true,
         hostile: true,
         damage: 8,
-        health: 9,
+        health: 30,
         speed: 1,
         loot: [
             { item: "🔥", min: 0, max: 2, chance: 1 },
@@ -442,7 +442,7 @@ var entityProperties = {
         name: "Space Monster",
         hostile: true,
         damage: 5,
-        health: 5,
+        health: 50,
         speed: 2,
         loot: [
             { item: "🌌", min: 0, max: 1, chance: 1 },
@@ -451,7 +451,7 @@ var entityProperties = {
     "🛸": {
         name: "UFO",
         hostile: false,
-        health: 20,
+        health: 70,
         speed: 3,
         loot: [
             { item: "👽", min: 1, max: 1, chance: 0.4 },

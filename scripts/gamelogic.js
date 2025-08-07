@@ -92,6 +92,22 @@ function gameLogic() {
     crops();
 }
 
+function testForTile(map,x,y,tile) {
+    if (tile) {
+        if (map[x] && map[x][y] && map[x][y] == tile) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        if (map[x] && map[x][y]) {
+            return true;
+        } else {
+            return false;
+        }
+    }   
+}
+
 function updateNearbyEntities() {
     const currentLevel = String(player.level);
     const entities = gameData.entities[currentLevel];
@@ -670,7 +686,7 @@ function surroundings(dx,dy) {
         damage();
         displayHotbarText("Ouch!")
     }
-    if (["🌋","🔥"].includes(tile)) {
+    if (fire.includes(tile)) {
         player.burning = 3;
     }
     if (water.includes(tile)) {
@@ -746,17 +762,8 @@ function surroundings(dx,dy) {
     x = Math.round(player.x - gridX / 2) + xHover;
     y = Math.round(player.y - gridY / 2) + yHover;
 
-    // Trash bin
-    if (leftClick && map[x][y] == "🗑️") {
-        player.itemDrag = {
-            item: "",
-            value: 0
-        }
-        player.hoverText = "";
-    }
-
     player.isMining = false;
-    if (!player.inventoryOpen) {
+    if (!player.inventoryOpen && !player.isAttacking) {
         // Eating
         player.isEating = false;
         if (rightClick && foodProperties[itemHeld] && timeSinceDragging == 0) {
@@ -787,8 +794,19 @@ function surroundings(dx,dy) {
                 // Block breaking logic
                 player.correctTool = true;
 
-                let block = map[x][y];
+                let block;
+                if (testForTile(map,x,y)) block = map[x][y];
+                else return;
                 let Tile = objectProperties[block];
+
+                // Trash bin
+                if (leftClick && block == "🗑️") {
+                    player.itemDrag = {
+                        item: "",
+                        value: 0
+                    }
+                    player.hoverText = "";
+                }
 
                 // Attacking mobs
                 if (leftClick) {
@@ -993,7 +1011,7 @@ function drawVisibilityOverlay() {
     const innerRadius = emojiSize * 2; // always visible near player
     const outerRadius = innerRadius + (maxRadius - innerRadius) * visibilityRatio;
 
-    // Create radial gradient from center (player) to screen edge
+    // Radial gradient from center (player) to screen edge
     const gradient = ctx.createRadialGradient(centerX, centerY, innerRadius, centerX, centerY, outerRadius);
     gradient.addColorStop(0, 'rgba(0, 0, 0, 0)'); // fully transparent at player
     gradient.addColorStop(1, 'rgba(0, 0, 0, 1)'); // black at edge

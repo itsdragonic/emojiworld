@@ -36,10 +36,10 @@ const font = Object.freeze({
 });
 
 const specialFontConditions = {
-    [font.twemoji]: { walkRight: "🚶", sprintRight: "🏃" },
-    [font.openmoji]: { walkRight: "🚶", sprintRight: "🏃" },
-    [font.notocolor]: { walkRight: "🚶", sprintRight: "🏃" },
-    [font.serenity]: { walkRight: "🚶", sprintRight: "🏃" }
+    [font.twemoji]: { walkRight: "🚶", sprintRight: "🏃", wheelchairRight: "🧑‍🦽" },
+    [font.openmoji]: { walkRight: "🚶", sprintRight: "🏃", wheelchairRight: "🧑‍🦽" },
+    [font.notocolor]: { walkRight: "🚶", sprintRight: "🏃", wheelchairRight: "🧑‍🦽" },
+    [font.serenity]: { walkRight: "🚶", sprintRight: "🏃", wheelchairRight: "🧑‍🦽" }
 };
 
 let parsedFont = parse("fontData", 1);
@@ -80,9 +80,11 @@ async function setFontAndDraw(fontName) {
     const specialConditions = specialFontConditions[fontName] || {};
     const oldWalk = character.walkRight;
     const oldSprint = character.sprintRight;
+    const oldWheelchair = character.wheelchairRight;
     
     character.walkRight = specialConditions.walkRight || oldWalk;
     character.sprintRight = specialConditions.sprintRight || oldSprint;
+    character.wheelchairRight = specialConditions.wheelchairRight || oldWheelchair;
 
     // Force redraw
     loadScreen();

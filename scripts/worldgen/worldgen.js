@@ -139,7 +139,7 @@ var biome_map = [];
 var overworld_map = [];
 
 var overridables = [""," ","🌱","☘️","🍂","🌾","෴","𓂃","࿔*:","࿐","🌊","💦","༄","ꕀ"];
-const fire = ["🔥", "🔥b", "🔥g"];
+const fire = ["🔥", "🔥b", "🔥g", "🌋g"];
 const water = ["🌊", "💦", "🧊","༄","ꕀ"];
 var waterColor = "#7aaae1";
 const sand = ["𓂃","࿔*:","࿐","🏖️"];
@@ -509,7 +509,7 @@ function generateWorld() {
             else if (biome_map[i][j] == "🗻") {
                 let chance = rng();
                 if (chance < 0.01) {
-                    row.push("🌋b");
+                    row.push("🌋g");
                 } else {
                     row.push("🗻b");
                 }
