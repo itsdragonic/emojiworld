@@ -1,11 +1,16 @@
 function gameLogic() {
     // Time related events
-    let maxTime = gameSpeed*60; // 9000 currently
+    
     if (gameData.time >= maxTime) {
         gameData.time = 0;
         gameData.day ++;
     } else {
         gameData.time++;
+    }
+    if (gameData.time == 7 * maxTime / 8) {
+        if (moonIndex == moonPhases.length - 1) {
+            moonIndex = 0;
+        } else moonIndex ++;
     }
 
     // Regeneration
@@ -281,17 +286,24 @@ function damage(amount = 1,trueDamage = false) {
             );
             
             actualDamage = Math.max(1, Math.round(amount - damageReduction));
+            const DEFLECTION_BOOST = 0.25;
             
             // minimum damage chance
             if (actualDamage <= 1 && player.totalProtection > 0) {
-                const blockChance = player.totalProtection / (player.totalProtection + 10);
+                const hasShield = player.accessories.flat().includes("🛡️");
+                let blockChance = player.totalProtection / (player.totalProtection + 10);
+                
+                // Apply shield bonus if equipped
+                if (hasShield) {
+                    blockChance += DEFLECTION_BOOST;
+                    blockChance = Math.min(blockChance, 0.95); // Cap at 95% chance
+                }
+
                 if (Math.random() < blockChance) {
                     actualDamage = 0;
                 } else {
                     actualDamage = 1;
                 }
-            } else if (!actualDamage) {
-                actualDamage = 0;
             }
         }
 
@@ -340,6 +352,17 @@ function testFor(item,amount) {
 }
 
 function addInventory(item, amount = 1) {
+    // First check if adding to itemDrag
+    if (player.itemDrag.item === item && player.itemDrag.value > 0) {
+        const stackLimit = 99;
+        const availableSpace = stackLimit - player.itemDrag.value;
+        const addAmount = Math.min(availableSpace, amount);
+        player.itemDrag.value += addAmount;
+        amount -= addAmount;
+        
+        if (amount <= 0) return; // All items added to drag
+    }
+
     const stackLimit = 99;
     let remaining = amount;
     
@@ -374,6 +397,20 @@ function addInventory(item, amount = 1) {
 }
 
 function removeInventory(slot, amount = 1) {
+    // First check if removing from itemDrag
+    if (player.itemDrag.item === slot && player.itemDrag.value > 0) {
+        const removeAmount = Math.min(amount, player.itemDrag.value);
+        player.itemDrag.value -= removeAmount;
+        amount -= removeAmount;
+        
+        if (player.itemDrag.value <= 0) {
+            player.itemDrag.item = "";
+            player.itemDrag.value = 0;
+        }
+        
+        if (amount <= 0) return; // All items removed from drag
+    }
+
     if (testFor(slot, amount)) {
         for (let i = 0; i < player.inventory.length; i++) {
             for (let j = 0; j < player.inventory[i].length; j++) {
@@ -695,7 +732,11 @@ function surroundings(dx,dy) {
         changeLevel(-3);
     }
 
-    itemHeld = player.inventory[0][player.hotbarSelected];
+    if (player.itemDrag.item != "") {
+        itemHeld = player.itemDrag.item;
+    } else {
+        itemHeld = player.inventory[0][player.hotbarSelected];
+    }
 
     // Block manipulation
     xHover = Math.floor(mouseX/emojiSize);

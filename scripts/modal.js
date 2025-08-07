@@ -306,12 +306,30 @@ function drawInventory() {
     ctx.fillText('Accessories', x + sideBarWidth + 20, y + 7*(slotSize+gapSize) + 90);
 
     // Stats
-    ctx.fillText('Stats', x + 10, y + 300);
+    let statY = y + 300; // Starting Y position
+    const lineHeight = 20; // Space between lines
+
+    ctx.fillText('Stats', x + 10, statY);
     ctx.font = '15px Arial';
-    ctx.fillText(`Pos: ${player.x.toFixed()}, ${player.y.toFixed()}`, x + 10, y + 330);
-    ctx.fillText(`Total Prot: ${player.totalProtection}`, x + 10, y + 350);
-    ctx.fillText(`Saturation: ${player.hunger + player.saturation}`, x + 10, y + 370);
-    ctx.fillText(`Moon Phase: ${moonPhases[moonIndex]}`, x + 10, y + 390);
+
+    // Track visible stats count
+    let visibleStats = 0;
+
+    // Position stat (only draws if condition is true)
+    const drawStat = (condition, text) => {
+        if (condition) {
+            statY += lineHeight;
+            ctx.fillText(text, x + 10, statY);
+            visibleStats++;
+        }
+    };
+
+    // Draw each stat with conditions
+    drawStat(player.accessories.flat().includes("🧭"), `Pos: ${player.x.toFixed()}, ${player.y.toFixed()}`);
+    drawStat(true, `Total Prot: ${player.totalProtection}`);
+    drawStat(true, `Saturation: ${player.hunger + player.saturation}`);
+    drawStat(true, `Day: ${gameData.day}`);
+    drawStat(true, `Moon Phase: ${moonPhases[moonIndex]}`);
 
     // Crafting box
     const craftingX = x + iwidth * 0.6;
@@ -534,8 +552,11 @@ function drawInventory() {
             my >= yPos && my <= yPos + slotSize &&
             !player.boxOpen) { // Temporary
 
+            let multiplier = "";
+            if (craftingDictionary[mergedCrafts[i]].amount) multiplier = `  ×${craftingDictionary[mergedCrafts[i]].amount}`
+
             // Description Text
-            player.hoverText = `${mergedCrafts[i]} ${findName(mergedCrafts[i])}
+            player.hoverText = `${mergedCrafts[i]} ${findName(mergedCrafts[i])}${multiplier}
 ${findDesc(mergedCrafts[i])}
 
 Requirements:
@@ -558,10 +579,13 @@ ${craftingDictionary[mergedCrafts[i]].required
                         removeInventory(recipe.itemsNeeded[i], recipe.amountsNeeded[i]);
                     }
 
+                    let amount = craftingDictionary[mergedCrafts[i]].amount || 1;
+                    console.log(craftingDictionary[mergedCrafts[i]].amount)
+
                     if (mergedCrafts[i].endsWith("Ⓜ")) {
-                        addInventory(mergedCrafts[i].slice(0, -1), 1);
+                        addInventory(mergedCrafts[i].slice(0, -1), amount);
                     } else {
-                        addInventory(mergedCrafts[i], 1);
+                        addInventory(mergedCrafts[i], amount);
                         if (craftingDictionary[mergedCrafts[i]]?.return) {
                             addInventory(craftingDictionary[mergedCrafts[i]].return,1);
                         }

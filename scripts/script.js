@@ -6,6 +6,7 @@ let xHover,yHover,gridX,gridY,x,y;
 
 // Game loop
 let gameSpeed = 150; // times per second
+let maxTime = gameSpeed * 60; // 9000 currently
 let lastPlayerUpdate = Date.now();
 let playerInterval = 1000 / gameSpeed;
 
@@ -270,16 +271,25 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }
         }
 
-        // Sun/moon
+        // Time of day indicator
         if (player.level >= 0) {
-            /*if (water.includes(sunTile)) {
-                sunTile = "🌅";
-            } else if (mountain.includes(sunTile)) {
-                sunTile = "🌄";
-            } else {
+            let sunrise = "🌄";
+            if (water.includes(sunTile)) {
+                sunrise = "🌅";
+            }
+            
+            if (gameData.time < 2 * maxTime / 8) {
+                sunTile = moonPhases[moonIndex];
+            } else if (gameData.time < 3 * maxTime / 8) {
+                sunTile = sunrise;
+            } else if (gameData.time < 6 * maxTime / 8) {
                 sunTile = "☀️";
-            }*/
-            sunTile = "☀️";
+            } else if (gameData.time < 7 * maxTime / 8) {
+                sunTile = "🌇";
+            } else {
+                sunTile = moonPhases[moonIndex];
+            }
+
         } else {
             sunTile = "";
         }

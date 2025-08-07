@@ -403,6 +403,7 @@ var entityProperties = {
     "🐦‍🔥": {
         name: "Phoenix",
         description: "Rises from the ashes",
+        firey: true,
         health: 3,
         speed: 1,
         loot: [
@@ -414,6 +415,7 @@ var entityProperties = {
     "👿": {
         name: "Mad Demon",
         description: ">:(",
+        firey: true,
         hostile: true,
         damage: 8,
         health: 10,
@@ -425,6 +427,7 @@ var entityProperties = {
     "😈": {
         name: "Evil Demon",
         description: ">:)",
+        firey: true,
         hostile: true,
         damage: 8,
         health: 9,

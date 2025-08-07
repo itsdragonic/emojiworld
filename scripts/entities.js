@@ -5,6 +5,7 @@ class Mob {
         // Specific properties
         this.health = entityProperties[this.type].health;
         this.aquatic = entityProperties[this.type].aquatic;
+        this.firey = entityProperties[this.type].firey;
         this.beach = entityProperties[this.type].beach;
         this.hostile = entityProperties[this.type].hostile;
         this.pet = entityProperties[this.type].pet;
@@ -40,7 +41,10 @@ class Mob {
         // Calculate drops with chance consideration
         for (const loot of this.lootTable) {
             if (Math.random() <= loot.chance) {
-                const count = Math.floor(Math.random() * (loot.max - loot.min + 1)) + loot.min;
+                let maxLoot = loot.max;
+                if (player.accessories.flat().includes("🍀")) maxLoot *= 2;
+
+                const count = Math.floor(Math.random() * (maxLoot - loot.min + 1)) + loot.min;
                 if (loot.item && loot.item !== "") {
                     droppedItems[loot.item] = (droppedItems[loot.item] || 0) + count;
                 }
@@ -116,10 +120,7 @@ class Mob {
 
                 // Aquatic mobs: only move in water; Non-aquatic: only move on land
                 if (this.aquatic) {
-                    if (
-                        (objectProperties[tile]?.canBeWalkedOn || water.includes(tile)) &&
-                        water.includes(tile)
-                    ) {
+                    if (water.includes(tile)) {
                         this.x = Math.max(0, newX);
                         this.y = Math.max(0, newY);
                         moved = true;
@@ -128,20 +129,29 @@ class Mob {
                 } 
                 // Beach mobs
                 else if (this.beach) {
+                    if (sand.includes(tile)) {
+                        this.x = Math.max(0, newX);
+                        this.y = Math.max(0, newY);
+                        moved = true;
+                        break;
+                    }
+                }
+                // Fire-resistant mobs
+                else if (this.firey) {
                     if (
-                        (objectProperties[tile]?.canBeWalkedOn || sand.includes(tile)) &&
-                        sand.includes(tile)
+                        (objectProperties[tile]?.canBeWalkedOn || tile == "" || tile == " ") &&
+                        !water.includes(tile)
                     ) {
                         this.x = Math.max(0, newX);
                         this.y = Math.max(0, newY);
                         moved = true;
                         break;
                     }
-                } 
+                }
                 else {
                     if (
                         (objectProperties[tile]?.canBeWalkedOn || tile == "" || tile == " ") &&
-                        !water.includes(tile)
+                        !water.includes(tile) && !fire.includes(tile)
                     ) {
                         this.x = Math.max(0, newX);
                         this.y = Math.max(0, newY);
@@ -172,7 +182,7 @@ class Mob {
                 if (this.hasTarget && this.targetX !== null && this.targetY !== null) {
                     // Move towards target
                     this.target(this.targetX, this.targetY, map);
-                    // Optionally clear target if reached (within 0.2 units)
+                    // Clear target when reached
                     if (Math.abs(this.x - this.targetX) < 0.2 && Math.abs(this.y - this.targetY) < 0.2) {
                         this.clearTarget();
                     }
@@ -189,7 +199,7 @@ class Mob {
                     let newY = this.y + dir.dy;
                     // Prevent negative coordinates
                     if (newX < 0 || newY < 0) {
-                        // Don't move if would go negative
+                        // No movement
                     } else {
                         let tile = map[Math.round(newX)] && map[Math.round(newX)][Math.round(newY)];
 

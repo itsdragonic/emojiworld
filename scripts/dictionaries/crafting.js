@@ -667,10 +667,17 @@ var craftingDictionary = {
     },
 
     // Trading
+    "🔩": {
+        name: "Iron",
+        amount: 8,
+        itemsNeeded: ["🪙"],
+        amountsNeeded: [1],
+        required: "👳‍♂️",
+    },
     "🪙": {
         name: "Coin",
         itemsNeeded: ["🔩"],
-        amountsNeeded: [10],
+        amountsNeeded: [8],
         required: "👳‍♂️",
     },
     "🔮": {

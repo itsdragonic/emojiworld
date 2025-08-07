@@ -9,7 +9,7 @@ var accessoriesProperties = {
     },
     "🍀": {
         name: "Four-Leaf Clover",
-        description: "When in accessory bar, it gives the player\nbetter odds for RNG events (such as loot drops)"
+        description: "When in accessory bar, it gives the player\nbetter odds for mob drops"
     },
     "🧭": {
         name: "Compass",
