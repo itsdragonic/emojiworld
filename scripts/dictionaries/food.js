@@ -198,6 +198,9 @@ var foodProperties = {
         name: "Orange",
         nutrition: 2,
         thirst: 1
+    }, "🥑": {
+        name: "Avocado",
+        nutrition: 2,
     }, "🥧": {
         name: "Apple Pie",
         return: "🥣",

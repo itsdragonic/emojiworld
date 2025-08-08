@@ -105,6 +105,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             player.speed = player.defaultSpeed * 0.2;
         } else if (player.isEating) {
             player.speed = player.defaultSpeed * 0.2;
+        } else if (player.isSprinting) {
+            player.speed = player.defaultSpeed * 1.5;
         } else {
             player.speed = player.defaultSpeed;
         }

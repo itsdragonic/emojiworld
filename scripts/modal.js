@@ -334,6 +334,7 @@ function drawInventory() {
     drawStat(true, `Saturation: ${player.hunger + player.saturation}`);
     drawStat(true, `Day: ${gameData.day}`);
     drawStat(true, `Moon Phase: ${moonPhases[moonIndex]}`);
+    drawStat(true, `Speed: ${player.speed.toFixed(2)}`);
 
     // Crafting box
     const craftingX = x + iwidth * 0.6;
