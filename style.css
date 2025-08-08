@@ -24,7 +24,7 @@ html {
 /* Centered UI panel */
 #menuPanel {
     position: absolute;
-    top: calc(55% + 50px);
+    top: calc(55% + 70px);
     left: 50%;
     transform: translate(-50%, -50%);
     background: rgba(34, 34, 34, 0.9);

@@ -4,6 +4,10 @@ let generateTerrain = true;
 // Mouse clicks
 var leftClick = false;
 var rightClick = false;
+var ctrlClick = false;
+var shiftClick = false;
+var isScrollingUp = false;
+var isScrollingDown = false;
 var timeSinceDragging = 0;
 
 var hovering = false;
@@ -95,6 +99,11 @@ function startWorld() {
         leftClick = false;
         rightClick = false;
     });
+    
+    document.addEventListener('wheel', (e) => {
+        isScrollingUp = e.deltaY < 0;
+        isScrollingDown = e.deltaY > 0;
+    });
 
     document.addEventListener('keydown', (e) => {
 
@@ -125,6 +134,14 @@ function startWorld() {
             if (!player.inventoryOpen) player.boxOpen = false;
         } else if (key === 'p') {
             saveWorld();
+        }
+        
+        ctrlClick = false;
+        shiftClick = false;
+        if (key === 'control') {
+            ctrlClick = true;
+        } if (key === 'shift') {
+            shiftClick = true;
         }
         
         // Keys 0-9
@@ -268,31 +285,32 @@ function drawInventory() {
     const topBarWidth = 35;
     const craftingSize = 4;
 
+    // Tunable scroll speed
+    const scrollSpeed = 5;
+
+    // Persistent crafting scroll offset
+    if (typeof craftingScrollOffset === "undefined") craftingScrollOffset = 0;
+
     const iwidth = sideBarWidth + (slotSize + gapSize) * (player.inventory.length + craftingSize) + 360;
     const iheight = topBarWidth + (slotSize + gapSize) * (player.inventory[0].length + 2) - 30;
     const x = (width - iwidth) / 2;
     const y = (height - iheight) / 2;
     
-    // Main inventory background
     ctx.save();
     ctx.fillStyle = 'rgba(128, 128, 128, 0.5)';
     drawRoundedBox(ctx,x,y,iwidth,iheight,radius);
 
-    // Top horizontal bar
     ctx.fillStyle = 'rgba(160, 160, 160, 0.4)';
     drawRoundedBox(ctx,x+sideBarWidth,y,iwidth-sideBarWidth,topBarWidth,radius,false,true,false,false);
 
-    // Left vertical bar
     ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
     drawRoundedBox(ctx,x,y,sideBarWidth,iheight,radius,true,false,true,false);
 
-    // Mac-style dots
     const dotRadius = 6;
     const dotY = y + 15;
     const dotXStart = x + 15;
     const dotSpacing = 18;
     const colors = ['#ff5f56', '#ffbd2e', '#27c93f'];
-
     colors.forEach((color, i) => {
         ctx.beginPath();
         ctx.fillStyle = color;
@@ -300,26 +318,18 @@ function drawInventory() {
         ctx.fill();
     });
 
-    // Inventory-related labels
     ctx.fillStyle = '#fff';
     ctx.font = '20px Arial';
     ctx.textAlign = 'left';
     ctx.fillText('Armor', x + 10, y + 50);
-
     ctx.fillText('Inventory', x + sideBarWidth + 20, y + 20);
     ctx.fillText('Accessories', x + sideBarWidth + 20, y + 7*(slotSize+gapSize) + 90);
 
-    // Stats
-    let statY = y + 300; // Starting Y position
-    const lineHeight = 20; // Space between lines
-
+    let statY = y + 300;
+    const lineHeight = 20;
     ctx.fillText('Stats', x + 10, statY);
     ctx.font = '15px Arial';
-
-    // Track visible stats count
     let visibleStats = 0;
-
-    // Position stat (only draws if condition is true)
     const drawStat = (condition, text) => {
         if (condition) {
             statY += lineHeight;
@@ -327,8 +337,6 @@ function drawInventory() {
             visibleStats++;
         }
     };
-
-    // Draw each stat with conditions
     drawStat(player.accessories.flat().includes("🧭"), `Pos: ${player.x.toFixed()}, ${player.y.toFixed()}`);
     drawStat(true, `Total Prot: ${player.totalProtection}`);
     drawStat(true, `Saturation: ${player.hunger + player.saturation}`);
@@ -336,7 +344,6 @@ function drawInventory() {
     drawStat(true, `Moon Phase: ${moonPhases[moonIndex]}`);
     drawStat(true, `Speed: ${player.speed.toFixed(2)}`);
 
-    // Crafting box
     const craftingX = x + iwidth * 0.6;
     const craftingY = y + 50;
     const craftingWidth = iwidth * 0.385;
@@ -346,40 +353,28 @@ function drawInventory() {
     drawRoundedBox(ctx,craftingX,craftingY,craftingWidth,craftingHeight,radius);
     ctx.fill();
 
-    // Crafting label
     ctx.fillStyle = '#fff';
     ctx.font = '18px Arial';
     ctx.textAlign = 'left';
     ctx.fillText('Crafting', craftingX + 15, craftingY + 25);
 
-    // Inventory items
     let xinvStart = x + sideBarWidth + 20;
     let yinvStart = y + 50;
-
     let mx = mouseX;
     let my = mouseY;
 
     ctx.font = '18px ' + useFont + ', Arial';
     for (let i = 0; i < player.inventory.length; i++) {
         for (let j = 0; j < player.inventory[i].length; j++) {
-            // Compute per-slot position
             const slotX = xinvStart + j * (slotSize + gapSize);
             const slotY = yinvStart + i * (slotSize + gapSize);
-
-            // Draw slot background
             ctx.fillStyle = 'rgba(160, 160, 160, 0.3)';
             drawRoundedBox(ctx, slotX, slotY, slotSize, slotSize, radius);
-
-            // Detect hover
             if (mx >= slotX && mx <= slotX + slotSize &&
                 my >= slotY && my <= slotY + slotSize) {
-
                 if (itemDescription(player.inventory[i][j])) hovering = true;
-
                 dragItem(player.inventory,player.inventoryValue,i,j);
             }
-
-            // Draw item
             const item = player.inventory[i][j];
             ctx.font = '18px ' + useFont + ', Arial';
             if (item) {
@@ -387,8 +382,6 @@ function drawInventory() {
                 ctx.textAlign = 'left';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(item, slotX + 6, slotY + slotSize / 2);
-
-                // Draw amount if more than 1
                 const value = player.inventoryValue[i][j];
                 if (value && value > 1) {
                     ctx.font = '14px Arial';
@@ -399,28 +392,18 @@ function drawInventory() {
         }
     }
 
-    // Accessory items
     let xaccStart = x + sideBarWidth + 20;
     let yaccStart = y + 7*(slotSize+gapSize) + 90 + 20;
-
     ctx.font = '18px ' + useFont + ', Arial';
     for (let i = 0; i < player.accessories.length; i++) {
         for (let j = 0; j < player.accessories[i].length; j++) {
-            // Compute per-slot position
             const slotX = xaccStart + j * (slotSize + gapSize);
             const slotY = yaccStart + i * (slotSize + gapSize);
-
-            // Draw slot background
             ctx.fillStyle = 'rgba(160, 160, 160, 0.3)';
             drawRoundedBox(ctx, slotX, slotY, slotSize, slotSize, radius);
-
-            // Detect hover
             if (mx >= slotX && mx <= slotX + slotSize &&
                 my >= slotY && my <= slotY + slotSize) {
-
                 if (itemDescription(player.accessories[i][j])) hovering = true;
-
-                // Dragging item logic
                 if (
                     (leftClick || rightClick) && 
                     timeSinceDragging === 0 && 
@@ -433,18 +416,12 @@ function drawInventory() {
                     } else {
                         player.accessories[i][j] = player.itemDrag.item;
                         player.itemDrag.item = item;
-                        if (item == "") {
-                            player.itemDrag.value = 0;
-                        } else {
-                            player.itemDrag.value = 1;
-                        }
+                        player.itemDrag.value = (item === "") ? 0 : 1;
                     }
                     player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
                     timeSinceDragging = 20;
                 }
             }
-
-            // Draw item
             const item = player.accessories[i][j];
             if (item) {
                 ctx.fillStyle = 'white';
@@ -455,32 +432,23 @@ function drawInventory() {
         }
     }
 
-    // Armor slots
     let xarmor = x + 10;
     let yarmor = y + 70;
     for (let i = 0; i < player.armor.length; i++) {
-        // Draw slot background
         ctx.fillStyle = 'rgba(104, 104, 104, 0.3)';
         drawRoundedBox(ctx, xarmor, yarmor, slotSize, slotSize, radius);
-
-        // Detect hover
         if (mx >= xarmor && mx <= xarmor + slotSize &&
             my >= yarmor && my <= yarmor + slotSize) {
-
             if (itemDescription(player.armor[i])) hovering = true;
-
-            // Dragging item logic (with slot validation)
             if (
                 (leftClick || rightClick) &&
                 timeSinceDragging === 0 &&
                 (Object.hasOwn(armorProperties, player.itemDrag.item) || player.itemDrag.item === "")
             ) {
-                // Check if the dragged item belongs in this slot
                 const isValidSlot = (
                     player.itemDrag.item === "" ||
                     armorProperties[player.itemDrag.item]?.slot === i
                 );
-
                 if (isValidSlot) {
                     let item = player.armor[i];
                     if (player.itemDrag.value > 1) {
@@ -493,23 +461,17 @@ function drawInventory() {
                     }
                     player.hoverText = `${player.itemDrag.item}${player.itemDrag.value}`;
                     timeSinceDragging = 20;
-                } else {
-                    // Show message here that it's the wrong slot
                 }
             }
         }
-
-        // Draw item and slot label
         const item = player.armor[i];
         ctx.font = '18px ' + useFont + ', Arial';
         ctx.fillStyle = 'white';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-
         if (item) {
             ctx.fillText(item, xarmor + 6, yarmor + slotSize / 2);
         }
-
         ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
         ctx.font = '12px Arial';
         ctx.fillText(
@@ -517,29 +479,35 @@ function drawInventory() {
             xarmor + slotSize + 5,
             yarmor + slotSize / 2
         );
-
         yarmor += slotSize + gapSize;
     }
 
-    // Crafting System
-    const maxCraftingColumns = 8; // Items per row
+    // Crafting System with scrolling
+    const maxCraftingColumns = 8;
+    const mergedCrafts = player.canCraft.concat(player.possiblyCraft);
+    const totalCraftingRows = Math.ceil(mergedCrafts.length / maxCraftingColumns);
+    const visibleRows = Math.floor((craftingHeight - 50) / (slotSize + gapSize));
+    const maxScroll = Math.max(0, totalCraftingRows - visibleRows) * (slotSize + gapSize);
+
+    // Update scroll offset
+    if (isScrollingUp) craftingScrollOffset = Math.max(0, craftingScrollOffset - scrollSpeed);
+    if (isScrollingDown) craftingScrollOffset = Math.min(maxScroll, craftingScrollOffset + scrollSpeed);
 
     let currentX = craftingX + 10;
-    let currentY = craftingY + 40;
+    let currentY = craftingY + 40 - craftingScrollOffset;
 
     ctx.font = `18px ${useFont}, Arial`;
-
     const craftableColor = 'rgba(104, 104, 104, 0.3)';
     const uncraftableColor = 'rgba(198, 75, 75, 0.3)';
-
-    let mergedCrafts = player.canCraft.concat(player.possiblyCraft);
 
     for (let i = 0; i < mergedCrafts.length; i++) {
         const col = i % maxCraftingColumns;
         const row = Math.floor(i / maxCraftingColumns);
-
         const xPos = currentX + col * (slotSize + gapSize);
         const yPos = currentY + row * (slotSize + gapSize);
+
+        // Only draw if within visible area
+        if (yPos + slotSize < craftingY + 40 || yPos > craftingY + craftingHeight - 10) continue;
 
         let canCraft;
         if (i < player.canCraft.length) {
@@ -549,43 +517,33 @@ function drawInventory() {
             ctx.fillStyle = uncraftableColor;
             canCraft = false;
         }
-
         drawRoundedBox(ctx, xPos, yPos, slotSize, slotSize, radius);
 
-        // Crafting logic
         if (mx >= xPos && mx <= xPos + slotSize &&
             my >= yPos && my <= yPos + slotSize &&
-            !player.boxOpen) { // Temporary
-
+            !player.boxOpen) {
             let multiplier = "";
-            if (craftingDictionary[mergedCrafts[i]].amount) multiplier = `  ×${craftingDictionary[mergedCrafts[i]].amount}`
-
-            // Description Text
+            if (craftingDictionary[mergedCrafts[i]].amount) multiplier = `  ×${craftingDictionary[mergedCrafts[i]].amount}`;
             player.hoverText = `${mergedCrafts[i]} ${findName(mergedCrafts[i])}${multiplier}
 ${findDesc(mergedCrafts[i])}
 
 Requirements:
 ${craftingDictionary[mergedCrafts[i]].itemsNeeded
-                    .map((item, index) => `${craftingDictionary[mergedCrafts[i]].amountsNeeded[index]}×${item}`)
-                    .join(', ')}
+                .map((item, index) => `${craftingDictionary[mergedCrafts[i]].amountsNeeded[index]}×${item}`)
+                .join(', ')}
 ${craftingDictionary[mergedCrafts[i]].required
-                    ? `\nRequired Tool: ${craftingDictionary[mergedCrafts[i]].required}`
-                    : ''}`;
+                ? `\nRequired Tool: ${craftingDictionary[mergedCrafts[i]].required}`
+                : ''}`;
             hovering = true;
 
-            // Clicking
             if ((leftClick || rightClick) && timeSinceDragging == 0) {
                 timeSinceDragging = 25;
                 if (canCraft) {
-                    // Remove ingredients
                     const recipe = craftingDictionary[mergedCrafts[i]];
-
-                    for (let i = 0; i < recipe.itemsNeeded.length; i++) {
-                        removeInventory(recipe.itemsNeeded[i], recipe.amountsNeeded[i]);
+                    for (let k = 0; k < recipe.itemsNeeded.length; k++) {
+                        removeInventory(recipe.itemsNeeded[k], recipe.amountsNeeded[k]);
                     }
-
                     let amount = craftingDictionary[mergedCrafts[i]].amount || 1;
-
                     if (mergedCrafts[i].endsWith("Ⓜ")) {
                         addInventory(mergedCrafts[i].slice(0, -1), amount);
                     } else {
@@ -597,13 +555,11 @@ ${craftingDictionary[mergedCrafts[i]].required
                 }
             }
         }
-
         ctx.fillStyle = 'white';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
         ctx.fillText(mergedCrafts[i], xPos + 6, yPos + slotSize / 2);
     }
-
     ctx.restore();
 }
 

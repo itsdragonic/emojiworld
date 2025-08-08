@@ -401,6 +401,7 @@ var craftingDictionary = {
     },
     "➶​": {
         name: "Arrow",
+        amount: 8,
         itemsNeeded: ["🪵", "🪶"],
         amountsNeeded: [1, 1],
         required: "🧰",
@@ -593,6 +594,7 @@ var craftingDictionary = {
     },
     "⁍​": {
         name: "Bullet",
+        amount: 8,
         itemsNeeded: ["🔩"],
         amountsNeeded: [1],
         required: "🧰",

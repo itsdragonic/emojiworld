@@ -92,21 +92,14 @@ function gameLogic() {
     crops();
 }
 
-function testForTile(map,x,y,tile) {
-    if (tile) {
-        if (map[x] && map[x][y] && map[x][y] == tile) {
-            return true;
-        } else {
-            return false;
-        }
+function testForTile(map, x, y, tile) {
+    if (tile !== undefined) {
+        return map[x] && map[x][y] !== undefined && map[x][y] === tile;
     } else {
-        if (map[x] && map[x][y]) {
-            return true;
-        } else {
-            return false;
-        }
-    }   
+        return map[x] && map[x][y] !== undefined;
+    }
 }
+
 
 function updateNearbyEntities() {
     const currentLevel = String(player.level);
@@ -151,8 +144,7 @@ function mobSpawning() {
     if (gameData.time % 100 == 0 && mobCap) {
         let spawnPos = donutRadius(player.x,player.y,50,35).map(Math.round);
 
-        if (map[spawnPos[0]] !== undefined &&
-            map[spawnPos[0]][spawnPos[1]] !== undefined) {
+        if (testForTile(map,spawnPos[0],spawnPos[1])) {
             let mob = "";
             let tile = map[spawnPos[0]][spawnPos[1]];
             switch (player.level) {
@@ -179,7 +171,7 @@ function mobSpawning() {
                         mob = beachMobs[Math.floor(Math.random() * beachMobs.length)];
                     }
                     // Land
-                    else if (tile == "" || overridables.includes(tile)) {
+                    else if (overridables.includes(tile)) {
                         mob = overworldMobs[Math.floor(Math.random() * overworldMobs.length)];
                     }
                     break;
@@ -798,7 +790,7 @@ function surroundings(dx,dy) {
                 if (testForTile(map,x,y)) block = map[x][y];
                 else return;
                 let Tile = objectProperties[block];
-
+                
                 // Trash bin
                 if (leftClick && block == "🗑️") {
                     player.itemDrag = {
@@ -939,8 +931,10 @@ function surroundings(dx,dy) {
                 }
                 // Block placing
                 else if (
-                    rightClick && overridables.includes(block) &&
-                    (objectProperties[itemHeld] || objectProperties[player.itemDrag.item])) {
+                    rightClick &&
+                    overridables.includes(block) &&
+                    objectProperties[itemHeld]
+                ) {
                     let itemToPlace = objectProperties[itemHeld] ? itemHeld : player.itemDrag.item;
 
                     if (sand.includes(block)) {

@@ -1060,7 +1060,9 @@ var objectProperties = {
         canBeWalkedOn: true,
         durability: 2,
         toolRequired: "🪓",
-        loot: "🍉"
+        loot: [
+            { item: "🍉", min: 1, max: 3, chance: 1 },
+        ]
     },
     "🚪": {
         name: "Door",
