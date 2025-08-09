@@ -403,7 +403,9 @@ function drawInventory() {
             drawRoundedBox(ctx, slotX, slotY, slotSize, slotSize, radius);
             if (mx >= slotX && mx <= slotX + slotSize &&
                 my >= slotY && my <= slotY + slotSize) {
+                // Clicking logic
                 if (itemDescription(player.accessories[i][j])) hovering = true;
+
                 if (
                     (leftClick || rightClick) && 
                     timeSinceDragging === 0 && 

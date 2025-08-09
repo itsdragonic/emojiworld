@@ -91,7 +91,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
         // Speed conditions
         if (water.includes(player.adjacent[4])) {
-            if (player.accessories.flat().includes("🛶")) {
+            if (player.accessories.flat().includes("🛶") && player.level >= 0) {
                 player.characterEmote = character.rowing;
                 player.speed = player.defaultSpeed;
             } else {

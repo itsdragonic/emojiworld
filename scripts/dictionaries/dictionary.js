@@ -508,7 +508,7 @@ var objectProperties = {
     },
     "🪜": {
         name: "Ladder",
-        description: "Exit the caves",
+        description: "Use to climb up",
         canBeWalkedOn: true,
         durability: 4,
         toolRequired: "",
