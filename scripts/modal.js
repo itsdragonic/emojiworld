@@ -103,6 +103,17 @@ function startWorld() {
     document.addEventListener('wheel', (e) => {
         isScrollingUp = e.deltaY < 0;
         isScrollingDown = e.deltaY > 0;
+
+        if (!player.inventoryOpen) {
+            if (isScrollingUp) {
+                player.hotbarSelected = (player.hotbarSelected + 1) % 10;
+            } else if (isScrollingDown) {
+                player.hotbarSelected = (player.hotbarSelected + 9) % 10;
+            }
+        }
+
+        itemHeld = player.inventory[0][player.hotbarSelected];
+        displayHotbarText(findName(itemHeld));
     });
 
     document.addEventListener('keydown', (e) => {
@@ -132,6 +143,9 @@ function startWorld() {
         } else if (key === 'e') {
             player.inventoryOpen = !player.inventoryOpen;
             if (!player.inventoryOpen) player.boxOpen = false;
+        } else if (key === 'escape') {
+            player.inventoryOpen = false;
+            player.boxOpen = false;
         } else if (key === 'p') {
             saveWorld();
         }

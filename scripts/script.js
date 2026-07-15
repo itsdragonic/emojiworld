@@ -47,7 +47,6 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
     }
 
     player.characterEmote = character.default;
-    
 
     function updatePlayer() {
         let wheelchair = player.accessories.flat().includes("🦽");
@@ -55,7 +54,9 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         // WASD movement
         let dx = 0, dy = 0;
         if (!player.isMining) {
-            if (pressedKeys.has('w')) dy -= player.speed;
+            if (pressedKeys.has('w')) {
+                dy -= player.speed;
+            }
             if (pressedKeys.has('s')) {
                 if (!wheelchair) player.characterEmote = character.default;
                 dy += player.speed;
