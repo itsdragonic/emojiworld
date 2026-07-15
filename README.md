@@ -3,6 +3,10 @@
 A web-based sandbox / RPG that uses emojis as the sole visual assets.
 Play here: https://itsdragonic.github.io/emojicraft/
 
+## Basic Overview
+
+You start in the overworld and start exploring. Enter the caves and start mining. Defeat bosses. Interact with the NPCs. Most importantly, have fun!
+
 ## Basic Commands
 
 `WASD` >> up-down-left-right
@@ -15,4 +19,6 @@ Play here: https://itsdragonic.github.io/emojicraft/
 
 `e` >> Open inventory
 
-`Space` >> Fly upwards
+`Space` >> Move upwards by one level
+
+`Shift` >> Move downwards by one level

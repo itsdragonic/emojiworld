@@ -148,6 +148,12 @@ function startWorld() {
             player.boxOpen = false;
         } else if (key === 'p') {
             saveWorld();
+        } else if (key === '+' || key === '=' || e.code === 'NumpadAdd') {
+            changeZoom(1);
+            return;
+        } else if (key === '-' || key === '_' || e.code === 'NumpadSubtract') {
+            changeZoom(-1);
+            return;
         }
         
         ctrlClick = false;
@@ -292,7 +298,7 @@ ${findDesc(item)}`;
 }
 
 function drawInventory() {
-    const slotSize = emojiSize * 1.75;
+    const slotSize = HUDemojiSize * 1.75;
     const gapSize = 5;
     const radius = 6;
     const sideBarWidth = 120;
@@ -580,7 +586,7 @@ ${craftingDictionary[mergedCrafts[i]].required
 }
 
 function drawBox(level,boxX,boxY) {
-    const slotSize = emojiSize * 1.75;
+    const slotSize = HUDemojiSize * 1.75;
     const gapSize = 5;
     const radius = 6;
     const topBarWidth = 35;

@@ -14,7 +14,16 @@ var MAP_HEIGHT = 200;
 
 var seed = "a";
 
+let HUDemojiSize = 20;
 let emojiSize = 20;
+let minEmojiSize = 12;
+let maxEmojiSize = 48;
+const zoomStep = 1;
+
+function changeZoom(delta) {
+    emojiSize = Math.max(minEmojiSize, Math.min(maxEmojiSize, emojiSize + delta * zoomStep));
+    return emojiSize;
+}
 
 function parse(str, amount) {
     if (amount == 1) {

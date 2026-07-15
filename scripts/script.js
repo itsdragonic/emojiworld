@@ -296,8 +296,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         } else {
             sunTile = "";
         }
-        ctx.font = emojiSize + "px " + useFont + ", Arial";
-        ctx.fillText(sunTile,width/2,emojiSize-5);
+        ctx.font = HUDemojiSize + "px " + useFont + ", Arial";
+        ctx.fillText(sunTile, width/2, HUDemojiSize-5);
 
         // Draw entities
         for (let entity of gameData.entities[String(player.level)]) {
@@ -342,7 +342,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
         /* Hotbar */
         const itemCount = 10;
-        const itemSize = emojiSize * 1.5;
+        const itemSize = HUDemojiSize * 1.5;
         const gap = 8;
         const padding = 8;
 
@@ -520,7 +520,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
 
         // Text above hotbar
         if (hotbarTextTime > 0) {
-            ctx.font = emojiSize + "px Arial";
+            ctx.font = HUDemojiSize + "px Arial";
             ctx.fillStyle = "white";
 
             let opacity = hotbarTextTime >= 20 ? 1.0 : (hotbarTextTime * 0.05);
@@ -534,7 +534,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         }
 
         /* Stat Bars */
-        let healthSize = emojiSize;
+        let healthSize = HUDemojiSize;
         ctx.font = healthSize + "px " + useFont;
 
         // Health Bar
@@ -549,7 +549,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             for (let i = 0; i < player.maxBreath; i++) {
                 let x = 15 + i * (healthSize + 4);
                 let health = i < player.breath ? "🫧" : "⚫";
-                ctx.fillText(health, x, emojiSize + 19);
+                ctx.fillText(health, x, HUDemojiSize + 19);
             }
         }
 
@@ -564,7 +564,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
         for (let i = 0; i < player.maxThirst; i++) {
             let x = width - 15 - (i * (healthSize + 4));
             let health = i < player.thirst ? "💧" : "⚫";
-            ctx.fillText(health, x, emojiSize + 19);
+            ctx.fillText(health, x, HUDemojiSize + 19);
         }
 
         // Hover text

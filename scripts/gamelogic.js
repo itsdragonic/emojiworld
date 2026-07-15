@@ -1023,13 +1023,13 @@ function drawFormattedText(x, y, text) {
     try {
         // Default font settings
         //ctx.font = `${emojiSize}px ${useFont}, Arial`;
-        ctx.font = `${emojiSize}px Arial`;
+        ctx.font = `${HUDemojiSize}px Arial`;
         ctx.textAlign = 'left';
         ctx.fillStyle = 'black';
         
         // Split text by newlines (preserves original behavior)
         const lines = text.split('\n');
-        const lineHeight = emojiSize * 1.2;
+        const lineHeight = HUDemojiSize * 1.2;
         const padding = 4;
         const offset = 8;
         
@@ -1047,7 +1047,7 @@ function drawFormattedText(x, y, text) {
         
         // Special emoji handling
         if (lines.length === 1 && lines[0].length === 2 && /^\p{Emoji}$/u.test(lines[0])) {
-            maxWidth = emojiSize;
+            maxWidth = HUDemojiSize;
         }
         
         // Draw background

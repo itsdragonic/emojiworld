@@ -694,6 +694,20 @@ var objectProperties = {
         toolRequired: "⛏️",
         loot: "🏆"
     },
+    "|┆|": {
+        name: "Vertical Road",
+        canBeWalkedOn: true,
+        durability: 98,
+        toolRequired: "⛏️",
+        loot: "|┆|"
+    },
+    "☲": {
+        name: "Horizontal Road",
+        canBeWalkedOn: true,
+        durability: 98,
+        toolRequired: "⛏️",
+        loot: "☲"
+    },
     "🧱": {
         name: "Bricks",
         canBeWalkedOn: false,
