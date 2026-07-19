@@ -53,6 +53,7 @@ var player = {
     y: MAP_HEIGHT/2,
     damageCooldown: 0,
     damageTicks: 0,
+    timeSinceDeath: 0,
     fireCooldown: 0,
     burning: 0,
     hotbarSelected: 0,

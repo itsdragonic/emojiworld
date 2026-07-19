@@ -79,7 +79,6 @@ function randomRotate(matrix) {
     const rotate90 = m => m[0].map((_, i) => 
         m.map(row => {
             const val = row[row.length - 1 - i];
-            // Transform direction markers (reverse of before)
             if (val === 'xUp') return 'xLeft';
             if (val === 'xLeft') return 'xDown';
             if (val === 'xDown') return 'xRight';
@@ -89,7 +88,7 @@ function randomRotate(matrix) {
     );
     
     const rotations = [
-        m => m,                          // 0° (original)
+        m => m,                          // 0°
         rotate90,                        // 90°
         m => rotate90(rotate90(m)),      // 180°
         m => rotate90(rotate90(rotate90(m))) // 270°
@@ -98,53 +97,52 @@ function randomRotate(matrix) {
     return rotations[Math.floor(rng() * 4)](matrix);
 }
 
-let availableDirections = {};
+let availableDirections = [];
 function createDungeon(building) {
     const dungeonSize = 150;
-    const spawn = 35; // Number of structures to spawn
+    const spawn = 35;
     const dungeon = Array(dungeonSize).fill().map(() => Array(dungeonSize).fill(""));
-    
-    // 1. Place main structure in center
+
     const mainStructure = randomRotate(building["main"]);
-    const centerX = Math.floor(dungeonSize/2) - Math.floor(mainStructure[0].length/2);
-    const centerY = Math.floor(dungeonSize/2) - Math.floor(mainStructure.length/2);
-    //console.log(`${centerX},${centerY}`)
-    
-    availableDirections = {};
-    
-    // Place main structure and scan for directions
+    const centerX = Math.floor(dungeonSize / 2) - Math.floor(mainStructure[0].length / 2);
+    const centerY = Math.floor(dungeonSize / 2) - Math.floor(mainStructure.length / 2);
+
+    availableDirections = [];
+
     placeStructure(dungeon, mainStructure, centerX, centerY);
-    
-    // 2. Spawn additional structures
+
     for (let i = 0; i < spawn; i++) {
-        if (Object.keys(availableDirections).length === 0) break;
-        
-        // Pick random available direction
-        const dirs = Object.keys(availableDirections);
-        const connectDir = dirs[Math.floor(rng() * dirs.length)];
-        const [connectX, connectY] = availableDirections[connectDir];
-        
-        // Find matching structure with opposite direction
+        if (availableDirections.length === 0) break;
+
+        // Slight bias toward older/frontier connectors for better branching
+        const index = Math.floor(Math.pow(rng(), 1.5) * availableDirections.length);
+        const connection = availableDirections[index];
+
+        const connectDir = connection.dir;
+        const connectX = connection.x;
+        const connectY = connection.y;
+
         const oppositeDir = getOppositeDirection(connectDir);
         const structure = findStructureWithDirection(oppositeDir, building);
-        
-        if (structure) {
-            const rotated = randomRotate(structure);
-            const offset = calculateOffset(rotated, oppositeDir);
-            
-            // Calculate placement position
-            const placeX = connectX - offset.x;
-            const placeY = connectY - offset.y;
-            
-            // Remove used connection point
-            delete availableDirections[connectDir];
-            
-            // Place new structure
+
+        if (!structure) {
+            availableDirections.splice(index, 1);
+            continue;
+        }
+
+        const rotated = randomRotate(structure);
+        const offset = calculateOffset(rotated, oppositeDir);
+        const placeX = connectX - offset.x;
+        const placeY = connectY - offset.y;
+
+        if (canPlaceStructure(dungeon, rotated, placeX, placeY, oppositeDir)) {
+            availableDirections.splice(index, 1);
             placeStructure(dungeon, rotated, placeX, placeY);
+        } else {
+            availableDirections.splice(index, 1);
         }
     }
-    
-    // Clean up remaining direction markers
+
     for (let y = 0; y < dungeonSize; y++) {
         for (let x = 0; x < dungeonSize; x++) {
             if (isDirectionMarker(dungeon[y][x])) {
@@ -152,7 +150,7 @@ function createDungeon(building) {
             }
         }
     }
-    
+
     return dungeon;
 }
 
@@ -162,18 +160,80 @@ function placeStructure(dungeon, structure, startX, startY) {
         for (let x = 0; x < structure[y].length; x++) {
             const dungeonX = startX + x;
             const dungeonY = startY + y;
-            
-            if (dungeonX >= 0 && dungeonX < dungeon.length && 
-                dungeonY >= 0 && dungeonY < dungeon[0].length) {
-                
+
+            if (
+                dungeonX >= 0 && dungeonX < dungeon.length &&
+                dungeonY >= 0 && dungeonY < dungeon[0].length
+            ) {
                 const tile = structure[y][x];
+                if (tile === "") continue;
+
                 if (isDirectionMarker(tile)) {
-                    availableDirections[tile] = [dungeonX, dungeonY];
+                    availableDirections.push({
+                        dir: tile,
+                        x: dungeonX,
+                        y: dungeonY
+                    });
                 }
+
                 dungeon[dungeonY][dungeonX] = tile;
             }
         }
     }
+}
+
+function canPlaceStructure(dungeon, structure, startX, startY, connectionDir = null) {
+    for (let y = 0; y < structure.length; y++) {
+        for (let x = 0; x < structure[y].length; x++) {
+            const tile = structure[y][x];
+            if (tile === "") {
+                continue;
+            }
+
+            const dungeonX = startX + x;
+            const dungeonY = startY + y;
+
+            if (dungeonX < 0 || dungeonX >= dungeon.length ||
+                dungeonY < 0 || dungeonY >= dungeon[0].length) {
+                return false;
+            }
+
+            const existingTile = dungeon[dungeonY][dungeonX];
+            const isBoundaryTile = isBoundaryCell(structure, x, y, connectionDir);
+            const isConnectorTile = isDirectionMarker(tile);
+
+            if (existingTile !== "" && !isBoundaryTile && !isConnectorTile) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+function isBoundaryCell(structure, x, y, dir) {
+    if (!dir) {
+        return false;
+    }
+
+    if (structure[y][x] === dir) {
+        return true;
+    }
+
+    if (dir === "xLeft") {
+        return x === 0;
+    }
+    if (dir === "xRight") {
+        return x === structure[y].length - 1;
+    }
+    if (dir === "xUp") {
+        return y === 0;
+    }
+    if (dir === "xDown") {
+        return y === structure.length - 1;
+    }
+
+    return false;
 }
 
 function getOppositeDirection(dir) {

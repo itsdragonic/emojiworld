@@ -31,7 +31,7 @@ var objectProperties = {
         name: "Tree",
         description: "Cut down for wood",
         canBeWalkedOn: true,
-        durability: 5,
+        durability: 6,
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 2, chance: 1 },
@@ -45,7 +45,7 @@ var objectProperties = {
         name: "Small Tree",
         description: "Cut down for wood",
         canBeWalkedOn: true,
-        durability: 4,
+        durability: 5,
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 1, chance: 1 },
@@ -59,7 +59,7 @@ var objectProperties = {
         name: "Big Tree",
         description: "Cut down for wood",
         canBeWalkedOn: true,
-        durability: 7,
+        durability: 8,
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 3, chance: 1 },
@@ -73,7 +73,7 @@ var objectProperties = {
         name: "Pine Tree",
         description: "Cut down for wood",
         canBeWalkedOn: true,
-        durability: 6,
+        durability: 7,
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 1, chance: 1 }
@@ -83,7 +83,7 @@ var objectProperties = {
         name: "Big Pine Tree",
         description: "Cut down for wood",
         canBeWalkedOn: true,
-        durability: 8,
+        durability: 9,
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 2, chance: 1 }
@@ -93,7 +93,7 @@ var objectProperties = {
         name: "Palm Tree",
         description: "Cut down for wood",
         canBeWalkedOn: true,
-        durability: 5,
+        durability: 6,
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 1, chance: 1 },
@@ -104,7 +104,7 @@ var objectProperties = {
         name: "Big Palm Tree",
         description: "Cut down for wood",
         canBeWalkedOn: true,
-        durability: 5,
+        durability: 7,
         toolRequired: "🪓",
         loot: [
             { item: "🪵", min: 1, max: 2, chance: 1 },

@@ -321,7 +321,7 @@ function damage(amount = 1,trueDamage = false) {
         player.emotion = actualDamage == 0 ? "🛡️" : "🤕";
         player.emotionTime = actualDamage == 0 ? 100 : 500;
 
-        if (player.health <= 0) {
+        if (player.health <= 0 && player.timeSinceDeath == 0) {
             player.health = 0;
             player.timeSinceDeath = 500;
         }
@@ -331,24 +331,25 @@ function damage(amount = 1,trueDamage = false) {
 function death() {
     if (player.timeSinceDeath > 0) {
         player.timeSinceDeath --;
-        displayHotbarText("Respawning...",20);
+        displayHotbarText("Respawning...", 20);
     }
     if (player.timeSinceDeath == 1) {
-        player.health = player.maxHealth;
+        player.timeSinceDeath = 0;
+        player.health = Math.floor(player.maxHealth / 2);
         player.hunger = Math.max(player.hunger,5);
         player.thirst = Math.max(player.thirst,5);
         changeLevel(0);
-        player.x = MAP_WIDTH/2;
-        player.y = MAP_HEIGHT/2;
+        player.x = MAP_WIDTH / 2;
+        player.y = MAP_HEIGHT / 2;
     }
 }
 
-function displayHotbarText(txt,time = 150) {
+function displayHotbarText(txt, time = 150) {
     hotbarText = txt;
     hotbarTextTime = time;
 }
 
-function testFor(item,amount) {
+function testFor(item, amount) {
     for (let i = 0; i < player.inventory.length; i++) {
         for (let j = 0; j < player.inventory[i].length; j++) {
             if (player.inventoryValue[i][j] >= amount && player.inventory[i][j] === item) {
@@ -721,16 +722,20 @@ function surroundings(dx,dy) {
     if (player.isJumping && tile == "🪜") {
         changeLevel(player.level+1);
     }
-    if (player.isShifting && player.level == 0 && cave1_map[Math.round(xStep)][Math.round(yStep)] == "🪜") {
+    if (player.isShifting && player.level == 0 &&
+        cave1_map[Math.round(xStep)][Math.round(yStep)] == "🪜") {
         changeLevel(-1);
     }
-    if (player.level == 0 && player.isShifting && water.includes(tile) && water.includes(cave1_map[Math.round(xStep)][Math.round(yStep)])) {
+    if (player.level == 0 && player.isShifting && water.includes(tile) &&
+        water.includes(cave1_map[Math.round(xStep)][Math.round(yStep)])) {
         changeLevel(-1);
     }
-    if (player.level == -1 && player.isJumping && water.includes(tile) && water.includes(overworld_map[Math.round(xStep)][Math.round(yStep)])) {
+    if (player.level == -1 && player.isJumping && water.includes(tile) &&
+        water.includes(overworld_map[Math.round(xStep)][Math.round(yStep)])) {
         changeLevel(0);
     }
-    if (player.isShifting && player.level == -1 && cave2_map[Math.round(xStep)][Math.round(yStep)] == "🪜") {
+    if (player.isShifting && player.level == -1 &&
+        cave2_map[Math.round(xStep)][Math.round(yStep)] == "🪜") {
         changeLevel(-2);
     }
     if (player.isJumping && player.adjacent.includes("⛩️")) {
@@ -772,7 +777,7 @@ function surroundings(dx,dy) {
                     player.emotion = "🥴";
                 }
 
-                if (foodProperties[itemHeld]?.return) addInventory(foodProperties[itemHeld]?.return,1);
+                if (foodProperties[itemHeld]?.return) addInventory(foodProperties[itemHeld]?.return, 1);
 
                 removeInventory(itemHeld,1);
                 player.progressBar = 0;
@@ -989,28 +994,32 @@ function surroundings(dx,dy) {
 }
 
 function drawVisibilityOverlay() {
-    // Skip if visibility is max
     if (player.visibility >= 100) return;
 
-    // Position of player on screen (centered)
     const centerX = width / 2;
     const centerY = height / 2;
 
-    // Calculate inner and outer radius based on visibility
-    // At 100: full visibility → outer radius huge
-    // At 0: almost no visibility → outer radius tight
     const maxRadius = Math.sqrt(width ** 2 + height ** 2) / 2;
     const visibilityRatio = player.visibility / 100;
 
-    const innerRadius = emojiSize * 2; // always visible near player
-    const outerRadius = innerRadius + (maxRadius - innerRadius) * visibilityRatio;
+    // Base size at normal zoom
+    const BASE_EMOJI_SIZE = 32;
+    const zoomScale = emojiSize / BASE_EMOJI_SIZE;
 
-    // Radial gradient from center (player) to screen edge
-    const gradient = ctx.createRadialGradient(centerX, centerY, innerRadius, centerX, centerY, outerRadius);
-    gradient.addColorStop(0, 'rgba(0, 0, 0, 0)'); // fully transparent at player
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 1)'); // black at edge
+    const innerRadius = emojiSize * 2;
+    const outerRadius = Math.min(
+        maxRadius,
+        (innerRadius + (maxRadius - innerRadius) * visibilityRatio) * zoomScale
+    );
 
-    // Draw the darkening overlay
+    const gradient = ctx.createRadialGradient(
+        centerX, centerY, innerRadius,
+        centerX, centerY, outerRadius
+    );
+
+    gradient.addColorStop(0, "rgba(0,0,0,0)");
+    gradient.addColorStop(1, "rgba(0,0,0,1)");
+
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 }

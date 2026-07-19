@@ -22,3 +22,7 @@ You start in the overworld and start exploring. Enter the caves and start mining
 `Space` >> Move upwards by one level
 
 `Shift` >> Move downwards by one level
+
+`p` >> Save Progress
+
+`Alt+Shift+S` >> Export World

@@ -105,9 +105,9 @@ function startWorld() {
         isScrollingDown = e.deltaY > 0;
 
         if (!player.inventoryOpen) {
-            if (isScrollingUp) {
+            if (isScrollingDown) {
                 player.hotbarSelected = (player.hotbarSelected + 1) % 10;
-            } else if (isScrollingDown) {
+            } else if (isScrollingUp) {
                 player.hotbarSelected = (player.hotbarSelected + 9) % 10;
             }
         }
@@ -326,7 +326,7 @@ function drawInventory() {
     ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
     drawRoundedBox(ctx,x,y,sideBarWidth,iheight,radius,true,false,true,false);
 
-    const dotRadius = 6;
+    /*const dotRadius = 6;
     const dotY = y + 15;
     const dotXStart = x + 15;
     const dotSpacing = 18;
@@ -336,7 +336,7 @@ function drawInventory() {
         ctx.fillStyle = color;
         ctx.arc(dotXStart + i * dotSpacing, dotY, dotRadius, 0, Math.PI * 2);
         ctx.fill();
-    });
+    });*/
 
     ctx.fillStyle = '#fff';
     ctx.font = '20px Arial';
