@@ -12,6 +12,83 @@ var timeSinceDragging = 0;
 
 var hovering = false;
 
+let pauseModalOpen = false;
+let pauseModalClickPending = false;
+
+function openPauseModal() {
+    pauseModalOpen = true;
+    pauseModalClickPending = false;
+    player.inventoryOpen = false;
+    player.boxOpen = false;
+    player.hotbarHover = false;
+}
+
+function closePauseModal() {
+    pauseModalOpen = false;
+    pauseModalClickPending = false;
+}
+
+function drawPauseModal() {
+    if (!pauseModalOpen) return;
+
+    const modalWidth = Math.min(420, width * 0.8);
+    const modalHeight = 275;
+    const x = (width - modalWidth) / 2;
+    const y = (height - modalHeight) / 2;
+
+    ctx.save();
+    ctx.fillStyle = "rgba(0,0,0,0.55)";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "rgba(36,36,36,0.95)";
+    drawRoundedBox(ctx, x, y, modalWidth, modalHeight, 16);
+    ctx.restore();
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "white";
+    ctx.font = "bold 32px Arial";
+    ctx.fillText("Emoji World", width / 2, y + 58);
+
+    ctx.font = "18px Arial";
+    ctx.fillStyle = "rgba(255,255,255,0.8)";
+    ctx.fillText("Refresh browser to go back to Main Menu", width / 2, y + 96);
+
+    const buttonWidth = 220;
+    const buttonHeight = 48;
+    const buttonY = y + modalHeight - 140;
+    const buttonX = width / 2 - buttonWidth / 2;
+
+    const buttons = [
+        { label: "Resume", action: () => closePauseModal() },
+        { label: "Save", action: () => (saveWorld(), closePauseModal()) }
+    ];
+
+    buttons.forEach((button, index) => {
+        const bx = buttonX;
+        const by = buttonY + index * (buttonHeight + 14);
+        const hovered = mouseX >= bx && mouseX <= bx + buttonWidth && mouseY >= by && mouseY <= by + buttonHeight;
+
+        ctx.fillStyle = hovered ? "rgba(120,120,120,0.95)" : "rgba(80,80,80,0.95)";
+        drawRoundedBox(ctx, bx, by, buttonWidth, buttonHeight, 10);
+
+        ctx.fillStyle = "white";
+        ctx.font = "bold 18px Arial";
+        ctx.fillText(button.label, width / 2, by + buttonHeight / 2);
+    });
+
+    if (pauseModalClickPending) {
+        buttons.forEach((button, index) => {
+            const bx = buttonX;
+            const by = buttonY + index * (buttonHeight + 14);
+            if (mouseX >= bx && mouseX <= bx + buttonWidth && mouseY >= by && mouseY <= by + buttonHeight) {
+                button.action();
+            }
+        });
+        pauseModalClickPending = false;
+    }
+}
+
 const emojiOptions = {
     first: [
         { emoji: "😜", weight: 4 },
@@ -68,6 +145,13 @@ function loadScreen() {
 function startWorld() {
     if (isGeneratingWorld) return;
     isGeneratingWorld = true; // Lock button
+    closePauseModal();
+    generateTerrain = true;
+    pauseModalOpen = false;
+    pauseModalClickPending = false;
+    leftClick = false;
+    rightClick = false;
+    pressedKeys.clear();
     
     // Visual feedback
     // ...
@@ -88,16 +172,22 @@ function startWorld() {
     });
 
     document.addEventListener('mousedown', (e) => {
-        if (e.button === 0) leftClick = true;
+        if (e.button === 0) {
+            leftClick = true;
+            pauseModalClickPending = pauseModalOpen;
+        }
         if (e.button === 2) rightClick = true;
     });
+
     document.addEventListener('mouseup', (e) => {
         if (e.button === 0) leftClick = false;
         if (e.button === 2) rightClick = false;
     });
+
     document.addEventListener('mouseleave', (e) => {
         leftClick = false;
         rightClick = false;
+        pauseModalClickPending = false;
     });
     
     document.addEventListener('wheel', (e) => {
@@ -137,6 +227,13 @@ function startWorld() {
         e.preventDefault();
         const key = e.key.toLowerCase();
 
+        if (pauseModalOpen) {
+            if (key === 'escape') {
+                closePauseModal();
+            }
+            return;
+        }
+
         if (key === 'tab') {
             player.isSprinting = !player.isSprinting;
             return;
@@ -144,8 +241,7 @@ function startWorld() {
             player.inventoryOpen = !player.inventoryOpen;
             if (!player.inventoryOpen) player.boxOpen = false;
         } else if (key === 'escape') {
-            player.inventoryOpen = false;
-            player.boxOpen = false;
+            openPauseModal();
         } else if (key === 'p') {
             saveWorld();
         } else if (key === '+' || key === '=' || e.code === 'NumpadAdd') {
@@ -187,6 +283,10 @@ function startWorld() {
         seed = myInput.value;
     }
 
+    player.inventoryOpen = false;
+    player.boxOpen = false;
+    player.hotbarHover = false;
+
     // Final preparations
     map = dim(player.level);
     
@@ -225,6 +325,7 @@ async function startGeneration() {
         });
     }
 
+    // Player is loaded in to new world
     document.body.style.cursor = "default";
     gameLoop();
 }
@@ -325,18 +426,6 @@ function drawInventory() {
 
     ctx.fillStyle = 'rgba(160, 160, 160, 0.7)';
     drawRoundedBox(ctx,x,y,sideBarWidth,iheight,radius,true,false,true,false);
-
-    /*const dotRadius = 6;
-    const dotY = y + 15;
-    const dotXStart = x + 15;
-    const dotSpacing = 18;
-    const colors = ['#ff5f56', '#ffbd2e', '#27c93f'];
-    colors.forEach((color, i) => {
-        ctx.beginPath();
-        ctx.fillStyle = color;
-        ctx.arc(dotXStart + i * dotSpacing, dotY, dotRadius, 0, Math.PI * 2);
-        ctx.fill();
-    });*/
 
     ctx.fillStyle = '#fff';
     ctx.font = '20px Arial';
@@ -608,25 +697,11 @@ function drawBox(level,boxX,boxY) {
     ctx.fillStyle = 'rgba(160, 160, 160, 0.4)';
     drawRoundedBox(ctx,x,y,iwidth,topBarWidth,radius,true,true,false,false);
 
-    // Mac-style dots
-    const dotRadius = 6;
-    const dotY = y + 15;
-    const dotXStart = x + 15;
-    const dotSpacing = 18;
-    const colors = ['#ff5f56', '#ffbd2e', '#27c93f'];
-
-    colors.forEach((color, i) => {
-        ctx.beginPath();
-        ctx.fillStyle = color;
-        ctx.arc(dotXStart + i * dotSpacing, dotY, dotRadius, 0, Math.PI * 2);
-        ctx.fill();
-    });
-
     // Inventory-related labels
     ctx.fillStyle = '#fff';
     ctx.font = '20px Arial';
     ctx.textAlign = 'left';
-    ctx.fillText('Box', x + 70, y + 20);
+    ctx.fillText('Box', x + 10, y + 20);
 
     // Inventory items
     let xinvStart = x + 10;

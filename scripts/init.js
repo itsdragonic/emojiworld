@@ -15,8 +15,8 @@ var MAP_HEIGHT = 200;
 var seed = "a";
 
 let HUDemojiSize = 20;
-let emojiSize = 20;
-let minEmojiSize = 12;
+let emojiSize = 30;
+let minEmojiSize = 20;
 let maxEmojiSize = 48;
 const zoomStep = 1;
 
@@ -26,10 +26,16 @@ function changeZoom(delta) {
 }
 
 function parse(str, amount) {
-    if (amount == 1) {
-        return JSON.parse(localStorage.getItem(str));
-    } else if (amount == 2) {
-        return JSON.parse(JSON.parse(localStorage.getItem(str)));
+    const data = localStorage.getItem(str);
+    if (!data) return null;
+
+    try {
+        let result = JSON.parse(data);
+        if (amount == 2) result = JSON.parse(result);
+        return result;
+    } catch (err) {
+        console.error(`Failed to parse "${str}":`, err);
+        return null;
     }
 }
 

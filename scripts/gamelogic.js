@@ -428,7 +428,7 @@ function removeInventory(slot, amount = 1) {
                         let remaining = amount - player.inventoryValue[i][j];
                         player.inventory[i][j] = "";
                         player.inventoryValue[i][j] = 0;
-                        removeInventory(slot,remaining);
+                        removeInventory(slot, remaining);
                     } else {
                         player.inventoryValue[i][j] -= amount;
                     }
@@ -674,6 +674,14 @@ function surroundings(dx,dy) {
         dy = 0;
     }
 
+    if (!player.isEstablished) {
+        if (water.includes(tile) && Math.abs(player.x - MAP_WIDTH) > 3) {
+            player.x++;
+        } else {
+            player.isEstablished = true;
+        }
+    }
+
     // Block interaction properties
     if (tile == "🌵") {
         damage();
@@ -745,17 +753,17 @@ function surroundings(dx,dy) {
         changeLevel(-3);
     }
 
-    if (player.itemDrag.item != "") {
-        itemHeld = player.itemDrag.item;
-    } else {
+    if (player.itemDrag.item == "") {
         itemHeld = player.inventory[0][player.hotbarSelected];
+    } else {
+        itemHeld = player.itemDrag.item;
     }
 
     // Block manipulation
-    xHover = Math.floor(mouseX/emojiSize);
-    yHover = Math.floor(mouseY/emojiSize);
-    gridX = Math.floor(width/emojiSize);
-    gridY = Math.floor(height/emojiSize);
+    xHover = Math.floor(mouseX / emojiSize);
+    yHover = Math.floor(mouseY / emojiSize);
+    gridX = Math.floor(width / emojiSize);
+    gridY = Math.floor(height / emojiSize);
     x = Math.round(player.x - gridX / 2) + xHover;
     y = Math.round(player.y - gridY / 2) + yHover;
 
@@ -792,7 +800,7 @@ function surroundings(dx,dy) {
                 player.correctTool = true;
 
                 let block;
-                if (testForTile(map,x,y)) block = map[x][y];
+                if (testForTile(map, x, y)) block = map[x][y];
                 else return;
                 let Tile = objectProperties[block];
                 
@@ -938,7 +946,8 @@ function surroundings(dx,dy) {
                 else if (
                     rightClick &&
                     overridables.includes(block) &&
-                    objectProperties[itemHeld]
+                    objectProperties[itemHeld] &&
+                    block != itemHeld
                 ) {
                     let itemToPlace = objectProperties[itemHeld] ? itemHeld : player.itemDrag.item;
 

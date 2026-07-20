@@ -46,24 +46,27 @@ function saveWorld() {
 }
 
 function loadWorld(Parse = 1) {
-    // Load World
-    player = parse("playerData", Parse);
-    gameData = parse("gameData", Parse);
+    if (!localStorage.getItem('player')) {
+        alert("No save file found!");
+        return;
+    } else {
+        player = parse("playerData", Parse);
+        gameData = parse("gameData", Parse);
 
-    terrain_map = parse("terrainData", Parse);
-    biome_map = parse("biomeData", Parse);
-    temp_map = parse("tempData", Parse);
-    overworld_map = parse("overworldData", Parse);
-    cave1_map = parse("cave1Data", Parse);
-    cave2_map = parse("cave2Data", Parse);
-    hell_map = parse("hellData", Parse);
-    sky_map = parse("skyData", Parse);
-    space_map = parse("spaceData", Parse);
-    moon_map = parse("moonData", Parse);
+        terrain_map = parse("terrainData", Parse);
+        biome_map = parse("biomeData", Parse);
+        temp_map = parse("tempData", Parse);
+        overworld_map = parse("overworldData", Parse);
+        cave1_map = parse("cave1Data", Parse);
+        cave2_map = parse("cave2Data", Parse);
+        hell_map = parse("hellData", Parse);
+        sky_map = parse("skyData", Parse);
+        space_map = parse("spaceData", Parse);
+        moon_map = parse("moonData", Parse);
 
-    generateTerrain = false;
-
-    startWorld();
+        generateTerrain = false;
+        startWorld();
+    }
 }
 
 function importWorld() {

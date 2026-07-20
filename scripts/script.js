@@ -2,7 +2,7 @@ var map = dim(player.level);
 
 var itemHeld;
 let pressedKeys = new Set();
-let xHover,yHover,gridX,gridY,x,y;
+let xHover, yHover, gridX, gridY, x, y;
 
 // Game loop
 let gameSpeed = 150; // times per second
@@ -149,10 +149,10 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             ctx.fillStyle = background.damage;
             player.damageTicks --;
         }
-        ctx.fillRect(0,0,width,height);
+        ctx.fillRect(0, 0, width, height);
 
-        gridX = Math.floor(width/emojiSize) + 1;
-        gridY = Math.floor(height/emojiSize) + 1;
+        gridX = Math.floor(width / emojiSize) + 1;
+        gridY = Math.floor(height / emojiSize) + 1;
 
         let startX = Math.floor(player.x - gridX / 2);
         let startY = Math.floor(player.y - gridY / 2);
@@ -220,13 +220,13 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
                     // Special size conditions
                     if (emoji.at(-1) == "g") {
                         ctx.font = (emojiSize * 3) + "px " + useFont + ", Arial";
-                        emoji = emoji.slice(0,-1);
+                        emoji = emoji.slice(0, -1);
                     } else if (emoji.at(-1) == "b") {
                         ctx.font = (emojiSize * 1.5) + "px " + useFont + ", Arial";
-                        emoji = emoji.slice(0,-1);
+                        emoji = emoji.slice(0, -1);
                     } else if (emoji.at(-1) == "s") {
                         ctx.font = (emojiSize * 0.75) + "px " + useFont + ", Arial";
-                        emoji = emoji.slice(0,-1);
+                        emoji = emoji.slice(0, -1);
                     }
                     // Normal characters
                     else if (emoji.includes("*")) {
@@ -297,7 +297,7 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             sunTile = "";
         }
         ctx.font = HUDemojiSize + "px " + useFont + ", Arial";
-        ctx.fillText(sunTile, width/2, HUDemojiSize-5);
+        ctx.fillText(sunTile, width / 2, HUDemojiSize - 5);
 
         // Draw entities
         for (let entity of gameData.entities[String(player.level)]) {
@@ -386,7 +386,8 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }
 
             // Detect mouse
-            if (mouseX >= rectX && mouseX <= rectX + size &&
+            if (!pauseModalOpen &&
+                mouseX >= rectX && mouseX <= rectX + size &&
                 mouseY >= rectY && mouseY <= rectY + size) {
                 player.hotbarHover = true;
                 
@@ -578,14 +579,25 @@ document.fonts.load("32px Apple Color Emoji").then(() => {
             }
         }
 
-        gameLogic();
+        drawPauseModal();
+
+        if (!pauseModalOpen) {
+            gameLogic();
+        }
     }
 
     window.gameLoop = function() {
         let now = Date.now();
 
-        // Run at gameSpeed rate
-        if (now - lastPlayerUpdate >= playerInterval) {
+        if (!isGeneratingWorld) {
+            loadScreen();
+            requestAnimationFrame(gameLoop);
+            return;
+        }
+
+        if (pauseModalOpen) {
+            update();
+        } else if (now - lastPlayerUpdate >= playerInterval) {
             updatePlayer();
             update();
             lastPlayerUpdate = now;

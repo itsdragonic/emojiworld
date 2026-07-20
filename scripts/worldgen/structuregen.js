@@ -286,7 +286,7 @@ function isDirectionMarker(tile) {
 
 function structureGen() {
     // Spawn
-    overworld_map[Math.round(player.x)][Math.round(player.y)] = "𓂃";
+    //overworld_map[Math.round(player.x)][Math.round(player.y)] = "𓂃";
 
     // Structures
     fixedStructure(4,structure.merchant,overworld_map,true,true);
